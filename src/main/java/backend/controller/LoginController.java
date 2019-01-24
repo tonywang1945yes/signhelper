@@ -5,10 +5,12 @@ import backend.parameter.loginPrameter.LoginParameter;
 import backend.response.loginResponse.LoginResponse;
 import backend.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController()
 @RequestMapping(value="/login")
@@ -17,14 +19,18 @@ public class LoginController {
     @Autowired
     LoginService service;
 
+    @RequestMapping(value = "/password",
+            method = RequestMethod.POST,
+            consumes = {"application/json", "application/xml"},
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.CREATED)
 
-    @PostMapping(value="/password")
-    public LoginResponse loginByPassword(LoginParameter param){
-        if(service.checkPassword(param.username,param.password)){
-            return new LoginResponse("token",true);
-        }else{
-            return new LoginResponse("",false);
-        }
-
+    public void createHotel(@RequestBody LoginParameter param,
+                            HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("username:"+param.username);
+        System.out.println("password:"+param.password);
+        //response.setHeader("Location", request.getRequestURL().append("/").append(createdHotel.getId()).toString());
     }
+
+
 }
