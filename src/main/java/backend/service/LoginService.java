@@ -9,7 +9,7 @@ public class LoginService {
     public  boolean checkPassword(String uname,String pwd){
         HibernateDao<User> dao=new HibernateDao<User>(new User());
         User user=dao.findByKey(uname);
-        if(user.getPassword().equals(pwd)){
+        if(user!=null && user.getPassword().equals(pwd)){
             return true;
         }else {
             return false;
