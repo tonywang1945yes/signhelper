@@ -54,7 +54,7 @@ public class LoginController {
             method = RequestMethod.GET,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
-
+    @ResponseBody
     public LoginResponse login(@RequestBody LoginParameter param,
                                HttpServletRequest request) {
         String input = param.getCaptcha();
