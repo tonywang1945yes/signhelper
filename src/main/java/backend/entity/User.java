@@ -35,7 +35,7 @@ public class User {
     }
 
     @Id
-    @Column(name="username")
+    @Column(name="emailAddress")
     String username="";
 
     @Column(name="password")

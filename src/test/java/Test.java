@@ -10,10 +10,10 @@ public class Test {
 //        HibernateDao<User> dao1=new HibernateDao<User>(new User());
 ////        ArrayList<User> userlist=dao1.executeQuerySql("select u from User u where u.id<5");
 ////        for(User usr:userlist){
-////            System.out.println(usr.getUsername());
+////            System.out.println(usr.getEmailAddress());
 ////        }
 //        User u=new User();
-//        u.setUsername("wangruihua");
+//        u.setEmailAddress("wangruihua");
 //        u.setPassword("123");
 //        u.setBalance(100);
 //        dao1.add(u);

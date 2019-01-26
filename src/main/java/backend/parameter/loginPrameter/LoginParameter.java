@@ -1,23 +1,26 @@
 package backend.parameter.loginPrameter;
 
 public class LoginParameter {
-    public String username;
-    public String password;
+    private String emailAddress;
+    private String password;
+    private String captcha;
+
+    public LoginParameter(String emailAddress, String password, String captcha) {
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.captcha = captcha;
+    }
 
     public LoginParameter() {
     }
 
-    public LoginParameter(String username, String password) {
-        this.username = username;
-        this.password = password;
+
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
@@ -26,5 +29,13 @@ public class LoginParameter {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 }

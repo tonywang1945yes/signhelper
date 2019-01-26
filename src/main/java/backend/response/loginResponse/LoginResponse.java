@@ -1,11 +1,12 @@
 package backend.response.loginResponse;
 
 public class LoginResponse {
-    String token;
-    Boolean isSucceed;
+    int isSucceed;
+    String information;
 
-    public LoginResponse(String token, Boolean isSucceed) {
-        this.token = token;
+
+    public LoginResponse(int isSucceed, String information) {
         this.isSucceed = isSucceed;
+        this.information = information;
     }
 }
