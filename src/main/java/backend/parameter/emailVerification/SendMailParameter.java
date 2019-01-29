@@ -1,4 +1,4 @@
-package backend.parameter.VerifyEmailParameter;
+package backend.parameter.emailVerification;
 
 public class SendMailParameter {
 
@@ -6,9 +6,9 @@ public class SendMailParameter {
     public String emailAddress;
 
 
-    public SendMailParameter(String name, String emailAddress){
-        this.name=name;
-        this.emailAddress=emailAddress;
+    public SendMailParameter(String name, String emailAddress) {
+        this.name = name;
+        this.emailAddress = emailAddress;
     }
 
     public String getName() {

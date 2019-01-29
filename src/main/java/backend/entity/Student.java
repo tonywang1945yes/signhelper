@@ -1,26 +1,28 @@
 package backend.entity;
+
+import backend.parameter.register.RegisterParameter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.ArrayList;
 
 @Entity
-@Table(name="student")
+@Table(name = "student")
 public class Student {
 
-    @Id
-    @Column(name="name")
-    String name="";
 
-    @Column(name="identityNum")
+    @Column(name = "name")
+    String name = "";
+
+    @Column(name = "identityNum")
     String identityNum;
 
     @Column(name = "visaNum")
     String visaNum;
 
-    @Column(name = "password")
-    String password;
+    @Column(name = "passwordHash")
+    String passwordHash;
 
     @Column(name = "birthDate")
     String birthDate;
@@ -31,6 +33,7 @@ public class Student {
     @Column(name = "address")
     String address;
 
+    @Id
     @Column(name = "email")
     String email;
 
@@ -62,12 +65,12 @@ public class Student {
     }
 
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
 
@@ -115,18 +118,31 @@ public class Student {
     }
 
 
-    public Student(){}
+    public Student() {
+    }
 
-    public Student(String name, String identityNum, String visaNum, String password, String birthDate, String tel, String address, String email, String highSchool) {
+    public Student(String name, String identityNum, String visaNum, String passwordHash, String birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
-        this.setPassword(password);
+        this.setPasswordHash(passwordHash);
         this.setBirthDate(birthDate);
         this.setTel(tel);
         this.setAddress(address);
         this.setEmail(email);
         this.setHighSchool(highSchool);
+    }
+
+    public Student(RegisterParameter parameter) {
+        this.setName(parameter.getName());
+        this.setIdentityNum(parameter.getIdentityNum());
+        this.setVisaNum(parameter.getVisaNum());
+//        this.setPasswordHash(passwordHash);
+        this.setBirthDate(parameter.getBirthDate());
+        this.setTel(parameter.getTel());
+        this.setAddress(parameter.getAddress());
+        this.setEmail(parameter.getEmail());
+        this.setHighSchool(parameter.getHighSchool());
     }
 
 

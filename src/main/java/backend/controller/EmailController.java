@@ -1,14 +1,13 @@
 package backend.controller;
 
-import backend.parameter.VerifyEmailParameter.SendMailParameter;
-import backend.parameter.VerifyEmailParameter.VerifyMailParameter;
-import backend.response.VerifyEmailResponse.EmailResponse;
+import backend.parameter.emailVerification.SendMailParameter;
+import backend.parameter.emailVerification.VerifyMailParameter;
+import backend.response.emailVarification.EmailResponse;
 import backend.service.RegMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController()
 @RequestMapping("/email")
@@ -18,11 +17,11 @@ public class EmailController {
     @Autowired
     RegMailService service;
 
-    @RequestMapping(value="/send-verification-email" ,
+    @RequestMapping(value = "/send-verification-email",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
-    public void sendMail(@RequestBody SendMailParameter param)throws Exception {
-        service.InsertCode(param.getName(),param.getEmailAddress());
+    public void sendMail(@RequestBody SendMailParameter param) throws Exception {
+        service.InsertCode(param.getName(), param.getEmailAddress());
     }
 
     @RequestMapping(value = "/verification",
@@ -30,11 +29,10 @@ public class EmailController {
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseBody
-    public EmailResponse verifyCode(@RequestBody VerifyMailParameter param,  HttpServletRequest request){
-        if(service.checkCode(param.getEmailAddress(),param.getCode())){
+    public EmailResponse verifyCode(@RequestBody VerifyMailParameter param, HttpServletRequest request) {
+        if (service.checkCode(param.getEmailAddress(), param.getCode())) {
             return new EmailResponse(true);
-        }
-        else {
+        } else {
             return new EmailResponse(false);
         }
     }

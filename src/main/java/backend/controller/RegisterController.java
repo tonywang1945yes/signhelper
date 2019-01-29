@@ -3,14 +3,16 @@ package backend.controller;
 
 import backend.dao.impl.HibernateDao;
 import backend.entity.Student;
-import backend.parameter.RegisterParameter;
-import backend.response.RegisterResponse;
+import backend.enums.resultMessage.DatabaseRM;
+import backend.parameter.register.RegisterParameter;
+import backend.response.register.RegisterResponse;
 import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import backend.util.secureUtil.PasswordHash;
 
 @RestController()
-@RequestMapping(value="/register")
+@RequestMapping(value = "/register")
 public class RegisterController {
 
     @Autowired
@@ -21,24 +23,27 @@ public class RegisterController {
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseBody
-    public RegisterResponse register(@RequestBody RegisterParameter param){
-        HibernateDao<Student> dao=new HibernateDao<>(new Student());
-        if (service.checkDumplicatedRegister(param.getVisaNum())){
+    public RegisterResponse register(@RequestBody RegisterParameter param) {
+        HibernateDao<Student> dao = new HibernateDao<>(new Student());
+        if (service.checkDuplicatedRegister(param.getVisaNum())) {
             return new RegisterResponse(false);
         }
-        Student student = new Student();
-        student.setName(param.getVisaNum());
-        student.setPassword(param.getPassword());
-        dao.add(student);
-        Student targetStudent = dao.findByKey(param.getEmail());
-        if (targetStudent != null){
-            return new RegisterResponse(true);
+        Student student = new Student(param);
+        try {
+            student.setPasswordHash(PasswordHash.createHash(param.getPassword()));
+            return new RegisterResponse(dao.add(student) == DatabaseRM.SUCCESS);
+        } catch (Exception E) {
+            E.printStackTrace();
         }
-        else {
-            return new RegisterResponse(false);
-        }
+        return new RegisterResponse(false);
+//        Student targetStudent = dao.findByKey(param.getEmail());
+//        if (targetStudent != null){
+//            return new RegisterResponse(true);
+//        }
+//        else {
+//            return new RegisterResponse(false);
+//        }
     }
-
 
 
 }

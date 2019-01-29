@@ -1,4 +1,4 @@
-package backend.parameter.VerifyEmailParameter;
+package backend.parameter.emailVerification;
 
 public class VerifyMailParameter {
 
@@ -7,8 +7,8 @@ public class VerifyMailParameter {
 
 
     public VerifyMailParameter(String emailAddress, String code) {
-        this.emailAddress=emailAddress;
-        this.code=code;
+        this.emailAddress = emailAddress;
+        this.code = code;
     }
 
     public String getEmailAddress() {

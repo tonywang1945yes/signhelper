@@ -1,4 +1,4 @@
-package backend.parameter;
+package backend.parameter.register;
 
 public class RegisterParameter {
     private String name;
@@ -15,7 +15,7 @@ public class RegisterParameter {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -23,7 +23,7 @@ public class RegisterParameter {
         return identityNum;
     }
 
-    public void setIdentityNum(String identity){
+    public void setIdentityNum(String identity) {
         this.identityNum = identity;
     }
 
@@ -47,7 +47,7 @@ public class RegisterParameter {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate){
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -55,7 +55,7 @@ public class RegisterParameter {
         return tel;
     }
 
-    public void setTel(String tel){
+    public void setTel(String tel) {
         this.tel = tel;
     }
 
@@ -63,7 +63,7 @@ public class RegisterParameter {
         return address;
     }
 
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -71,7 +71,7 @@ public class RegisterParameter {
         return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -84,21 +84,20 @@ public class RegisterParameter {
     }
 
 
-    public RegisterParameter(){
+    public RegisterParameter() {
 
     }
 
     /**
-     *
-     * @param name    姓名
-     * @param identityNum    身份证号
-     * @param visaNum    签证号
+     * @param name        姓名
+     * @param identityNum 身份证号
+     * @param visaNum     签证号
      * @param password    密码
-     * @param birthDate    出生日期
-     * @param tel    电话
-     * @param address    家庭住址
-     * @param email    邮箱地址
-     * @param highSchool    就读高中
+     * @param birthDate   出生日期
+     * @param tel         电话
+     * @param address     家庭住址
+     * @param email       邮箱地址
+     * @param highSchool  就读高中
      */
     public RegisterParameter(String name, String identityNum, String visaNum, String password, String birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
@@ -111,4 +110,5 @@ public class RegisterParameter {
         this.setEmail(email);
         this.setHighSchool(highSchool);
     }
+
 }

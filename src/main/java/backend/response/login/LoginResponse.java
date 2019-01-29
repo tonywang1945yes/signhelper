@@ -1,10 +1,10 @@
-package backend.response.loginResponse;
+package backend.response.login;
 
 public class LoginResponse {
-    int isSucceed;
+    boolean isSucceed;
     String information;
 
-    public LoginResponse(int isSucceed, String information) {
+    public LoginResponse(boolean isSucceed, String information) {
         this.isSucceed = isSucceed;
         this.information = information;
     }

@@ -1,4 +1,4 @@
-package backend.parameter.loginPrameter;
+package backend.parameter.login;
 
 public class LoginParameter {
     private String emailAddress;
