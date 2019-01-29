@@ -1,47 +1,21 @@
-package backend.entity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.ArrayList;
+package backend.parameter;
 
-@Entity
-@Table(name="student")
-public class Student {
-
-    @Id
-    @Column(name="name")
-    String name="";
-
-    @Column(name="identityNum")
-    String identityNum;
-
-    @Column(name = "visaNum")
-    String visaNum;
-
-    @Column(name = "password")
-    String password;
-
-    @Column(name = "birthDate")
-    String birthDate;
-
-    @Column(name = "tel")
-    String tel;
-
-    @Column(name = "address")
-    String address;
-
-    @Column(name = "email")
-    String email;
-
-    @Column(name = "highSchool")
-    String highSchool;
+public class RegisterParameter {
+    private String name;
+    private String identityNum;
+    private String visaNum;
+    private String password;
+    private String birthDate;
+    private String tel;
+    private String address;
+    private String email;
+    private String highSchool;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
@@ -49,8 +23,8 @@ public class Student {
         return identityNum;
     }
 
-    public void setIdentityNum(String identityNum) {
-        this.identityNum = identityNum;
+    public void setIdentityNum(String identity){
+        this.identityNum = identity;
     }
 
     public String getVisaNum() {
@@ -61,7 +35,6 @@ public class Student {
         this.visaNum = visaNum;
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -70,39 +43,35 @@ public class Student {
         this.password = password;
     }
 
-
     public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(String birthDate){
         this.birthDate = birthDate;
     }
-
 
     public String getTel() {
         return tel;
     }
 
-    public void setTel(String tel) {
+    public void setTel(String tel){
         this.tel = tel;
     }
-
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address){
         this.address = address;
     }
-
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
@@ -115,9 +84,23 @@ public class Student {
     }
 
 
-    public Student(){}
+    public RegisterParameter(){
 
-    public Student(String name, String identityNum, String visaNum, String password, String birthDate, String tel, String address, String email, String highSchool) {
+    }
+
+    /**
+     *
+     * @param name    姓名
+     * @param identityNum    身份证号
+     * @param visaNum    签证号
+     * @param password    密码
+     * @param birthDate    出生日期
+     * @param tel    电话
+     * @param address    家庭住址
+     * @param email    邮箱地址
+     * @param highSchool    就读高中
+     */
+    public RegisterParameter(String name, String identityNum, String visaNum, String password, String birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
@@ -128,6 +111,4 @@ public class Student {
         this.setEmail(email);
         this.setHighSchool(highSchool);
     }
-
-
 }
