@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@RestController()
+@RestController() //RestController本身包含ResponseBody注解
 @RequestMapping(value = "/login")
 public class LoginController {
 
@@ -51,7 +51,6 @@ public class LoginController {
             method = RequestMethod.GET,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
-    @ResponseBody
     public LoginResponse login(@RequestBody LoginParameter param,
                                HttpServletRequest request) {
         String input = param.getCaptcha();
