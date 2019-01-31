@@ -1,11 +1,16 @@
 package backend.parameter.register;
 
+import backend.enums.StudentState;
+
+import java.util.Calendar;
+
 public class RegisterParameter {
     private String name;
+    private StudentState state;
     private String identityNum;
     private String visaNum;
     private String password;
-    private String birthDate;
+    private Calendar birthDate;
     private String tel;
     private String address;
     private String email;
@@ -17,6 +22,14 @@ public class RegisterParameter {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public StudentState getState() {
+        return state;
+    }
+
+    public void setState(StudentState state) {
+        this.state = state;
     }
 
     public String getIdentityNum() {
@@ -43,11 +56,11 @@ public class RegisterParameter {
         this.password = password;
     }
 
-    public String getBirthDate() {
+    public Calendar getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Calendar birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -99,8 +112,9 @@ public class RegisterParameter {
      * @param email       邮箱地址
      * @param highSchool  就读高中
      */
-    public RegisterParameter(String name, String identityNum, String visaNum, String password, String birthDate, String tel, String address, String email, String highSchool) {
+    public RegisterParameter(String name, String identityNum, String visaNum, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
+        this.setState(StudentState.NULL);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
         this.setPassword(password);

@@ -1,44 +1,60 @@
 package backend.entity;
 
+import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.crypto.Data;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
-@Table(name = "student")
+@Table(name = "tbl_student")
 public class Student {
 
-
+//    姓名
     @Column(name = "name")
-    String name = "";
+    private String name = "";
 
-    @Column(name = "identityNum")
-    String identityNum;
+//    当前状态
+    @Column(name = "state")
+    private StudentState studentState;
 
-    @Column(name = "visaNum")
-    String visaNum;
+//    身份证号
+    @Column(name = "identity_num")
+    private String identityNum;
 
-    @Column(name = "passwordHash")
-    String passwordHash;
+//    通行证号
+    @Column(name = "visa_num")
+    private String visaNum;
 
-    @Column(name = "birthDate")
-    String birthDate;
+//    加密密码
+    @Column(name = "password_hash")
+    private String passwordHash;
 
+//    出生日期
+    @Column(name = "birth_date")
+    private Calendar birthDate;
+
+//    联系电话
     @Column(name = "tel")
-    String tel;
+    private String tel;
 
+//    家庭住址
     @Column(name = "address")
-    String address;
+    private String address;
 
+//    邮箱地址 -- ID
     @Id
     @Column(name = "email")
-    String email;
+    private String email;
 
+//    就读高中
     @Column(name = "highSchool")
-    String highSchool;
+    private String highSchool;
 
     public String getName() {
         return name;
@@ -46,6 +62,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public StudentState getStudentState() {
+        return studentState;
+    }
+
+    public void setStudentState(StudentState studentState) {
+        this.studentState = studentState;
     }
 
     public String getIdentityNum() {
@@ -74,11 +98,11 @@ public class Student {
     }
 
 
-    public String getBirthDate() {
+    public Calendar getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Calendar birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -121,8 +145,9 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, String identityNum, String visaNum, String passwordHash, String birthDate, String tel, String address, String email, String highSchool) {
+    public Student(String name, StudentState state, String identityNum, String visaNum, String passwordHash, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
+        this.setStudentState(state);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
         this.setPasswordHash(passwordHash);
