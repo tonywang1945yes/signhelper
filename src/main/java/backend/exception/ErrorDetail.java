@@ -1,4 +1,4 @@
-package backend.Exception;
+package backend.exception;
 
 public class ErrorDetail {
     private String error;

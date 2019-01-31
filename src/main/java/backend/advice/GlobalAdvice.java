@@ -1,6 +1,6 @@
-package backend.Advice;
+package backend.advice;
 
-import backend.Exception.ErrorDetail;
+import backend.exception.ErrorDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,7 +13,7 @@ public class GlobalAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDetail EntryNotFoundHandler(EntityNotFoundException ex) {
-        return new ErrorDetail("Exception", ex.getMessage());
+        return new ErrorDetail("exception", ex.getMessage());
     }
     //ResponseBody注解+Response类的组合可用ResponseEntry类取代
 }

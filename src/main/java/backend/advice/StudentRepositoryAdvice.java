@@ -1,6 +1,6 @@
-package backend.Advice;
+package backend.advice;
 
-import backend.Exception.ErrorDetail;
+import backend.exception.ErrorDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
