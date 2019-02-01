@@ -3,10 +3,7 @@ package backend.entity;
 import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.crypto.Data;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,45 +12,47 @@ import java.util.Date;
 @Table(name = "tbl_student")
 public class Student {
 
-//    姓名
+    //    姓名
     @Column(name = "name")
     private String name = "";
 
-//    当前状态
-    @Column(name = "state")
+    //    当前状态
+//    @Column(name = "state") 如果属性名与数据表字段名相同可以不标明name
+    @Enumerated(EnumType.STRING)//属性为枚举时所需标注，确定目标转化类型
     private StudentState studentState;
 
-//    身份证号
+    //    身份证号
     @Column(name = "identity_num")
     private String identityNum;
 
-//    通行证号
-    @Column(name = "visa_num")
+    //    通行证号
+    @Column(name = "visa_num", unique = true)
     private String visaNum;
 
-//    加密密码
+    //    加密密码
     @Column(name = "password_hash")
     private String passwordHash;
 
-//    出生日期
+    //    出生日期
     @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)//映射时将java.util.Calender类转化为java.sql.Date类
     private Calendar birthDate;
 
-//    联系电话
+    //    联系电话
     @Column(name = "tel")
     private String tel;
 
-//    家庭住址
+    //    家庭住址
     @Column(name = "address")
     private String address;
 
-//    邮箱地址 -- ID
+    //    邮箱地址 -- ID
     @Id
     @Column(name = "email")
     private String email;
 
-//    就读高中
-    @Column(name = "highSchool")
+    //    就读高中
+    @Column(name = "high_school")
     private String highSchool;
 
     public String getName() {

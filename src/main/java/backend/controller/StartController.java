@@ -11,7 +11,7 @@ public class StartController {
     @Autowired
     StartService service;
 
-    @GetMapping(value = "/start")
+    @GetMapping(value = "/start") //两个start吗
     public void start(){
         service.start();
     }
