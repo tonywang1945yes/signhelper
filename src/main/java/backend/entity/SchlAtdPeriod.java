@@ -9,6 +9,8 @@ public class SchlAtdPeriod {
 
     private String School;
 
+    private String region;
+
     @Column(name = "start_date")
     private Calendar startDate;
 
@@ -21,6 +23,14 @@ public class SchlAtdPeriod {
 
     public void setSchool(String school) {
         School = school;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public Calendar getStartDate() {
