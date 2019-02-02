@@ -4,7 +4,6 @@ import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,8 +29,7 @@ public class Student {
     private String visaNum;
 
     //    加密密码
-    @Column(name = "password_hash")
-    private String passwordHash;
+    private String password;
 
     //    出生日期
     @Column(name = "birth_date")
@@ -54,6 +52,14 @@ public class Student {
     //    就读高中
     @Column(name = "high_school")
     private String highSchool;
+
+    @Column(name = "last_logout_date")
+    @Temporal(TemporalType.DATE)
+    private Calendar lastLogOutDate;
+
+    @Column(name = "last_password_reset_date")
+    @Temporal(TemporalType.DATE)
+    private Calendar lastPasswordResetDate;
 
     public String getName() {
         return name;
@@ -88,12 +94,12 @@ public class Student {
     }
 
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 
@@ -140,16 +146,31 @@ public class Student {
         this.highSchool = highSchool;
     }
 
+    public Calendar getLastLogOutDate() {
+        return lastLogOutDate;
+    }
+
+    public void setLastLogOutDate(Calendar lastLogOutDate) {
+        this.lastLogOutDate = lastLogOutDate;
+    }
+
+    public Calendar getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Calendar lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
 
     public Student() {
     }
 
-    public Student(String name, StudentState state, String identityNum, String visaNum, String passwordHash, Calendar birthDate, String tel, String address, String email, String highSchool) {
+    public Student(String name, StudentState state, String identityNum, String visaNum, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
         this.setStudentState(state);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
-        this.setPasswordHash(passwordHash);
+        this.setPassword(password);
         this.setBirthDate(birthDate);
         this.setTel(tel);
         this.setAddress(address);
@@ -161,7 +182,7 @@ public class Student {
         this.setName(parameter.getName());
         this.setIdentityNum(parameter.getIdentityNum());
         this.setVisaNum(parameter.getVisaNum());
-//        this.setPasswordHash(passwordHash);
+//        this.setPassword(password);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());
         this.setAddress(parameter.getAddress());

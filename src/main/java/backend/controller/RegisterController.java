@@ -30,7 +30,7 @@ public class RegisterController {
         }
         Student student = new Student(param);
         try {
-            student.setPasswordHash(PasswordHash.createHash(param.getPassword()));
+            student.setPassword(PasswordHash.createHash(param.getPassword()));
             return new RegisterResponse(dao.add(student) == DatabaseRM.SUCCESS);
         } catch (Exception E) {
             E.printStackTrace();

@@ -1,6 +1,5 @@
 package backend.service;
 
-import backend.dao.impl.HibernateDao;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class LoginService {
 //        HibernateDao<Student> dao = new HibernateDao<Student>(new Student());
 //        Student student = dao.findByKey(emailAddress);
         Student student = studentRepository.getOne(emailAddress);
-        if (student != null && PasswordHash.validatePassword(pwd, student.getPasswordHash())) {
+        if (student != null && PasswordHash.validatePassword(pwd, student.getPassword())) {
             return true;
         }
         return false;

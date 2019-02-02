@@ -4,9 +4,12 @@ package backend.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+//Spring Security通过UserDetail的实现类来认证用户
+//参考blog: https://www.jianshu.com/p/a65f883de0c1
 public class JwtStduent implements UserDetails {
 
     private String username;
@@ -14,8 +17,8 @@ public class JwtStduent implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
-    private Date lastLogOutDate;
-    private Date lastPasswordResetDate;
+    private Calendar lastLogOutDate;
+    private Calendar lastPasswordResetDate;
 
     public JwtStduent(
             String username,
@@ -23,8 +26,8 @@ public class JwtStduent implements UserDetails {
             String email,
             Collection<? extends GrantedAuthority> authorities,
             boolean enabled,
-            Date lastLogOutDate,
-            Date lastPasswordResetDate) {
+            Calendar lastLogOutDate,
+            Calendar lastPasswordResetDate) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -73,11 +76,11 @@ public class JwtStduent implements UserDetails {
         return email;
     }
 
-    public Date getLastLogOutDate() {
+    public Calendar getLastLogOutDate() {
         return lastLogOutDate;
     }
 
-    public Date getLastPasswordResetDate() {
+    public Calendar getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
 }
