@@ -1,4 +1,4 @@
-package backend.response.authority;
+package backend.response.authentication;
 
 import java.io.Serializable;
 

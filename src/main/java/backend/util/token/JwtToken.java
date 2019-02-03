@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import backend.security.JwtStduent;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
@@ -26,7 +27,7 @@ public class JwtToken implements Serializable {
     private Clock clock = DefaultClock.INSTANCE;
 
     @Value("${jwt.secret}")
-    private String secret;
+    private String secret; //这里需要重设
 
     @Value("${jwt.expiration}")
     private Long expiration;
@@ -62,6 +63,10 @@ public class JwtToken implements Serializable {
 
     private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
+    }
+
+    private Boolean isCreatedBeforeLastLogOut(Date ceated, Date lastLogOut){
+        return (lastLogOut!=null&&ceated.after(lastLogOut));
     }
 
     private Boolean ignoreTokenExpiration(String token) {
@@ -108,15 +113,14 @@ public class JwtToken implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        JwtUser user = (JwtUser) userDetails;
+        JwtStduent user = (JwtStduent) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         //final Date expiration = getExpirationDateFromToken(token);
-        return (
-                username.equals(user.getUsername())
-                        && !isTokenExpired(token)
-                        && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
-        );
+        return username.equals(user.getUsername())
+                && !isTokenExpired(token)
+                && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate().getTime())
+                && !isCreatedBeforeLastLogOut(created, user.getLastLogOutDate().getTime());
     }
 
     private Date calculateExpirationDate(Date createdDate) {

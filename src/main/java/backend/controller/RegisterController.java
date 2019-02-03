@@ -8,8 +8,8 @@ import backend.parameter.register.RegisterParameter;
 import backend.response.register.RegisterResponse;
 import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import backend.util.secureUtil.PasswordHash;
 
 @RestController()
 @RequestMapping(value = "/register")
@@ -30,7 +30,7 @@ public class RegisterController {
         }
         Student student = new Student(param);
         try {
-            student.setPassword(PasswordHash.createHash(param.getPassword()));
+            student.setPassword(new BCryptPasswordEncoder().encode(param.getPassword()));//改用Spring Security内置的BCryptPasswordEncoder加密器
             return new RegisterResponse(dao.add(student) == DatabaseRM.SUCCESS);
         } catch (Exception E) {
             E.printStackTrace();

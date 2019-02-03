@@ -67,14 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
-                // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // 暂时不知道需不需要启用session
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
 
-                // Un-secure H2 Database
-                .antMatchers("/h2-console/**/**").permitAll()
 
+                .antMatchers("/captcha").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
 
@@ -109,11 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-                )
+                );
 
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .and()
-                .ignoring()
-                .antMatchers("/h2-console/**/**");
     }
 }
