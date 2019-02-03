@@ -5,7 +5,6 @@ import backend.parameter.register.RegisterParameter;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name = "tbl_student")
@@ -29,7 +28,8 @@ public class Student {
     private String visaNum;
 
     //    加密密码
-    private String password;
+    @Column(name = "password_hash")
+    private String passwordHash;
 
     //    出生日期
     @Column(name = "birth_date")
@@ -94,12 +94,12 @@ public class Student {
     }
 
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
 
@@ -165,12 +165,12 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, StudentState state, String identityNum, String visaNum, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
+    public Student(String name, StudentState state, String identityNum, String visaNum, String passwordHash, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
         this.setStudentState(state);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
-        this.setPassword(password);
+        this.setPasswordHash(passwordHash);
         this.setBirthDate(birthDate);
         this.setTel(tel);
         this.setAddress(address);
@@ -182,7 +182,7 @@ public class Student {
         this.setName(parameter.getName());
         this.setIdentityNum(parameter.getIdentityNum());
         this.setVisaNum(parameter.getVisaNum());
-//        this.setPassword(password);
+//        this.setPasswordHash(passwordHash);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());
         this.setAddress(parameter.getAddress());

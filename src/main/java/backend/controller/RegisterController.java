@@ -30,7 +30,7 @@ public class RegisterController {
         }
         Student student = new Student(param);
         try {
-            student.setPassword(new BCryptPasswordEncoder().encode(param.getPassword()));//改用Spring Security内置的BCryptPasswordEncoder加密器
+            student.setPasswordHash(new BCryptPasswordEncoder().encode(param.getPassword()));//改用Spring Security内置的BCryptPasswordEncoder加密器
             return new RegisterResponse(dao.add(student) == DatabaseRM.SUCCESS);
         } catch (Exception E) {
             E.printStackTrace();

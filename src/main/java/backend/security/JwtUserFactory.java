@@ -14,7 +14,7 @@ public class JwtUserFactory {
     public static JwtStduent create(Student student){
         return new JwtStduent(
                 student.getName(),
-                student.getPassword(),
+                student.getPasswordHash(),
                 student.getEmail(),
                 mapToGrantedAuthorities(Arrays.asList(RoleName.ROLE_STUDENT)),
                 true,
