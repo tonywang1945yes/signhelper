@@ -1,4 +1,4 @@
-package backend.entity;
+package backend.entity.application;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -7,22 +7,22 @@ import java.util.Calendar;
 @Embeddable
 public class SchlAtdPeriod {
 
-    private String School;
+    private String school;
 
     private String region;
 
-    @Column(name = "start_date")
+//    @Column(name = "start_date")
     private Calendar startDate;
 
-    @Column(name = "end_date")
+//    @Column(name = "end_date")
     private Calendar endDate;
 
     public String getSchool() {
-        return School;
+        return school;
     }
 
     public void setSchool(String school) {
-        School = school;
+        this.school = school;
     }
 
     public String getRegion() {

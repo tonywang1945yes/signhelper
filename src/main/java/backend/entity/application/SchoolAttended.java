@@ -1,17 +1,21 @@
-package backend.entity;
+package backend.entity.application;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
 @Embeddable
 public class SchoolAttended {
-    @Column(name = "primary_school")
+//    @Column(name = "primary_school")
+    @Embedded
     private SchlAtdPeriod primarySchool;
 
-    @Column(name = "junior__middle_school")
+//    @Column(name = "junior_middle_school")
+    @Embedded
     private SchlAtdPeriod juniorMiddleSchool;
 
-    @Column(name = "junior__middle_school")
+//    @Column(name = "senior_middle_school")
+    @Embedded
     private SchlAtdPeriod seniorMiddleSchool;
 
     public SchlAtdPeriod getPrimarySchool() {

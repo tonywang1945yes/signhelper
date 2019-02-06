@@ -15,7 +15,8 @@ import java.util.Calendar;
 @RestController
 public class LogoutController {
 
-    private final String tokenHeader;
+    @Value("${jwt.header}")
+    private String tokenHeader;
 
     @Autowired
     private JwtToken jwtToken;
@@ -23,12 +24,12 @@ public class LogoutController {
     @Autowired
     private LogoutService service;
 
-    //并不明白这里的构造方法意义何在
-    public LogoutController(@Value("Authentication") String tokenHeader, JwtToken jwtToken, LogoutService service) {
-        this.tokenHeader = tokenHeader;
-        this.jwtToken = jwtToken;
-        this.service = service;
-    }
+//    //有final时必须有构造函数，暂时分不出好坏
+//    public LogoutController(@Value("Authentication") String tokenHeader, JwtToken jwtToken, LogoutService service) {
+//        this.tokenHeader = tokenHeader;
+//        this.jwtToken = jwtToken;
+//        this.service = service;
+//    }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public void logout(HttpServletRequest request) {

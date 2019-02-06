@@ -1,5 +1,6 @@
 package backend.entity;
 
+import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
 
@@ -60,6 +61,10 @@ public class Student {
     @Column(name = "last_password_reset_date")
     @Temporal(TemporalType.DATE)
     private Calendar lastPasswordResetDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "form_id", referencedColumnName = "id")
+    private ApplForm applForm;
 
     public String getName() {
         return name;

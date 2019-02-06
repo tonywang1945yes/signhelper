@@ -1,4 +1,4 @@
-package backend.entity;
+package backend.entity.application;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -10,8 +10,8 @@ public class Acitivity {
     private Long id;
 
     @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_id", referencedColumnName = "email")
-    private String studentId;
+    @JoinColumn(name = "form_id", referencedColumnName = "id")
+    private String formId;
 
     private String organization;
     private String award;
@@ -27,12 +27,12 @@ public class Acitivity {
         this.id = id;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getFormId() {
+        return formId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setFormId(String formId) {
+        this.formId = formId;
     }
 
     public String getOrganization() {

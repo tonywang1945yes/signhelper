@@ -1,4 +1,4 @@
-package backend.entity;
+package backend.entity.application;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

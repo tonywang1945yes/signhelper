@@ -12,9 +12,9 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     @Modifying
     @Query("update Student s set s.lastLogOutDate = ?1 where s.email = ?2" )
-    void updateLastLogoutDate(Calendar now, String email);
+    int updateLastLogoutDate(Calendar now, String email);
 
     @Modifying
-    @Query("update Student s set s.password=?1, s.lastPasswordResetDate = ?2 where s.email = ?3" )
-    void resetPassword(String password, Calendar now, String email);
+    @Query("update Student s set s.passwordHash=?1, s.lastPasswordResetDate = ?2 where s.email = ?3" )
+    int updatePassword(String passwordHash, Calendar now, String email);
 }

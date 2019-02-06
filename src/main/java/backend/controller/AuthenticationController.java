@@ -58,8 +58,11 @@ public class AuthenticationController {
         captcha.write(response.getOutputStream());
     }
 
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationParameter parameter, HttpServletRequest request)
+    @RequestMapping(value = "/auth",
+            method = RequestMethod.POST,
+            consumes = {"application/json", "application/xml"},
+            produces = {"application/json", "application/xml"})
+    public JwtAuthenticationResponse createAuthenticationToken(@RequestBody JwtAuthenticationParameter parameter, HttpServletRequest request)
             throws AuthenticationException {
 
         HttpSession session = request.getSession();
@@ -71,11 +74,12 @@ public class AuthenticationController {
         final String token = jwtToken.generateToken(userDetails);
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return new JwtAuthenticationResponse(token,null);
     }
 
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    public JwtAuthenticationResponse refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
         String username = jwtToken.getUsernameFromToken(token);
@@ -83,15 +87,15 @@ public class AuthenticationController {
 
         if (jwtToken.canTokenBeRefreshed(token, jwtStduent.getLastPasswordResetDate().getTime())) {
             String refreshedToken = jwtToken.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            return new JwtAuthenticationResponse(refreshedToken, null);
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return new JwtAuthenticationResponse("", "Cannot be refreshed");
         }
     }
 
     @ExceptionHandler({AuthenticationException.class})
-    public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    public JwtAuthenticationResponse handleAuthenticationException(AuthenticationException e) {
+        return new JwtAuthenticationResponse("", e.getMessage());
     }
 
     /**

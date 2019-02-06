@@ -1,4 +1,6 @@
-package backend.entity;
+package backend.entity.application;
+
+import backend.entity.Student;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -10,6 +12,9 @@ import java.util.Set;
 public class ApplForm {
     @Id
     private Long id;
+
+    @OneToOne(mappedBy = "applForm")
+    private Student student;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -55,14 +60,14 @@ public class ApplForm {
     @Embedded
     private SchoolAttended schoolAttended;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "formId")
     private Set<FamilyParticularItem> familyParticular = new HashSet<FamilyParticularItem>();
 
     @Embedded
     private GSATresult gsatResult;
 
-    @OneToMany(mappedBy = "studentId")
-    private Set<Acitivity> acitivities = new HashSet<Acitivity>();
+    @OneToMany(mappedBy = "formId")
+    private Set<Acitivity> activities = new HashSet<Acitivity>();
 
     public Long getId() {
         return id;
@@ -208,11 +213,11 @@ public class ApplForm {
         this.gsatResult = gsatResult;
     }
 
-    public Set<Acitivity> getAcitivities() {
-        return acitivities;
+    public Set<Acitivity> getActivities() {
+        return activities;
     }
 
-    public void setAcitivities(Set<Acitivity> acitivities) {
-        this.acitivities = acitivities;
+    public void setActivities(Set<Acitivity> activities) {
+        this.activities = activities;
     }
 }
