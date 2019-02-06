@@ -3,6 +3,7 @@ package backend.entity.application;
 import backend.entity.Student;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,53 +18,70 @@ public class ApplForm {
     private Student student;
 
     @Column(name = "first_name", nullable = false)
+    @NotNull
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @NotNull
     private String lastName;
 
+    @NotNull
     private Integer sex;
 
     @Column(name = "birth_date", nullable = false)
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Calendar birthDate;
 
     @Column(name = "visa_num", unique = true)
+    @NotNull
     private String visaNum;
 
     @Column(name = "identity_num")
+    @NotNull
     private String identityNum;
 
     @Column(name = "high_school")
+    @NotNull
     private String highSchool;
 
     @Column(name = "graduation_year")
+    @NotNull
     private String graduationYear;
 
+    @NotNull
     private String address;
 
     @Column(name = "postal_code")
+    @NotNull
     private String postalCode;
 
     @Embedded
+    @NotNull
     private PhoneNumbers phoneNumbers;
 
     @Embedded
+    @NotNull
     private CurriculumChoices curriculumChoices;
 
     @Column(name = "art_or_sci")
+    @NotNull
     private Integer artOrSci;
 
     @Embedded
+    @NotNull
     private Boolean acceptAssignment;
 
     @Embedded
+    @NotNull
     private SchoolAttended schoolAttended;
 
     @OneToMany(mappedBy = "formId")
+    @NotNull
     private Set<FamilyParticularItem> familyParticular = new HashSet<FamilyParticularItem>();
 
     @Embedded
+    @NotNull
     private GSATresult gsatResult;
 
     @OneToMany(mappedBy = "formId")

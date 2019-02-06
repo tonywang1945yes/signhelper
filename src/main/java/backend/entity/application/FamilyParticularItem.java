@@ -1,6 +1,7 @@
 package backend.entity.application;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name  = "tbl_family_particular")
@@ -13,16 +14,21 @@ public class FamilyParticularItem {
     @JoinColumn(name = "form_id", referencedColumnName = "id")
     private String formId;
 
+    @NotNull
     private String relationship;
 
+    @NotNull
     private String name;
 
     @Column(name = "company_name")
+    @NotNull
     private String companyName;
 
+    @NotNull
     private String occupation;
 
     @Column(name = "mobile_phone_number")
+    @NotNull
     private String mobilePhoneNumber;
 
     public Long getId() {

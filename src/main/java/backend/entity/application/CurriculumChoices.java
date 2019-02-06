@@ -2,10 +2,12 @@ package backend.entity.application;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class CurriculumChoices {
     @Column(name = "first_choice")
+    @NotNull
     private String firstChoice;
 
     @Column(name = "second_choice")

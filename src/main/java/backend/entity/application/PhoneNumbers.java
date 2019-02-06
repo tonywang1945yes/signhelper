@@ -2,6 +2,7 @@ package backend.entity.application;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class PhoneNumbers {
@@ -9,6 +10,7 @@ public class PhoneNumbers {
     private String homePhoneNumber;
 
     @Column(name = "mobile_phone_number")
+    @NotNull
     private String mobilePhoneNumber;
 
     @Column(name = "fax_number")
