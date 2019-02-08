@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException;
 public class GlobalAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDetail EntryNotFoundHandler(EntityNotFoundException ex) {
+    public ErrorDetail entryNotFoundHandler(EntityNotFoundException ex) {
         return new ErrorDetail("exception", ex.getMessage());
     }
     //ResponseBody注解+Response类的组合可用ResponseEntry类取代

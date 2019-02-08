@@ -95,6 +95,14 @@ public class ApplForm {
         this.id = id;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     public String getFirstName() {
         return firstName;
     }

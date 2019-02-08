@@ -21,7 +21,7 @@ public class EmailController {
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
     public void sendMail(@RequestBody SendMailParameter param) throws Exception {
-        service.InsertCode(param.getName(), param.getEmailAddress());
+        service.insertCode(param.getName(), param.getEmailAddress());
     }
 
     @RequestMapping(value = "/verification",

@@ -29,7 +29,7 @@ public class RegMailService {
      * @throws MessagingException       Message方法调用异常sendSimpleMail方法中
      * @throws Exception                gethost方法中的host不存在异常，这个后面会改的更明确
      */
-    public void InsertCode(String name, String emailAddress) throws FileNotFoundException, IOException, GeneralSecurityException, MessagingException, Exception {
+    public void insertCode(String name, String emailAddress) throws FileNotFoundException, IOException, GeneralSecurityException, MessagingException, Exception {
         char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         char[] code = new char[6];
         for (int i = 0; i < 6; i++) {
@@ -136,7 +136,7 @@ public class RegMailService {
     public boolean checkCode(String emailAddress, String code) {
         HibernateDao<MailCaptcha> dao = new HibernateDao<MailCaptcha>(new MailCaptcha());
         MailCaptcha mailCaptcha = dao.findByKey(emailAddress);
-        if (mailCaptcha != null && mailCaptcha.getCode() == code) {
+        if (mailCaptcha != null && mailCaptcha.getCode().equals(code)) {
             return true;
         } else {
             return false;

@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException;
 public class StudentRepositoryAdvice {
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDetail EntryNotFoundHandler(EntityNotFoundException ex){
+    public ErrorDetail entryNotFoundHandler(EntityNotFoundException ex){
         return new ErrorDetail("EntityNotFoundException", ex.getMessage());
     }
 
