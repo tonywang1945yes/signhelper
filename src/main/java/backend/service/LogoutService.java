@@ -1,6 +1,8 @@
 package backend.service;
 
+import backend.dao.impl.HibernateDao;
 import backend.dao.service.StudentRepository;
+import backend.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ public class LogoutService {
     StudentRepository repository;
 
     public void updateLastLogoutDate(String email){
-        repository.updateLastLogoutDate(Calendar.getInstance(), email);
+        HibernateDao<Student> dao = new HibernateDao<>(new Student());
+        Student s =dao.findByKey(email);
+        s.setLastLogOutDate(Calendar.getInstance());
+        dao.update(s);
     }
 }

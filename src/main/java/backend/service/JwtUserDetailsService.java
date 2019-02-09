@@ -1,5 +1,6 @@
 package backend.service;
 
+import backend.dao.impl.HibernateDao;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import backend.security.JwtUserFactory;
@@ -17,7 +18,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Student student = studentRepository.findByName(username);
+        HibernateDao<Student> dao = new HibernateDao<>(new Student());
+        String sql = "SELECT * FROM tbl_student WHERE name = "+username;
+        Student student = dao.executeQuerySql(sql).get(0);
 
         if (student == null) {
             throw new UsernameNotFoundException(String.format("No student found with email '%s'.", username));
