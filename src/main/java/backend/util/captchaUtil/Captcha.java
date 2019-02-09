@@ -2,6 +2,7 @@ package backend.util.captchaUtil;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,8 +20,8 @@ public class Captcha {
 //        getCode();
 //    }
 
-    public String getCode(){
-        text=defaultKaptcha.createText();
+    public String getCode() {
+        text = defaultKaptcha.createText();
         image = defaultKaptcha.createImage(text);
         return text;
     }
@@ -33,9 +34,16 @@ public class Captcha {
 //        }
 //    }
 
-    public void write(OutputStream os) throws IOException{
+    public void write(OutputStream os) throws IOException {
         ImageIO.write(image, "png", os);
         os.close();
     }
 
+    public DefaultKaptcha getDefaultKaptcha() {
+        return defaultKaptcha;
+    }
+
+    public void setDefaultKaptcha(DefaultKaptcha defaultKaptcha) {
+        this.defaultKaptcha = defaultKaptcha;
+    }
 }
