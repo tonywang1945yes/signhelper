@@ -15,9 +15,9 @@ public class Captcha {
     String text;
     BufferedImage image;
 
-    public Captcha(){
-        getCode();
-    }
+//    public Captcha(){
+//        getCode();
+//    }
 
     public String getCode(){
         text=defaultKaptcha.createText();
