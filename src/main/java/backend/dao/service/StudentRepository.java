@@ -10,6 +10,8 @@ import java.util.Calendar;
 public interface StudentRepository extends JpaRepository<Student,String> {
     Student findByEmail(String email);
 
+    Student findByName(String name);
+
     @Modifying
     @Query("update Student s set s.lastLogOutDate = ?1 where s.email = ?2" )
     int updateLastLogoutDate(Calendar now, String email);

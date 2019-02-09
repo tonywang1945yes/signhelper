@@ -1,15 +1,15 @@
 use signhelper;
 
 insert into tbl_student (email, name, password_hash, student_state, identity_num, visa_num, birth_date, tel, address, high_school, last_logout_date, last_password_reset_date)
-values ('x950031@gmail.com', '蔡尚達','$2y$16$a7h6DloiV0U3.9wNGrWXH.CjJE8PUy4ZgU3S8xBWIhmr1LKZTiwxK', 'StudentState.NULL', 'A123456789', '11223344', STR_TO_DATE('11/11/1999', '%c/%e/%Y %r'), 
+values ('x950031@gmail.com', '蔡尚達','$2a$10$i7iX8q5h6Qd5S9L25qgoCOIce4O0NsttzvcVCj/V4PYTxhosB.nOG', 'NULL', 'A123456789', '11223344', STR_TO_DATE('11/11/1999', '%c/%e/%Y %r'), 
 '0229337905', '台北市文山區興隆路4段2號', '台北市私立再興中學',  STR_TO_DATE('01/01/2000', '%c/%e/%Y %r'), STR_TO_DATE('01/01/2000', '%c/%e/%Y %r')); 
 
 insert into tbl_student (email, name, password_hash, student_state, identity_num, visa_num, birth_date, tel, address, high_school, last_logout_date, last_password_reset_date)
-values ('superfreeeee@gmail.com', '藍于涵','$2y$16$Co47pt8gMeV90C2GuVDsmuYbmGIrVSyqfd.OkiAdPAhK9xaczsdbC', 'StudentState.NULL', 'B987654321', '87654321', STR_TO_DATE('04/16/2000', '%c/%e/%Y %r'), 
+values ('superfreeeee@gmail.com', '藍于涵','$2a$10$GFPy7TI/xlF/xeKtZYRpZO.KYZXt2CkN46WNJfo2Ozbz9By3.nz3C', 'NULL', 'B987654321', '87654321', STR_TO_DATE('04/16/2000', '%c/%e/%Y %r'), 
 '0489617644', '台北市信義區信義路10號', '北一女中',  STR_TO_DATE('01/01/2000', '%c/%e/%Y %r'), STR_TO_DATE('01/01/2000', '%c/%e/%Y %r')); 
 
 insert into tbl_student (email, name, password_hash, student_state, identity_num, visa_num, birth_date, tel, address, high_school, last_logout_date, last_password_reset_date)
-values ('clv123654@yahoo.com.tw', '黎德谦','$2y$16$76umr6rxgNFGAX5TKp929uhPskbBpsXZ8VIk2HaxRSpudhMl3UZrW', 'StudentState.NULL', 'C333222555', '12345678', STR_TO_DATE('10/09/1999', '%c/%e/%Y %r'), 
+values ('clv123654@yahoo.com.tw', '黎德谦','$2a$10$RiHMRyc90MgPyJ2HYuWIFeyO9FXYaIF3q7zCekFP3.I43e70.xAlS', 'NULL', 'C333222555', '12345678', STR_TO_DATE('10/09/1999', '%c/%e/%Y %r'), 
 '0743218765', '台北市永和區中和路40號', '建國中學',  STR_TO_DATE('01/01/2000', '%c/%e/%Y %r'), STR_TO_DATE('01/01/2000', '%c/%e/%Y %r')); 
 
 
@@ -40,4 +40,4 @@ school_attended_primary_school_start_date,school_attended_senior_middle_school_e
 school_attended_senior_middle_school_start_date,sex,visa_num)
 values(3,1,'台北市永和區中和路40號',1,STR_TO_DATE('10/09/1999', '%c/%e/%Y %r'),'自動化','','通信工程','海洋科學','黎',2006,15,15,14,15,15,'建國中學','C333222555','德謙',
 '0743218765','886987456123','+886743218765','111',STR_TO_DATE('06/30/2011', '%c/%e/%Y %r'),'屏東縣','萬芳國中',STR_TO_DATE('09/01/2008', '%c/%e/%Y %r'),
-STR_TO_DATE('06/30/2008', '%c/%e/%Y %r'),'高雄市','興德國小',STR_TO_DATE('09/01/2002', '%c/%e/%Y %r'),STR_TO_DATE('06/30/2014', '%c/%e/%Y %r'),'彰化縣','建國中學',STR_TO_DATE('09/01/2011', '%c/%e/%Y %r'),1,12345678);
+STR_TO_DATE('06/30/2008', '%c/%e/%Y %r'),'高雄市','興德國小',STR_TO_DATE('09/01/2002', '%c/%e/%Y %r'),STR_TO_DATE('06/30/2014', '%c/%e/%Y %r'),'彰化縣','建國中學',STR_TO_DATE('09/01/2011', '%c/%e/%Y %r'),1,12345678);tbl_student
