@@ -1,9 +1,7 @@
 package backend.entity;
 
-import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -62,9 +60,9 @@ public class Student {
     @Temporal(TemporalType.DATE)
     private Calendar lastPasswordResetDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "form_id", referencedColumnName = "id")
-    private ApplForm applForm;
+//    @OneToOne(targetEntity = ApplForm.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "form_id")
+    private Long applFormId;
 
     public String getName() {
         return name;
@@ -163,6 +161,14 @@ public class Student {
         return lastPasswordResetDate;
     }
 
+    public Long getApplFormId() {
+        return applFormId;
+    }
+
+    public void setApplFormId(Long applFormId) {
+        this.applFormId = applFormId;
+    }
+
     public void setLastPasswordResetDate(Calendar lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
@@ -185,14 +191,18 @@ public class Student {
 
     public Student(RegisterParameter parameter) {
         this.setName(parameter.getName());
-        this.setIdentityNum(parameter.getIdentityNum());
-        this.setVisaNum(parameter.getVisaNum());
-//        this.setPasswordHash(passwordHash);
+        this.setVisaNum(parameter.getId());
+        this.setStudentState(StudentState.NULL);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());
         this.setAddress(parameter.getAddress());
         this.setEmail(parameter.getEmail());
         this.setHighSchool(parameter.getHighSchool());
+        Calendar c1  = Calendar.getInstance();
+        c1.add(Calendar.DATE,-2);
+        this.setLastLogOutDate(c1);
+        this.setLastPasswordResetDate(c1);
+
     }
 
 

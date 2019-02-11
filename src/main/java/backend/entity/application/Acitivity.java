@@ -9,8 +9,8 @@ public class Acitivity {
     @Id
     private Long id;
 
-    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "form_id", referencedColumnName = "id")
+//    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "form_id")
     private String formId;
 
     private String organization;

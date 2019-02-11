@@ -1,6 +1,5 @@
 package backend.controller;
 
-import backend.dao.service.StudentRepository;
 import backend.service.LogoutService;
 import backend.util.token.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
 
 @RestController
 public class LogoutController {

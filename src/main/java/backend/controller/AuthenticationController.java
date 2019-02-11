@@ -1,19 +1,14 @@
 package backend.controller;
 
-
-//import backend.exception.AuthenticationException;
-
 import backend.exception.AuthenticationException;
 import backend.parameter.authentication.JwtAuthenticationParameter;
 import backend.response.authentication.JwtAuthenticationResponse;
 import backend.security.JwtStduent;
-import backend.util.captchaUtil.Captcha;
 import backend.util.token.JwtToken;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,6 +41,10 @@ public class AuthenticationController {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    DefaultKaptcha defaultKaptcha;
+
+
     @GetMapping(value = "/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("image/jpeg");//内容类型设为图片
@@ -52,10 +52,10 @@ public class AuthenticationController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 
-        Captcha captcha = new Captcha();
         HttpSession session = request.getSession();//验证码保存在session里
-        session.setAttribute("captchaCode", captcha.getCode());
-        captcha.write(response.getOutputStream());
+        String text = defaultKaptcha.createText();
+        session.setAttribute("captchaCode", text);
+        ImageIO.write(defaultKaptcha.createImage(text), "png", response.getOutputStream());
     }
 
     @RequestMapping(value = "/auth",
@@ -74,7 +74,7 @@ public class AuthenticationController {
         final String token = jwtToken.generateToken(userDetails);
 
         // Return the token
-        return new JwtAuthenticationResponse(token,null);
+        return new JwtAuthenticationResponse(token, null);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET,

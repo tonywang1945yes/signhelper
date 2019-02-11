@@ -1,14 +1,10 @@
 package backend.parameter.register;
 
-import backend.enums.StudentState;
-
 import java.util.Calendar;
 
 public class RegisterParameter {
     private String name;
-    private StudentState state;
-    private String identityNum;
-    private String visaNum;
+    private String id;
     private String password;
     private Calendar birthDate;
     private String tel;
@@ -24,28 +20,12 @@ public class RegisterParameter {
         this.name = name;
     }
 
-    public StudentState getState() {
-        return state;
+    public String getId() {
+        return id;
     }
 
-    public void setState(StudentState state) {
-        this.state = state;
-    }
-
-    public String getIdentityNum() {
-        return identityNum;
-    }
-
-    public void setIdentityNum(String identity) {
-        this.identityNum = identity;
-    }
-
-    public String getVisaNum() {
-        return visaNum;
-    }
-
-    public void setVisaNum(String visaNum) {
-        this.visaNum = visaNum;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPassword() {
@@ -103,8 +83,7 @@ public class RegisterParameter {
 
     /**
      * @param name        姓名
-     * @param identityNum 身份证号
-     * @param visaNum     签证号
+     * @param id     签证号
      * @param password    密码
      * @param birthDate   出生日期
      * @param tel         电话
@@ -112,11 +91,9 @@ public class RegisterParameter {
      * @param email       邮箱地址
      * @param highSchool  就读高中
      */
-    public RegisterParameter(String name, String identityNum, String visaNum, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
+    public RegisterParameter(String name, String id, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
-        this.setState(StudentState.NULL);
-        this.setIdentityNum(identityNum);
-        this.setVisaNum(visaNum);
+        this.setId(id);
         this.setPassword(password);
         this.setBirthDate(birthDate);
         this.setTel(tel);
