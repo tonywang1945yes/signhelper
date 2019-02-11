@@ -10,7 +10,6 @@ public class PhoneNumbers {
     private String homePhoneNumber;
 
     @Column(name = "mobile_phone_number")
-    @NotNull
     private String mobilePhoneNumber;
 
     @Column(name = "fax_number")

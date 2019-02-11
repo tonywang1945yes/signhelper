@@ -24,7 +24,7 @@ public class RegisterController {
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
-    public RegisterResponse registerStudent(@RequestBody RegisterParameter param) throws RegisterException {
+    public RegisterResponse register(@RequestBody RegisterParameter param) throws RegisterException {
         Student student = new Student(param);//student初始化在构造函数中完成，也许用工厂更好？
         student.setPasswordHash(new BCryptPasswordEncoder().encode(param.getPassword()));//使用Spring Security内置加密器加密密码
         service.register(student);

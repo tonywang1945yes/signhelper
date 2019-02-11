@@ -22,6 +22,7 @@ public class EmailController {
             consumes = {"application/json", "application/xml"})
     public void sendMail(@RequestBody SendMailParameter param) throws Exception {
         service.insertCode(param.getName(), param.getEmailAddress());
+        System.out.println("发送成功");
     }
 
     @RequestMapping(value = "/verification",

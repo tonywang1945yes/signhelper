@@ -6,10 +6,6 @@ public class VerifyMailParameter {
     public String code;
 
 
-    public VerifyMailParameter(String emailAddress, String code) {
-        this.emailAddress = emailAddress;
-        this.code = code;
-    }
 
     public String getEmailAddress() {
         return emailAddress;

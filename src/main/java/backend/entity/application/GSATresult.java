@@ -5,15 +5,10 @@ import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class GSATresult {
-    @NotNull
     private Integer chinese;
-    @NotNull
     private Integer math;
-    @NotNull
     private Integer english;
-    @NotNull
     private Integer socialogy;
-    @NotNull
     private Integer sciences;
 
     public Integer getChinese() {

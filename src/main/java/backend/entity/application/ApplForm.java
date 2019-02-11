@@ -5,40 +5,37 @@ import backend.entity.Student;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "tbl_application_form")
 public class ApplForm {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @OneToOne(mappedBy = "applForm")
+    @Column(name = "student_id")
     private String studentId;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     @NotNull
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     @NotNull
     private String lastName;
 
-    @NotNull
     private Integer sex;
 
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     @NotNull
     private Calendar birthDate;
 
-    @Column(name = "visa_num", unique = true)
+    @Column(name = "visa_num")
     @NotNull
     private String visaNum;
 
     @Column(name = "identity_num")
-    @NotNull
     private String identityNum;
 
     @Column(name = "high_school")
@@ -46,46 +43,36 @@ public class ApplForm {
     private String highSchool;
 
     @Column(name = "graduation_year")
-    @NotNull
     private String graduationYear;
 
     @NotNull
     private String address;
 
     @Column(name = "postal_code")
-    @NotNull
     private String postalCode;
 
+    @Column(name = "phone_numbers")
     @Embedded
-    @NotNull
     private PhoneNumbers phoneNumbers;
 
+    @Column(name = "curriculum_choices")
     @Embedded
-    @NotNull
     private CurriculumChoices curriculumChoices;
 
     @Column(name = "art_or_sci")
-    @NotNull
     private Integer artOrSci;
 
-    @Embedded
-    @NotNull
+    @Column(name = "accept_assignment")
     private Boolean acceptAssignment;
 
+    @Column(name = "school_attended")
     @Embedded
-    @NotNull
     private SchoolAttended schoolAttended;
 
-//    @OneToMany(mappedBy = "formId")
-//    @NotNull
-//    private Set<String> familyParticularId = new HashSet<String>();
-
+    @Column(name = "gsat_result")
     @Embedded
-    @NotNull
     private GSATresult gsatResult;
 
-//    @OneToMany(mappedBy = "formId")
-//    private Set<String> activitieId = new HashSet<Acitivity>();
 
     public Long getId() {
         return id;
@@ -229,6 +216,31 @@ public class ApplForm {
 
     public void setGsatResult(GSATresult gsatResult) {
         this.gsatResult = gsatResult;
+    }
+
+    public ApplForm(){
+        setStudentId("");
+        setIdentityNum("");
+        setVisaNum("");
+        setFirstName("");
+        setLastName("");
+        setHighSchool("");
+        setAddress("");
+        setAcceptAssignment(false);
+        setArtOrSci(0);
+        setGraduationYear("");
+        setPostalCode("");
+        setSex(0);
+    }
+
+    public void updateInfo(Student s){
+        setStudentId(s.getEmail());
+        setAddress(s.getAddress());
+        setBirthDate((Calendar)s.getBirthDate().clone());
+        setFirstName(s.getName().substring(0,1));
+        setLastName(s.getName().substring(1));
+        setHighSchool(s.getHighSchool());
+        setVisaNum(s.getVisaNum());
     }
 
 }

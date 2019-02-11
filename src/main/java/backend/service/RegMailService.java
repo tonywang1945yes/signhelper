@@ -4,6 +4,7 @@ package backend.service;
 import backend.dao.impl.HibernateDao;
 import backend.entity.MailCaptcha;
 import com.sun.mail.util.MailSSLSocketFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -18,54 +19,58 @@ import java.util.Properties;
 
 @Service
 public class RegMailService {
+    //使用@Value注解导入值
+    @Value("${sendAddress}")
+    String sendAddress;
 
+    @Value("${mailPassword")
+    String password;
 
     /**
      * @param name
      * @param emailAddress
      * @throws FileNotFoundException
-     * @throws IOException              getproperties方法中的异常
+     * @throws IOException              getProperties方法中的异常
      * @throws GeneralSecurityException sendSimpleMail方法异常
      * @throws MessagingException       Message方法调用异常sendSimpleMail方法中
      * @throws Exception                getHost方法中的host不存在异常，这个后面会改的更明确
      */
-    public void insertCode(String name, String emailAddress) throws FileNotFoundException, IOException, GeneralSecurityException, MessagingException, Exception {
+    public void insertCode(String name, String emailAddress) throws GeneralSecurityException, MessagingException, Exception {
         char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         char[] code = new char[6];
         for (int i = 0; i < 6; i++) {
-            code[i] = codeSequence[(int) (Math.random() * 35)];
+            code[i] = codeSequence[(int) (Math.random() * 35)];//其实也许可以用SecureRandom？
         }
-        String codestr = String.valueOf(code);
+        String codeStr = String.valueOf(code);
 
-        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
-        String password = getProperty("mailpassword");  //有这么个密码
+
+//        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
+//        String password = getProperty("mailPassword");  //有这么个密码
         String subject = "驗證碼";
 
-        sendSimpleMail(sendAddress, password, subject, emailAddress, codestr);
+        sendSimpleMail(subject, emailAddress, codeStr);
         //随机数生成完毕
     }
 
-    /**
-     * 从application,properties中调用需要的元素
-     *
-     * @param key
-     * @return
-     * @throws FileNotFoundException 没找到文件
-     * @throws IOException
-     */
-    public String getProperty(String key) throws FileNotFoundException, IOException {
-        Properties properties = new Properties();
-        InputStream input = null;
-        input = new FileInputStream(".\\src\\main\\resources\\application.properties");
-        properties.load(input);
-        String result = properties.getProperty(key);
-        input.close();
-        return result;
-    }
+//    /**
+//     * 从application,properties中调用需要的元素
+//     *
+//     * @param key
+//     * @return
+//     * @throws FileNotFoundException 没找到文件
+//     * @throws IOException
+//     */
+//    public String getProperty(String key) throws FileNotFoundException, IOException {
+//        Properties properties = new Properties();
+//        InputStream input = null;
+//        input = new FileInputStream(".\\src\\main\\resources\\application.properties");
+//        properties.load(input);
+//        String result = properties.getProperty(key);
+//        input.close();
+//        return result;
+//    }
 
     /**
-     * @param sendAddress
-     * @param password
      * @param subject
      * @param receiveAddress
      * @param content
@@ -73,7 +78,7 @@ public class RegMailService {
      * @throws MessagingException       Message发送出现异常，一般是方法调用问题
      * @throws Exception                host未找到异常
      */
-    private static void sendSimpleMail(String sendAddress, String password, String subject, String receiveAddress, String content) throws GeneralSecurityException, MessagingException, Exception {
+    private void sendSimpleMail(String subject, String receiveAddress, String content) throws GeneralSecurityException, MessagingException, Exception {
         MimeMessage message = new MimeMessage(init(sendAddress, password));
         message.setFrom(new InternetAddress(sendAddress));// 发件人
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiveAddress));// 收件人

@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.PersistenceException;
@@ -19,7 +20,11 @@ public class HibernateDao<T> implements BasicDatabaseService<T> {
 
     public HibernateDao(T t) {
         type = t;
-        sessionFactory = new Configuration().configure().addPackage("../../entity").addAnnotatedClass(type.getClass()).buildSessionFactory();
+        Configuration cfg = new Configuration();
+        cfg.setImplicitNamingStrategy(ImplicitNamingStrategyComponentPathImpl.INSTANCE);//更换命名方式
+        cfg.configure();
+        cfg.addPackage("../../entity").addAnnotatedClass(type.getClass());
+        sessionFactory = cfg.buildSessionFactory();
     }
 
 

@@ -8,18 +8,12 @@ import java.util.Calendar;
 @Embeddable
 public class SchlAtdPeriod {
 
-    @NotNull
     private String school;
 
-    @NotNull
     private String region;
 
-    //    @Column(name = "start_date")
-    @NotNull
     private Calendar startDate;
 
-    //    @Column(name = "end_date")
-    @NotNull
     private Calendar endDate;
 
     public String getSchool() {

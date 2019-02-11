@@ -14,7 +14,7 @@ public class Student {
     private String name = "";
 
     //    当前状态
-//    @Column(name = "state") 如果属性名与数据表字段名相同可以不标明name
+    @Column(name = "student_state") //如果属性名与数据表字段名相同可以不标明name
     @Enumerated(EnumType.STRING)//属性为枚举时所需标注，确定目标转化类型
     private StudentState studentState;
 
