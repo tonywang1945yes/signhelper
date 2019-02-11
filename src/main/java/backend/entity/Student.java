@@ -1,9 +1,7 @@
 package backend.entity;
 
-import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
 import backend.parameter.register.RegisterParameter;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -62,9 +60,9 @@ public class Student {
     @Temporal(TemporalType.DATE)
     private Calendar lastPasswordResetDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "form_id", referencedColumnName = "id")
-    private ApplForm applForm;
+//    @OneToOne(targetEntity = ApplForm.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "form_id")
+    private Long applFormId;
 
     public String getName() {
         return name;
@@ -161,6 +159,14 @@ public class Student {
 
     public Calendar getLastPasswordResetDate() {
         return lastPasswordResetDate;
+    }
+
+    public Long getApplFormId() {
+        return applFormId;
+    }
+
+    public void setApplFormId(Long applFormId) {
+        this.applFormId = applFormId;
     }
 
     public void setLastPasswordResetDate(Calendar lastPasswordResetDate) {

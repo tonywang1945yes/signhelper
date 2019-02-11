@@ -14,8 +14,8 @@ public class ApplForm {
     @Id
     private Long id;
 
-    @OneToOne(mappedBy = "applForm")
-    private Student student;
+    //    @OneToOne(mappedBy = "applForm")
+    private String studentId;
 
     @Column(name = "first_name", nullable = false)
     @NotNull
@@ -76,16 +76,16 @@ public class ApplForm {
     @NotNull
     private SchoolAttended schoolAttended;
 
-    @OneToMany(mappedBy = "formId")
-    @NotNull
-    private Set<FamilyParticularItem> familyParticular = new HashSet<FamilyParticularItem>();
+//    @OneToMany(mappedBy = "formId")
+//    @NotNull
+//    private Set<String> familyParticularId = new HashSet<String>();
 
     @Embedded
     @NotNull
     private GSATresult gsatResult;
 
-    @OneToMany(mappedBy = "formId")
-    private Set<Acitivity> activities = new HashSet<Acitivity>();
+//    @OneToMany(mappedBy = "formId")
+//    private Set<String> activitieId = new HashSet<Acitivity>();
 
     public Long getId() {
         return id;
@@ -95,12 +95,12 @@ public class ApplForm {
         this.id = id;
     }
 
-    public Student getStudent() {
-        return student;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getFirstName() {
@@ -223,14 +223,6 @@ public class ApplForm {
         this.schoolAttended = schoolAttended;
     }
 
-    public Set<FamilyParticularItem> getFamilyParticular() {
-        return familyParticular;
-    }
-
-    public void setFamilyParticular(Set<FamilyParticularItem> familyParticular) {
-        this.familyParticular = familyParticular;
-    }
-
     public GSATresult getGsatResult() {
         return gsatResult;
     }
@@ -239,11 +231,4 @@ public class ApplForm {
         this.gsatResult = gsatResult;
     }
 
-    public Set<Acitivity> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(Set<Acitivity> activities) {
-        this.activities = activities;
-    }
 }

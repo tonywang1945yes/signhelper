@@ -10,8 +10,8 @@ public class FamilyParticularItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "form_id", referencedColumnName = "id")
+//    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "form_id")
     private String formId;
 
     @NotNull

@@ -44,5 +44,6 @@
         <mapping class="com.seproject.domain.Student"/>
         <mapping class="com.seproject.domain.UserDate"/>-->
 
+
     </session-factory>
 </hibernate-configuration>

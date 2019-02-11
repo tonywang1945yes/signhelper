@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>signhelper</name>
-    <description>a project for taiwan student in NJU</description>
+    <description>a project for taiwan studentId in NJU</description>
 
     <properties>
         <java.version>1.8</java.version>

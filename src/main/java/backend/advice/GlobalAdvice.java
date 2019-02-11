@@ -11,6 +11,7 @@ public class GlobalAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDetail entryNotFoundHandler(Exception ex) {
+        ex.printStackTrace();
         return new ErrorDetail("exception", ex.getMessage());
     }
     //ResponseBody注解+Response类的组合可用ResponseEntry类取代
