@@ -1,10 +1,17 @@
 package backend.response.emailVarification;
 
 public class EmailResponse {
-    boolean isSucceed;
+    boolean succeed;
 
-    public EmailResponse(boolean isSucceed) {
-        this.isSucceed = isSucceed;
+    public EmailResponse(boolean succeed) {
+        this.succeed = succeed;
     }
 
+    public boolean isSucceed() {
+        return succeed;
+    }
+
+    public void setSucceed(boolean succeed) {
+        this.succeed = succeed;
+    }
 }

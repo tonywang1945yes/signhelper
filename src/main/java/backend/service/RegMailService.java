@@ -27,7 +27,7 @@ public class RegMailService {
      * @throws IOException              getproperties方法中的异常
      * @throws GeneralSecurityException sendSimpleMail方法异常
      * @throws MessagingException       Message方法调用异常sendSimpleMail方法中
-     * @throws Exception                gethost方法中的host不存在异常，这个后面会改的更明确
+     * @throws Exception                getHost方法中的host不存在异常，这个后面会改的更明确
      */
     public void insertCode(String name, String emailAddress) throws FileNotFoundException, IOException, GeneralSecurityException, MessagingException, Exception {
         char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};

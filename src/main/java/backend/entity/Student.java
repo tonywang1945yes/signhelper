@@ -191,14 +191,18 @@ public class Student {
 
     public Student(RegisterParameter parameter) {
         this.setName(parameter.getName());
-        this.setIdentityNum(parameter.getIdentityNum());
-        this.setVisaNum(parameter.getVisaNum());
-//        this.setPasswordHash(passwordHash);
+        this.setVisaNum(parameter.getId());
+        this.setStudentState(StudentState.NULL);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());
         this.setAddress(parameter.getAddress());
         this.setEmail(parameter.getEmail());
         this.setHighSchool(parameter.getHighSchool());
+        Calendar c1  = Calendar.getInstance();
+        c1.add(Calendar.DATE,-2);
+        this.setLastLogOutDate(c1);
+        this.setLastPasswordResetDate(c1);
+
     }
 
 
