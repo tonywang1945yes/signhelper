@@ -3,6 +3,7 @@ package backend.service;
 
 import backend.dao.impl.HibernateDao;
 import backend.entity.MailCaptcha;
+import backend.entity.Student;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,10 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -23,8 +23,11 @@ public class RegMailService {
     @Value("${sendAddress}")
     String sendAddress;
 
-    @Value("${mailPassword")
+    @Value("${mailPassword}")
     String password;
+
+    @Value("${GroupSendMail}")
+    String content;
 
     /**
      * @param name
@@ -145,6 +148,20 @@ public class RegMailService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void groupSendMail()throws FileNotFoundException,IOException,SecurityException,MessagingException,GeneralSecurityException,Exception{
+//        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
+//        String password = getProperty("mailpassword");  //有这么个密码
+        String subject = "南京大學進度申請通知";
+//        String content = getProperty("GroupSendMail");
+
+        HibernateDao<Student> dao = new HibernateDao<>(new Student());
+        List<Student> stuList=dao.getAllObjects();
+        for(int i=0;i<stuList.size();i++){
+            String receiveAddress=stuList.get(i).getAddress();
+            sendSimpleMail(subject,receiveAddress,content);
         }
     }
 
