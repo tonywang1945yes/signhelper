@@ -2,7 +2,6 @@ package backend.service;
 
 import backend.dao.impl.HibernateDao;
 import backend.entity.Student;
-import backend.entity.application.ApplForm;
 import backend.enums.resultMessage.DatabaseRM;
 import backend.exception.RegisterException;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class RegisterService {
             throw new RegisterException("该通行证号码已被使用过");
         }
 //        addNewStudent(student);
-        initApplForm(student);
+        addNewStudent(student);
     }
 
     private void addNewStudent(Student s) throws RegisterException {
@@ -57,11 +56,11 @@ public class RegisterService {
         //迷之报错，先不用
     }
 
-    public void initApplForm(Student student) throws RegisterException {
-        HibernateDao<ApplForm> applFormDao = new HibernateDao<>(new ApplForm());
-        ApplForm applForm = new ApplForm();
-        applForm.updateInfo(student);
-        if (applFormDao.add(applForm) != DatabaseRM.SUCCESS)
-            throw new RegisterException("申请表初始化失败");
-    }
+//    public void initApplForm(Student student) throws RegisterException {
+//        HibernateDao<ApplForm> applFormDao = new HibernateDao<>(new ApplForm());
+//        ApplForm applForm = new ApplForm();
+//        applForm.updateInfo(student);
+//        if (applFormDao.add(applForm) != DatabaseRM.SUCCESS)
+//            throw new RegisterException("申请表初始化失败");
+//    }
 }
