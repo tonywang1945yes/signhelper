@@ -1,15 +1,21 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.ApplFormRepository;
 import backend.entity.Student;
+import backend.entity.application.ApplForm;
 import backend.enums.resultMessage.DatabaseRM;
 import backend.exception.RegisterException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class RegisterService {
+    @Autowired
+    ApplFormRepository repository;
+
     public boolean checkDuplicatedRegister(String id) {
         HibernateDao<Student> dao = new HibernateDao<>(new Student());
         return dao.checkKeyExists(id);
@@ -28,39 +34,29 @@ public class RegisterService {
         } else if (checkDuplicatedVisaNum(student.getVisaNum())) {
             throw new RegisterException("该通行证号码已被使用过");
         }
-//        addNewStudent(student);
-        addNewStudent(student);
+        bindStudentAndApplForm(student);
     }
 
-    private void addNewStudent(Student s) throws RegisterException {
+    //两种数据库技术混着用过于沙雕，会不会有一天炸了啊
+    private void bindStudentAndApplForm(Student s) throws RegisterException {
         HibernateDao<Student> studentDao = new HibernateDao<>(new Student());
         DatabaseRM res = studentDao.add(s);
         if (res != DatabaseRM.SUCCESS) {
             throw new RegisterException("学生注册失败");
         }
-//        studentDao = null;
-//        HibernateDao<ApplForm> applFormDao = new HibernateDao<>(new ApplForm());
-//        ApplForm applForm = new ApplForm();
-//        applForm.updateInfo(s);
-//        res = applFormDao.add(applForm);
-//        if (res != DatabaseRM.SUCCESS)
-//            throw new RegisterException("申请表初始化失败");
-//        String sql = "SELECT a from ApplForm a  WHERE a.studentId = \'"+applForm.getStudentId()+"\'";
-//        applForm = applFormDao.executeQuerySql(sql).get(0);
-//        applFormDao = null;
-//        s.setApplFormId(applForm.getId());
-//        studentDao = new HibernateDao<>(new Student());
-//        res = studentDao.update(s);
-//        if(res != DatabaseRM.SUCCESS)
-//            throw new RegisterException("学生与申请表绑定失败");
-        //迷之报错，先不用
+
+        ApplForm applForm = new ApplForm();
+        applForm.updateInfo(s);
+        applForm = repository.save(applForm);
+        if (applForm == null)
+            throw new RegisterException("申请表初始化失败");
+
+        s.setApplFormId(applForm.getId());
+        res = studentDao.update(s);
+        if (res != DatabaseRM.SUCCESS) {
+            throw new RegisterException("绑定学生和注册表失败");
+        }
+
     }
 
-//    public void initApplForm(Student student) throws RegisterException {
-//        HibernateDao<ApplForm> applFormDao = new HibernateDao<>(new ApplForm());
-//        ApplForm applForm = new ApplForm();
-//        applForm.updateInfo(student);
-//        if (applFormDao.add(applForm) != DatabaseRM.SUCCESS)
-//            throw new RegisterException("申请表初始化失败");
-//    }
 }
