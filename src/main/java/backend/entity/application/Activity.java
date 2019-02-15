@@ -1,23 +1,27 @@
 package backend.entity.application;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
 @Table(name  = "tbl_activity")
-public class Acitivity {
+public class Activity {
     @Id
+    @JsonIgnore
     private Long id;
 
 //    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "form_id")
-    private String formId;
+    @JsonIgnore
+    private Long formId;
 
     private String organization;
     private String award;
 
     @Temporal(TemporalType.DATE)
-    private Calendar participationDate;
+    private Calendar attendingDate;
 
     public Long getId() {
         return id;
@@ -27,11 +31,11 @@ public class Acitivity {
         this.id = id;
     }
 
-    public String getFormId() {
+    public Long getFormId() {
         return formId;
     }
 
-    public void setFormId(String formId) {
+    public void setFormId(Long formId) {
         this.formId = formId;
     }
 
@@ -51,11 +55,11 @@ public class Acitivity {
         this.award = award;
     }
 
-    public Calendar getParticipationDate() {
-        return participationDate;
+    public Calendar getAttendingDate() {
+        return attendingDate;
     }
 
-    public void setParticipationDate(Calendar participationDate) {
-        this.participationDate = participationDate;
+    public void setAttendingDate(Calendar attendingDate) {
+        this.attendingDate = attendingDate;
     }
 }

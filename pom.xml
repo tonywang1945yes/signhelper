@@ -156,6 +156,13 @@
             <version>2.3.2</version>
         </dependency>
 
+        <!--开源自然语言处理库https://github.com/hankcs/HanLP-->
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>hanlp</artifactId>
+            <version>portable-1.7.1</version>
+        </dependency>
+
 
         <!--静态代码检查工具，暂时不管-->
         <!--<dependency>-->

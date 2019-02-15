@@ -47,11 +47,9 @@ public class RegisterService {
 
         ApplForm applForm = new ApplForm();
         applForm.updateInfo(s);
-        applForm = repository.save(applForm);
-        if (applForm == null)
-            throw new RegisterException("申请表初始化失败");
+        ApplForm a = repository.save(applForm);
 
-        s.setApplFormId(applForm.getId());
+        s.setApplFormId(a.getId());
         res = studentDao.update(s);
         if (res != DatabaseRM.SUCCESS) {
             throw new RegisterException("绑定学生和注册表失败");

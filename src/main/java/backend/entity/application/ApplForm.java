@@ -1,6 +1,7 @@
 package backend.entity.application;
 
 import backend.entity.Student;
+import backend.parameter.application.ApplFormParameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,8 @@ public class ApplForm {
     @Column(name = "last_name")
     @NotNull
     private String lastName;
+
+    private Boolean needSimplication;
 
     private Integer sex;
 
@@ -104,6 +107,14 @@ public class ApplForm {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Boolean getNeedSimplication() {
+        return needSimplication;
+    }
+
+    public void setNeedSimplication(Boolean needSimplication) {
+        this.needSimplication = needSimplication;
     }
 
     public Integer getSex() {
@@ -218,7 +229,7 @@ public class ApplForm {
         this.gsatResult = gsatResult;
     }
 
-    public ApplForm(){
+    public ApplForm() {
         setStudentId("");
         setIdentityNum("");
         setVisaNum("");
@@ -233,14 +244,34 @@ public class ApplForm {
         setSex(0);
     }
 
-    public void updateInfo(Student s){
+    public void updateInfo(Student s) {
         setStudentId(s.getEmail());
         setAddress(s.getAddress());
-        setBirthDate((Calendar)s.getBirthDate().clone());
-        setFirstName(s.getName().substring(0,1));
+        setBirthDate((Calendar) s.getBirthDate().clone());
+        setFirstName(s.getName().substring(0, 1));
         setLastName(s.getName().substring(1));
         setHighSchool(s.getHighSchool());
         setVisaNum(s.getVisaNum());
+    }
+
+    public void updateInfo(ApplFormParameter p) {
+        setFirstName(p.getFirstName());
+        setLastName(p.getLastName());
+        setNeedSimplication(p.getNeedSimplification());
+        setSex(p.getSex());
+        setIdentityNum(p.getIDCardNumber());
+        setVisaNum(p.getMTPNumber());
+        setArtOrSci(p.getArtOrSci());
+        setPostalCode(p.getPostalCode());
+        setGraduationYear(p.getGraduationYear());
+        setAcceptAssignment(p.getAcceptAssignment());
+        setHighSchool(p.getHighSchool());
+        setBirthDate(p.getBirthDate());
+        setAddress(p.getAddress());
+        setCurriculumChoices(p.getCurriculumChoices());
+        setPhoneNumbers(p.getPhoneNumbers());
+        setSchoolAttended(p.getSchoolAttended());
+        setGsatResult(p.getGsatResult());
     }
 
 }
