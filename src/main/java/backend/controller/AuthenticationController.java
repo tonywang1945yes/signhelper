@@ -24,8 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
-@RestController() //RestController本身包含ResponseBody注解
-//@RequestMapping(value = "/login")
+@CrossOrigin
+@RestController
 public class AuthenticationController {
 
     @Value("${jwt.header}")
