@@ -1,14 +1,11 @@
 package backend.controller;
 
 
-import backend.dao.impl.HibernateDao;
 import backend.parameter.SetMessage.MessageParam;
-import backend.response.Message.Message;
 import backend.service.MessageService;
 import backend.util.token.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

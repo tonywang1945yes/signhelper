@@ -1,7 +1,9 @@
 package backend.service;
 
+import backend.dao.impl.HibernateDao;
 import backend.dao.service.ActivityRepository;
 import backend.dao.service.ApplFormRepository;
+import backend.entity.Student;
 import backend.entity.application.Activity;
 import backend.entity.application.ApplForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,11 @@ public class ApplicationService {
 
     public ApplForm getApplicationForm(String studentId) {
         return applFormRepo.findByStudentId(studentId);
+    }
+
+    public Student getStudent(String email){
+        HibernateDao<Student> studentDao = new HibernateDao<>(new Student());
+        return studentDao.findByKey(email);
     }
 
 

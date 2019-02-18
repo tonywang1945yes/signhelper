@@ -25,7 +25,7 @@ public class ApplForm {
     @NotNull
     private String lastName;
 
-    private Boolean needSimplication;
+    private Boolean needSimplification;
 
     private Integer sex;
 
@@ -109,12 +109,12 @@ public class ApplForm {
         this.lastName = lastName;
     }
 
-    public Boolean getNeedSimplication() {
-        return needSimplication;
+    public Boolean getNeedSimplification() {
+        return needSimplification;
     }
 
-    public void setNeedSimplication(Boolean needSimplication) {
-        this.needSimplication = needSimplication;
+    public void setNeedSimplification(Boolean needSimplification) {
+        this.needSimplification = needSimplification;
     }
 
     public Integer getSex() {
@@ -257,7 +257,7 @@ public class ApplForm {
     public void updateInfo(ApplFormParameter p) {
         setFirstName(p.getFirstName());
         setLastName(p.getLastName());
-        setNeedSimplication(p.getNeedSimplification());
+        setNeedSimplification(p.getNeedSimplification());
         setSex(p.getSex());
         setIdentityNum(p.getIDCardNumber());
         setVisaNum(p.getMTPNumber());

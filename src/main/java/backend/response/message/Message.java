@@ -1,4 +1,4 @@
-package backend.response.Message;
+package backend.response.message;
 
 public class Message {
     public String message;

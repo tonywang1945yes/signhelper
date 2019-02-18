@@ -10,7 +10,7 @@ import java.util.Date;
 
 //Spring Security通过UserDetail的实现类来认证用户
 //参考blog: https://www.jianshu.com/p/a65f883de0c1
-public class JwtStduent implements UserDetails {
+public class JwtStudent implements UserDetails {
 
     private String username;
     private String password;
@@ -20,7 +20,7 @@ public class JwtStduent implements UserDetails {
     private Calendar lastLogOutDate;
     private Calendar lastPasswordResetDate;
 
-    public JwtStduent(
+    public JwtStudent(
             String username,
             String password,
             String email,
