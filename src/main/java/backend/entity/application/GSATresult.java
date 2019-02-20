@@ -1,14 +1,13 @@
 package backend.entity.application;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class GSATresult {
     private Integer chinese;
     private Integer math;
     private Integer english;
-    private Integer socialogy;
+    private Integer socials;
     private Integer sciences;
 
     public Integer getChinese() {
@@ -35,12 +34,12 @@ public class GSATresult {
         this.english = english;
     }
 
-    public Integer getSocialogy() {
-        return socialogy;
+    public Integer getSocials() {
+        return socials;
     }
 
-    public void setSocialogy(Integer socialogy) {
-        this.socialogy = socialogy;
+    public void setSocials(Integer socialogy) {
+        this.socials = socialogy;
     }
 
     public Integer getSciences() {

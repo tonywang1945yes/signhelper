@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class JwtUserFactory {
 
-    public static JwtStduent create(Student student){
-        return new JwtStduent(
+    public static JwtStudent create(Student student){
+        return new JwtStudent(
                 student.getName(),
                 student.getPasswordHash(),
                 student.getEmail(),

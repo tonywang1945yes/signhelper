@@ -3,7 +3,7 @@ package backend.controller;
 import backend.exception.AuthenticationException;
 import backend.parameter.authentication.JwtAuthenticationParameter;
 import backend.response.authentication.JwtAuthenticationResponse;
-import backend.security.JwtStduent;
+import backend.security.JwtStudent;
 import backend.util.token.JwtToken;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
-@RestController() //RestController本身包含ResponseBody注解
-//@RequestMapping(value = "/login")
+@CrossOrigin
+@RestController
 public class AuthenticationController {
 
     @Value("${jwt.header}")
@@ -83,9 +83,9 @@ public class AuthenticationController {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
         String username = jwtToken.getUsernameFromToken(token);
-        JwtStduent jwtStduent = (JwtStduent) userDetailsService.loadUserByUsername(username);
+        JwtStudent jwtStudent = (JwtStudent) userDetailsService.loadUserByUsername(username);
 
-        if (jwtToken.canTokenBeRefreshed(token, jwtStduent.getLastPasswordResetDate().getTime())) {
+        if (jwtToken.canTokenBeRefreshed(token, jwtStudent.getLastPasswordResetDate().getTime())) {
             String refreshedToken = jwtToken.refreshToken(token);
             return new JwtAuthenticationResponse(refreshedToken, null);
         } else {

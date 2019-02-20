@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+@CrossOrigin
 @RestController()
 @RequestMapping("/email")
 public class EmailController {
-
 
     @Autowired
     RegMailService service;

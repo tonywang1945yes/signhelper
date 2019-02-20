@@ -1,12 +1,11 @@
 package backend.controller;
 
-import backend.dao.impl.HibernateDao;
-import backend.entity.Student;
 import backend.enums.StudentState;
 import backend.service.UpdateStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController()
 @RequestMapping(value = "/updateStudent")
 public class UpdateStudentController {

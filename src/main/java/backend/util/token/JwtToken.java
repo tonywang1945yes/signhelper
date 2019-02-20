@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import backend.security.JwtStduent;
+import backend.security.JwtStudent;
 //import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
@@ -113,7 +113,7 @@ public class JwtToken implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        JwtStduent user = (JwtStduent) userDetails;
+        JwtStudent user = (JwtStudent) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         //final Date expiration = getExpirationDateFromToken(token);
