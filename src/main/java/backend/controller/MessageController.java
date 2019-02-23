@@ -21,8 +21,8 @@ public class MessageController {
     @Autowired
     JwtToken jwtToken;
 
-    @Value("${tokenHeader}")
-    String header;
+    @Value("${jwt.header}")
+    String tokenHeader;
 
     @RequestMapping(value = "/set",
             method = RequestMethod.POST,
@@ -36,7 +36,7 @@ public class MessageController {
     public void confirmSecondTestAttendance(@RequestBody Map<String, Boolean> param, HttpServletRequest request){
         if(!param.containsKey("willAttend")) return;
         JwtToken jwtToken = new JwtToken();
-        String token = request.getHeader(header).substring(7);
+        String token = request.getHeader(tokenHeader).substring(7);
         String email = jwtToken.getUsernameFromToken(token);
         service.confirmSecondTestAttendance(email, param.get("willAttend"));
     }

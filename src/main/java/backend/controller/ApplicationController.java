@@ -55,7 +55,7 @@ public class ApplicationController {
 
         try {
             for (MultipartFile file : files)
-                file.transferTo(target);
+                file.transferTo(new File(target, file.getOriginalFilename()));
         } catch (IOException e) {
             e.printStackTrace();
             return new ApplicationResponse(false, "上传失败");

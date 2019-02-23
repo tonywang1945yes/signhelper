@@ -9,6 +9,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @CrossOrigin
@@ -75,6 +77,13 @@ public class AuthenticationController {
 
         // Return the token
         return new JwtAuthenticationResponse(token, null);
+    }
+
+    @RequestMapping(value = "/auth/testJson",
+            method = RequestMethod.POST)
+    public ResponseEntity<?> testJsonArray(@RequestBody  Map<String, String>[] params) {
+        System.out.println(params);
+        return ResponseEntity.ok(null);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET,

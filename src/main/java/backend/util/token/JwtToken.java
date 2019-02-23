@@ -23,7 +23,7 @@ public class JwtToken implements Serializable {
     static final String CLAIM_KEY_USERNAME = "sub";
     static final String CLAIM_KEY_CREATED = "iat";
     private static final long serialVersionUID = -3301605591108950415L;
-//    @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
+    //    @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
     private Clock clock = DefaultClock.INSTANCE;
 
     @Value("${jwt.secret}")
@@ -65,8 +65,8 @@ public class JwtToken implements Serializable {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private Boolean isCreatedBeforeLastLogOut(Date ceated, Date lastLogOut){
-        return (lastLogOut!=null&&ceated.after(lastLogOut));
+    private Boolean isCreatedBeforeLastLogOut(Date created, Date lastLogOut) {
+        return (lastLogOut != null && created.before(lastLogOut));
     }
 
     private Boolean ignoreTokenExpiration(String token) {
