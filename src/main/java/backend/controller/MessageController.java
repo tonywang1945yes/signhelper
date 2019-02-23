@@ -27,8 +27,8 @@ public class MessageController {
     @RequestMapping(value = "/set",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
-    public void setMessage(@RequestBody MessageParam param)throws Exception{
-        service.updateState(param.getMessage());
+    public void setmessage(@RequestBody MessageParam param)throws Exception{
+        service.updateState(param.getMessage(),param.getState());
     }
 
     @RequestMapping(value = "/confirmation",
