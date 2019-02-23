@@ -1,20 +1,19 @@
 package backend.parameter.start;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
 
 public class StartParameter {
 
-    private List<String[]> majors;
+    private Map<String, Integer> majors;
 
     private Calendar calendar;
 
-    public List<String[]> getMajors() {
+    public Map<String, Integer> getMajors() {
         return majors;
     }
 
-    public void setMajors(List<String[]> majors) {
+    public void setMajors(Map<String, Integer> majors) {
         this.majors = majors;
     }
 
@@ -26,7 +25,7 @@ public class StartParameter {
         this.calendar = calendar;
     }
 
-    public StartParameter(List<String[]> majors, Calendar ddl){
+    public StartParameter(Map<String, Integer> majors, Calendar ddl){
         this.majors = majors;
         calendar = ddl;
     }

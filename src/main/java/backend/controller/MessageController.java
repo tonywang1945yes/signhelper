@@ -21,7 +21,7 @@ public class MessageController {
     @Autowired
     JwtToken jwtToken;
 
-    @Value("${tokenHeader}")
+    @Value("${jwt.header}")
     String header;
 
     @RequestMapping(value = "/set",
