@@ -79,12 +79,6 @@ public class AuthenticationController {
         return new JwtAuthenticationResponse(token, null);
     }
 
-    @RequestMapping(value = "/auth/testJson",
-            method = RequestMethod.POST)
-    public ResponseEntity<?> testJsonArray(@RequestBody  Map<String, String>[] params) {
-        System.out.println(params);
-        return ResponseEntity.ok(null);
-    }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})

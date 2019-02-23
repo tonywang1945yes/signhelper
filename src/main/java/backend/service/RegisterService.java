@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.dao.impl.HibernateDao;
 import backend.dao.service.ApplFormRepository;
+import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import backend.entity.application.ApplForm;
 import backend.enums.resultMessage.DatabaseRM;
@@ -14,17 +15,17 @@ import java.util.List;
 @Service
 public class RegisterService {
     @Autowired
-    ApplFormRepository repository;
+    ApplFormRepository applFormRepo;
+
+    @Autowired
+    StudentRepository studentRepo;
 
     public boolean checkDuplicatedRegister(String id) {
-        HibernateDao<Student> dao = new HibernateDao<>(new Student());
-        return dao.checkKeyExists(id);
+        return studentRepo.existsById(id);
     }
 
     public boolean checkDuplicatedVisaNum(String visaNum) {
-        HibernateDao<Student> dao = new HibernateDao<>(new Student());
-        String sql = "SELECT s FROM Student s WHERE s.visaNum = \'" + visaNum + "\'";
-        List<Student> result = dao.executeQuerySql(sql);
+        List<Student> result = studentRepo.findByVisaNum(visaNum);
         return (result != null && result.size() != 0);
     }
 
@@ -37,22 +38,17 @@ public class RegisterService {
         bindStudentAndApplForm(student);
     }
 
-    //两种数据库技术混着用过于沙雕，会不会有一天炸了啊
     private void bindStudentAndApplForm(Student s) throws RegisterException {
-        HibernateDao<Student> studentDao = new HibernateDao<>(new Student());
-        DatabaseRM res = studentDao.add(s);
-        if (res != DatabaseRM.SUCCESS) {
-            throw new RegisterException("学生注册失败");
-        }
-
-        ApplForm applForm = new ApplForm();
-        applForm.updateInfo(s);
-        ApplForm a = repository.save(applForm);
-
-        s.setApplFormId(a.getId());
-        res = studentDao.update(s);
-        if (res != DatabaseRM.SUCCESS) {
-            throw new RegisterException("绑定学生和注册表失败");
+        try {
+            Student res = studentRepo.save(s);
+            ApplForm applForm = new ApplForm();
+            applForm.updateInfo(s);
+            ApplForm a = applFormRepo.save(applForm);
+            res.setApplFormId(a.getId());
+            studentRepo.save(res);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RegisterException("注册失败");
         }
 
     }

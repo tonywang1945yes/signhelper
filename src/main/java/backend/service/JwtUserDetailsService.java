@@ -1,8 +1,10 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import backend.security.JwtUserFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,11 +15,12 @@ import java.util.List;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
+    @Autowired
+    StudentRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        HibernateDao<Student> dao = new HibernateDao<>(new Student());
-        Student student = dao.findByKey(username);
+        Student student = repository.getOne(username);
 
         if (student == null) {
             throw new UsernameNotFoundException(String.format("No student found with email '%s'.", username));
