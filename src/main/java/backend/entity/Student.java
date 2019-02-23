@@ -198,10 +198,10 @@ public class Student {
         this.setAddress(parameter.getAddress());
         this.setEmail(parameter.getEmail());
         this.setHighSchool(parameter.getHighSchool());
-        Calendar c1  = Calendar.getInstance();
-        c1.add(Calendar.DATE,-2);
-        this.setLastLogOutDate(c1);
-        this.setLastPasswordResetDate(c1);
+        Calendar initialDate  = Calendar.getInstance();
+        initialDate.add(Calendar.DATE,-2);
+        this.setLastLogOutDate(initialDate);
+        this.setLastPasswordResetDate(initialDate);
 
     }
 
