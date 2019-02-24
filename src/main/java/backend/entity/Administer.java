@@ -3,6 +3,7 @@ package backend.entity;
 import backend.enums.AdministerState;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "tbl_administer")
@@ -17,6 +18,9 @@ public class Administer {
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private AdministerState state;
+
+    @Column(name = "DDL")
+    private Calendar ddl;
 
     //    编辑待发送消息
     @Column(name = "message")
@@ -36,6 +40,14 @@ public class Administer {
 
     public void setState(AdministerState state) {
         this.state = state;
+    }
+
+    public Calendar getDdl() {
+        return ddl;
+    }
+
+    public void setDdl(Calendar ddl) {
+        this.ddl = ddl;
     }
 
     public String getMessage() {

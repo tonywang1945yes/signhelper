@@ -22,7 +22,11 @@ public class MessageController {
     JwtToken jwtToken;
 
     @Value("${jwt.header}")
+<<<<<<< HEAD
+    String header;
+=======
     String tokenHeader;
+>>>>>>> dev
 
     @RequestMapping(value = "/set",
             method = RequestMethod.POST,

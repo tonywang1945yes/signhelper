@@ -40,7 +40,7 @@ public class ApplicationService {
 
 
     public ApplForm getApplicationForm(String studentId) {
-        return applFormRepo.findByStudentId(studentId);
+        return applFormRepo.findByStudentId(studentId).get(0);
     }
 
     public Student getStudent(String email){
