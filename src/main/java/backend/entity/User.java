@@ -5,7 +5,6 @@ import backend.parameter.register.RegisterParameter;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")

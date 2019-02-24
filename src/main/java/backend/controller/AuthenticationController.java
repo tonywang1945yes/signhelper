@@ -94,6 +94,7 @@ public class AuthenticationController {
         }
     }
 
+
     @ExceptionHandler({AuthenticationException.class})
     public JwtAuthenticationResponse handleAuthenticationException(AuthenticationException e) {
         return new JwtAuthenticationResponse("", e.getMessage());
