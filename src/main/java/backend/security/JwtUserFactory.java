@@ -1,6 +1,6 @@
 package backend.security;
 
-import backend.entity.Student;
+import backend.entity.User;
 import backend.enums.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,15 +11,14 @@ import java.util.stream.Collectors;
 
 public class JwtUserFactory {
 
-    public static JwtStudent create(Student student){
-        return new JwtStudent(
-                student.getEmail(),
-                student.getPasswordHash(),
-                student.getEmail(),
-                mapToGrantedAuthorities(Arrays.asList(RoleName.ROLE_STUDENT)),
+    public static JwtUser create(User user){
+        return new JwtUser(
+                user.getName(),
+                user.getPasswordEncoded(),
+                mapToGrantedAuthorities(Arrays.asList(user.getRoleName())),
                 true,
-                student.getLastLogOutDate(),
-                student.getLastPasswordResetDate());
+                user.getLastLogoutDate(),
+                user.getLastPasswordResetDate());
     }
 
     private static List<GrantedAuthority> mapToGrantedAuthorities(List<RoleName> roles) {

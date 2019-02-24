@@ -3,13 +3,12 @@ package backend.controller;
 import backend.exception.AuthenticationException;
 import backend.parameter.authentication.JwtAuthenticationParameter;
 import backend.response.authentication.JwtAuthenticationResponse;
-import backend.security.JwtStudent;
+import backend.security.JwtUser;
 import backend.util.token.JwtToken;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 @CrossOrigin
@@ -86,9 +84,9 @@ public class AuthenticationController {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
         String username = jwtToken.getUsernameFromToken(token);
-        JwtStudent jwtStudent = (JwtStudent) userDetailsService.loadUserByUsername(username);
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
 
-        if (jwtToken.canTokenBeRefreshed(token, jwtStudent.getLastPasswordResetDate().getTime())) {
+        if (jwtToken.canTokenBeRefreshed(token, jwtUser.getLastPasswordResetDate().getTime())) {
             String refreshedToken = jwtToken.refreshToken(token);
             return new JwtAuthenticationResponse(refreshedToken, null);
         } else {
