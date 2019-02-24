@@ -1,11 +1,11 @@
 package backend.service;
 
-import backend.dao.impl.HibernateDao;
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
+import backend.dao.service.UserRepository;
 import backend.entity.Student;
+import backend.entity.User;
 import backend.entity.application.ApplForm;
-import backend.enums.resultMessage.DatabaseRM;
 import backend.exception.RegisterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,9 @@ public class RegisterService {
     @Autowired
     StudentRepository studentRepo;
 
+    @Autowired
+    UserRepository userRepo;
+
     public boolean checkDuplicatedRegister(String id) {
         return studentRepo.existsById(id);
     }
@@ -29,12 +32,13 @@ public class RegisterService {
         return (result != null && result.size() != 0);
     }
 
-    public void register(Student student) throws RegisterException {
+    public void register(User user, Student student) throws RegisterException {
         if (checkDuplicatedRegister(student.getEmail())) {
             throw new RegisterException("该邮箱已被注册过");
         } else if (checkDuplicatedVisaNum(student.getVisaNum())) {
             throw new RegisterException("该通行证号码已被使用过");
         }
+        userRepo.save(user);
         bindStudentAndApplForm(student);
     }
 

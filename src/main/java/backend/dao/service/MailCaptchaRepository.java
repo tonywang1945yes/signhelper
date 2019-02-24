@@ -1,4 +1,8 @@
 package backend.dao.service;
 
-public interface MailCaptchaRepository {
+
+import backend.entity.MailCaptcha;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MailCaptchaRepository extends JpaRepository<MailCaptcha,Long> {
 }

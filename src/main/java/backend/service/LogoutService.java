@@ -2,7 +2,9 @@ package backend.service;
 
 import backend.dao.impl.HibernateDao;
 import backend.dao.service.StudentRepository;
+import backend.dao.service.UserRepository;
 import backend.entity.Student;
+import backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,11 @@ import java.util.Calendar;
 public class LogoutService {
 
     @Autowired
-    StudentRepository repository;
+    UserRepository repository;
 
     public void updateLastLogoutDate(String email) {
-        Student s = repository.getOne(email);
-        s.setLastLogOutDate(Calendar.getInstance());
-        repository.save(s);
+        User u  = repository.getOne(email);
+        u.setLastLogoutDate(Calendar.getInstance());
+        repository.save(u);
     }
 }

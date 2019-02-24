@@ -1,13 +1,19 @@
 package backend.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "mailcaptcha")
 public class MailCaptcha {
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -25,12 +31,24 @@ public class MailCaptcha {
         this.code = code;
     }
 
-    @Id
-    @Column(name = "emailAddress")
-    String emailAddress = "";
+    public Calendar getBuiltTime() {
+        return builtTime;
+    }
 
-    @Column(name = "code")
-    String code = "";
+    public void setBuiltTime(Calendar builtTime) {
+        this.builtTime = builtTime;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    String emailAddress;
+
+    String code;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    Calendar builtTime;
 
     public MailCaptcha() {
     }

@@ -2,6 +2,7 @@ package backend.controller;
 
 
 import backend.entity.Student;
+import backend.entity.User;
 import backend.exception.RegisterException;
 import backend.parameter.register.RegisterParameter;
 import backend.response.register.RegisterResponse;
@@ -9,6 +10,7 @@ import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import sun.security.krb5.internal.PAData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +28,10 @@ public class RegisterController {
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     public RegisterResponse register(@RequestBody RegisterParameter param) throws RegisterException {
-        Student student = new Student(param);//student初始化在构造函数中完成，也许用工厂更好？
-        student.setPasswordHash(new BCryptPasswordEncoder().encode(param.getPassword()));//使用Spring Security内置加密器加密密码
-        service.register(student);
+        User user = new User(param);//student初始化在构造函数中完成，也许用工厂更好？
+        user.setPasswordEncoded(new BCryptPasswordEncoder().encode(param.getPassword()));
+        Student student = new Student(param);
+        service.register(user, student);
         return new RegisterResponse(true, "");
 
     }

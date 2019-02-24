@@ -27,8 +27,8 @@ public class Student {
     private String visaNum;
 
     //    加密密码
-    @Column(name = "password_hash")
-    private String passwordHash;
+//    @Column(name = "password_hash")
+//    private String passwordHash;
 
     //    出生日期
     @Column(name = "birth_date")
@@ -52,13 +52,13 @@ public class Student {
     @Column(name = "high_school")
     private String highSchool;
 
-    @Column(name = "last_logout_date")
-    @Temporal(TemporalType.DATE)
-    private Calendar lastLogOutDate;
-
-    @Column(name = "last_password_reset_date")
-    @Temporal(TemporalType.DATE)
-    private Calendar lastPasswordResetDate;
+//    @Column(name = "last_logout_date")
+//    @Temporal(TemporalType.DATE)
+//    private Calendar lastLogOutDate;
+//
+//    @Column(name = "last_password_reset_date")
+//    @Temporal(TemporalType.DATE)
+//    private Calendar lastPasswordResetDate;
 
 //    @OneToOne(targetEntity = ApplForm.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "form_id")
@@ -97,13 +97,13 @@ public class Student {
     }
 
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+//    public String getPasswordHash() {
+//        return passwordHash;
+//    }
+//
+//    public void setPasswordHash(String passwordHash) {
+//        this.passwordHash = passwordHash;
+//    }
 
 
     public Calendar getBirthDate() {
@@ -149,17 +149,21 @@ public class Student {
         this.highSchool = highSchool;
     }
 
-    public Calendar getLastLogOutDate() {
-        return lastLogOutDate;
-    }
-
-    public void setLastLogOutDate(Calendar lastLogOutDate) {
-        this.lastLogOutDate = lastLogOutDate;
-    }
-
-    public Calendar getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
+//    public Calendar getLastLogoutDate() {
+//        return lastLogOutDate;
+//    }
+//
+//    public void setLastLogoutDate(Calendar lastLogOutDate) {
+//        this.lastLogOutDate = lastLogOutDate;
+//    }
+//
+//    public Calendar getLastPasswordResetDate() {
+//        return lastPasswordResetDate;
+//    }
+//
+//    public void setLastPasswordResetDate(Calendar lastPasswordResetDate) {
+//        this.lastPasswordResetDate = lastPasswordResetDate;
+//    }
 
     public Long getApplFormId() {
         return applFormId;
@@ -167,10 +171,6 @@ public class Student {
 
     public void setApplFormId(Long applFormId) {
         this.applFormId = applFormId;
-    }
-
-    public void setLastPasswordResetDate(Calendar lastPasswordResetDate) {
-        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     public Student() {
@@ -181,7 +181,7 @@ public class Student {
         this.setStudentState(state);
         this.setIdentityNum(identityNum);
         this.setVisaNum(visaNum);
-        this.setPasswordHash(passwordHash);
+//        this.setPasswordHash(passwordHash);
         this.setBirthDate(birthDate);
         this.setTel(tel);
         this.setAddress(address);
@@ -198,11 +198,6 @@ public class Student {
         this.setAddress(parameter.getAddress());
         this.setEmail(parameter.getEmail());
         this.setHighSchool(parameter.getHighSchool());
-        Calendar c1  = Calendar.getInstance();
-        c1.add(Calendar.DATE,-2);
-        this.setLastLogOutDate(c1);
-        this.setLastPasswordResetDate(c1);
-
     }
 
 

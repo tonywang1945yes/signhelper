@@ -2,9 +2,12 @@ package backend.service;
 
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.MailCaptchaRepository;
+import backend.dao.service.UserRepository;
 import backend.entity.MailCaptcha;
 import backend.entity.Student;
 import com.sun.mail.util.MailSSLSocketFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,6 +32,12 @@ public class RegMailService {
 
     @Value("${GroupSendMail}")
     String content;
+
+    @Autowired
+    UserRepository repository;
+
+    @Autowired
+    MailCaptchaRepository mailCaptchaRepo;
 
     /**
      * @param name
@@ -46,32 +56,32 @@ public class RegMailService {
         }
         String codeStr = String.valueOf(code);
 
+        MailCaptcha mailCaptcha = new MailCaptcha();
+        mailCaptcha.setEmailAddress(emailAddress);
+        mailCaptcha.setCode(codeStr);
+        mailCaptcha.setBuiltTime(Calendar.getInstance());
+        mailCaptchaRepo.save(mailCaptcha);
+
+        String prefix = "您(或者其他人)在重置我們的臺灣學生註冊網站的賬戶密碼時輸入了該郵箱地址。\n\n" +
+                "如果該操作不是由您本人做出，請無視這封郵件。\n\n";
+        String body1 =
+                "為了重置您的密碼，您需要輸入該郵件中附帶的驗證碼以驗證您的身份(請註意不要泄露該驗證碼以免讓您的信息面臨泄露的風險)。\n\n" +
+                        "驗證碼為 %s , 有效時間為30min，過期失效。\n\n";
+        String body2 = "然而該郵箱並不在我們的數據庫記錄裏， 因此重置密碼操作將不能進行。\n\n" +
+                "如果您確實擁有網站的賬戶並想重置密碼，請重試並使用註冊賬戶時所使用的郵箱。\n\n";
+        String postfix = "如有疑問，請訪問網站 xxxx 或咨詢網站管理員。";
+
+        StringBuilder fullContent = new StringBuilder();
+        fullContent.append(prefix).append(repository.existsById(emailAddress) ? body1 : body2).append(postfix);
 
 //        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
 //        String password = getProperty("mailPassword");  //有这么个密码
-        String subject = "驗證碼";
+        String subject = "xxxx網站驗證碼";
 
-        sendSimpleMail(subject, emailAddress, codeStr);
+        sendSimpleMail(subject, emailAddress, String.format(fullContent.toString(), codeStr));
         //随机数生成完毕
     }
 
-//    /**
-//     * 从application,properties中调用需要的元素
-//     *
-//     * @param key
-//     * @return
-//     * @throws FileNotFoundException 没找到文件
-//     * @throws IOException
-//     */
-//    public String getProperty(String key) throws FileNotFoundException, IOException {
-//        Properties properties = new Properties();
-//        InputStream input = null;
-//        input = new FileInputStream(".\\src\\main\\resources\\application.properties");
-//        properties.load(input);
-//        String result = properties.getProperty(key);
-//        input.close();
-//        return result;
-//    }
 
     /**
      * @param subject
@@ -144,24 +154,26 @@ public class RegMailService {
     public boolean checkCode(String emailAddress, String code) {
         HibernateDao<MailCaptcha> dao = new HibernateDao<MailCaptcha>(new MailCaptcha());
         MailCaptcha mailCaptcha = dao.findByKey(emailAddress);
-        if (mailCaptcha != null && mailCaptcha.getCode().equals(code)) {
+        Calendar limit = Calendar.getInstance();
+        limit.add(Calendar.MINUTE, -30);
+        if (mailCaptcha != null && mailCaptcha.getCode().equals(code) && mailCaptcha.getBuiltTime().after(limit)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void groupSendMail()throws FileNotFoundException,IOException,SecurityException,MessagingException,GeneralSecurityException,Exception{
+    public void groupSendMail() throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
 //        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
 //        String password = getProperty("mailpassword");  //有这么个密码
         String subject = "南京大學進度申請通知";
 //        String content = getProperty("GroupSendMail");
 
         HibernateDao<Student> dao = new HibernateDao<>(new Student());
-        List<Student> stuList=dao.getAllObjects();
-        for(int i=0;i<stuList.size();i++){
-            String receiveAddress=stuList.get(i).getAddress();
-            sendSimpleMail(subject,receiveAddress,content);
+        List<Student> stuList = dao.getAllObjects();
+        for (int i = 0; i < stuList.size(); i++) {
+            String receiveAddress = stuList.get(i).getAddress();
+            sendSimpleMail(subject, receiveAddress, content);
         }
     }
 
