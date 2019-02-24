@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class ApplicationController {
         String email = getIdFromRequest(request);
         ApplForm applForm = service.getApplicationForm(email);
         applForm.updateInfo(param);
-        if (service.updateApplFormAndActivities(applForm, param.getActivities()))
+        if (service.updateApplFormAndActivities(applForm, Arrays.asList(param.getActivities())))
             return new ApplicationResponse(true, "");
         else return new ApplicationResponse(false, "更新失败");
     }
@@ -55,7 +56,7 @@ public class ApplicationController {
 
         try {
             for (MultipartFile file : files)
-                file.transferTo(target);
+                file.transferTo(new File(target, file.getOriginalFilename()));
         } catch (IOException e) {
             e.printStackTrace();
             return new ApplicationResponse(false, "上传失败");

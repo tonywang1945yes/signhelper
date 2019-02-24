@@ -1,16 +1,21 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.AdministerRepository;
 import backend.entity.Administer;
 import backend.enums.AdministerState;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StartService {
+
+    @Autowired
+    AdministerRepository administerRepo;
+
     public void start(){
-        HibernateDao<Administer> dao = new HibernateDao<>(new Administer());
-        Administer administer = dao.getAllObjects().get(0);
+        Administer administer = administerRepo.findAll().get(0);
         administer.setState(AdministerState.REGISTERING);
-        dao.update(administer);
+        administerRepo.save(administer);
     }
 }

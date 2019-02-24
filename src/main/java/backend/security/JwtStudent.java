@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 //Spring Security通过UserDetail的实现类来认证用户
 //参考blog: https://www.jianshu.com/p/a65f883de0c1
@@ -17,7 +16,7 @@ public class JwtStudent implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
-    private Calendar lastLogOutDate;
+    private Calendar lastLogoutDate;
     private Calendar lastPasswordResetDate;
 
     public JwtStudent(
@@ -26,14 +25,14 @@ public class JwtStudent implements UserDetails {
             String email,
             Collection<? extends GrantedAuthority> authorities,
             boolean enabled,
-            Calendar lastLogOutDate,
+            Calendar lastLogoutDate,
             Calendar lastPasswordResetDate) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.authorities = authorities;
         this.enabled = enabled;
-        this.lastLogOutDate = lastLogOutDate;
+        this.lastLogoutDate = lastLogoutDate;
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
@@ -76,8 +75,8 @@ public class JwtStudent implements UserDetails {
         return email;
     }
 
-    public Calendar getLastLogOutDate() {
-        return lastLogOutDate;
+    public Calendar getLastLogoutDate() {
+        return lastLogoutDate;
     }
 
     public Calendar getLastPasswordResetDate() {

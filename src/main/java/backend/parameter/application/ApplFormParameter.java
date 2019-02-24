@@ -41,7 +41,7 @@ public class ApplFormParameter {
 
     private GSATresult gsatResult;
 
-    private List<Activity> activities;
+    private Activity[] activities;
 
 
     public String getFirstName() {
@@ -180,11 +180,11 @@ public class ApplFormParameter {
         this.needSimplification = needSimplification;
     }
 
-    public List<Activity> getActivities() {
+    public Activity[] getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    public void setActivities(Activity[] activities) {
         this.activities = activities;
     }
 }

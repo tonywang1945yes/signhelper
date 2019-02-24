@@ -22,7 +22,11 @@ public class MessageController {
     JwtToken jwtToken;
 
     @Value("${jwt.header}")
+<<<<<<< HEAD
     String header;
+=======
+    String tokenHeader;
+>>>>>>> dev
 
     @RequestMapping(value = "/set",
             method = RequestMethod.POST,
@@ -36,7 +40,7 @@ public class MessageController {
     public void confirmSecondTestAttendance(@RequestBody Map<String, Boolean> param, HttpServletRequest request){
         if(!param.containsKey("willAttend")) return;
         JwtToken jwtToken = new JwtToken();
-        String token = request.getHeader(header).substring(7);
+        String token = request.getHeader(tokenHeader).substring(7);
         String email = jwtToken.getUsernameFromToken(token);
         service.confirmSecondTestAttendance(email, param.get("willAttend"));
     }
