@@ -10,7 +10,6 @@ import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.PAData;
 
 import java.util.HashMap;
 import java.util.Map;

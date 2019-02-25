@@ -22,42 +22,64 @@ public class RegisterControllerTest {
     @Autowired
     TestRestTemplate testRestTemplate;
 
-//    @Test
-//    public void register() {
-//        RegisterParameter p = new RegisterParameter();
-//        p.setName("");
-//        p.setEmail("");
-//        p.setPassword("");
-//        p.setHighSchool("");
-//        p.setId("");
-//        p.setAddress("");
-//        p.setTel("");
-//
-//        Calendar c = Calendar.getInstance();
-//        c.set(1998,10,12);
-//        p.setBirthDate((Calendar)c.clone());
-//
-//        RegisterResponse expected = new RegisterResponse(true,"");
-//
-//        RegisterResponse response = this.testRestTemplate.postForObject("/register/student", p, RegisterResponse.class);
-//        assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
-//    }
-
     @Test
-    public void handleRegisterException() {
-    }
+    public void register() {
+        RegisterParameter p = new RegisterParameter();
+        p.setName("黄国钊");
+        p.setEmail("1206985125@qq.com");
+        p.setPassword("asdfg1234");
+        p.setHighSchool("北海中学");
+        p.setId("14725836");
+        p.setAddress("广西省北海市海城区");
+        p.setTel("18577940215");
 
-    @Test
-    public void checkDuplicatedRegister1() {
-        Map<String, String> p = new HashMap<>();
-        p.put("MYPNumber", "12345678");
-        Map<String,Boolean> response = this.testRestTemplate.getForObject("/register/email_duplication_check", Map.class,p);
-        Map<String, Boolean> expected = new HashMap<>();
-        expected.put("hasDuplication",true);
+        Calendar c = Calendar.getInstance();
+        c.set(1998,10,12);
+        p.setBirthDate((Calendar)c.clone());
+
+        RegisterResponse expected = new RegisterResponse(true,"");
+
+        RegisterResponse response = this.testRestTemplate.postForObject("/register/student", p, RegisterResponse.class);
         assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     @Test
-    public void checkDuplicatedMTPNumber() {
+    public void handleRegisterException() {
     }
+//
+//    @Test
+//    public void checkDuplicatedMTPNumber1() {
+//        Map<String,Boolean> response = (Map)this.testRestTemplate.getForObject("/register/MTPNumber_duplication_check/{MTPNumber}",
+//                Map.class,"12345678");
+//        Map<String, Boolean> expected = new HashMap<>();
+//        expected.put("hasDuplication",true);
+//        assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
+//    }
+//
+//    @Test
+//    public void checkDuplicatedMTPNumber2() {
+//        Map<String,Boolean> response = (Map)this.testRestTemplate.getForObject("/register/MTPNumber_duplication_check/{MTPNumber}",
+//                Map.class,"12348765");
+//        Map<String, Boolean> expected = new HashMap<>();
+//        expected.put("hasDuplication",false);
+//        assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
+//    }
+//
+//    @Test
+//    public void checkDuplicatedRegister1() {
+//        Map<String,Boolean> response = (Map)this.testRestTemplate.getForObject("/register/email_duplication_check/{email}",
+//                Map.class,"superfreeeee@gmail.com");
+//        Map<String, Boolean> expected = new HashMap<>();
+//        expected.put("hasDuplication",true);
+//        assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
+//    }
+//
+//    @Test
+//    public void checkDuplicatedRegister2() {
+//        Map<String,Boolean> response = (Map)this.testRestTemplate.getForObject("/register/email_duplication_check/{email}",
+//                Map.class,"10000000@gmail.com");
+//        Map<String, Boolean> expected = new HashMap<>();
+//        expected.put("hasDuplication",false);
+//        assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
+//    }
 }
