@@ -65,9 +65,9 @@ public class AuthenticationController {
     public JwtAuthenticationResponse createAuthenticationToken(@RequestBody JwtAuthenticationParameter parameter, HttpServletRequest request)
             throws AuthenticationException {
 
-        HttpSession session = request.getSession();
-        validateCaptcha(parameter.getCaptcha(), (String) session.getAttribute("captchaCode"));
-        authenticate(parameter.getUsername(), parameter.getPassword(), parameter.getCaptcha());
+//        HttpSession session = request.getSession();
+//        validateCaptcha(parameter.getCaptcha(), (String) session.getAttribute("captchaCode"));
+        authenticate(parameter.getUsername(), parameter.getPassword());
 
         // Reload password post-security so we can generate the token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(parameter.getUsername());
@@ -103,10 +103,10 @@ public class AuthenticationController {
     /**
      * 认证用户(等于登录). 如果出现错误,  {@link AuthenticationException} 认证异常会被抛出
      */
-    private void authenticate(String username, String password, String code) {
+    private void authenticate(String username, String password) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(password);
-        Objects.requireNonNull(code);
+//        Objects.requireNonNull(code);
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
