@@ -45,7 +45,7 @@ public class StuListService {
         return count;
     }
 
-    public List<Student> FindStudent(String name){
+    public List<Student> findStudent(String name){
         List<Student> students=new ArrayList<>();
         HibernateDao<Student> dao=new HibernateDao<>(new Student());
         List<Student> allstu=dao.getAllObjects();
@@ -58,6 +58,6 @@ public class StuListService {
     }
 
     public  int getNameNumber(String name){
-        return FindStudent(name).size();
+        return findStudent(name).size();
     }
 }

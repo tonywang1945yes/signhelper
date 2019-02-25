@@ -1,11 +1,15 @@
 package backend.entity.application;
 
 import backend.entity.Student;
+import backend.enums.SchoolType;
 import backend.parameter.application.ApplFormParameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tbl_application_form")
@@ -14,7 +18,6 @@ public class ApplForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "student_id")
     private String studentId;
 
     @Column(name = "first_name")
@@ -68,13 +71,18 @@ public class ApplForm {
     @Column(name = "accept_assignment")
     private Boolean acceptAssignment;
 
-    @Column(name = "school_attended")
-    @Embedded
-    private SchoolAttended schoolAttended;
+    @OneToMany(targetEntity = SchAtdPeriod.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SchAtdPeriod> schoolPeriods;
+
+    @OneToMany(targetEntity = FamilyParticularItem.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FamilyParticularItem> familyParticulars;
 
     @Column(name = "gsat_result")
     @Embedded
     private GSATresult gsatResult;
+
+    @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Activity> activities;
 
 
     public Long getId() {
@@ -213,20 +221,62 @@ public class ApplForm {
         this.acceptAssignment = acceptAssignment;
     }
 
-    public SchoolAttended getSchoolAttended() {
-        return schoolAttended;
-    }
-
-    public void setSchoolAttended(SchoolAttended schoolAttended) {
-        this.schoolAttended = schoolAttended;
-    }
-
     public GSATresult getGsatResult() {
         return gsatResult;
     }
 
     public void setGsatResult(GSATresult gsatResult) {
         this.gsatResult = gsatResult;
+    }
+
+    public List<SchAtdPeriod> getPrimarySchools() {
+        return getSchoolsByType(SchoolType.PRIMARY);
+    }
+
+    public List<SchAtdPeriod> getJuniorMiddleSchools() {
+        return getSchoolsByType(SchoolType.JUNIORMIDDLE);
+    }
+
+    public List<SchAtdPeriod> getSeniorMiddleSchools() {
+        return getSchoolsByType(SchoolType.SENIORMIDDLE);
+    }
+
+    private List<SchAtdPeriod> getSchoolsByType(SchoolType type) {
+//        return this.getSchoolPeriods().stream()
+//                .filter(x -> x.getType()== type).sorted(new Comparator<SchAtdPeriod>() {
+//                    @Override
+//                    public int compare(SchAtdPeriod o1, SchAtdPeriod o2) {
+//                        return o1.getStartDate().before(o2.getStartDate())? 1:-1;
+//                    }
+//                }).collect(Collectors.toList());
+        return this.getSchoolPeriods().stream()
+                .filter(x -> x.getType() == type)
+                .sorted((o1, o2) -> o1.getStartDate().before(o2.getStartDate()) ? 1 : -1)
+                .collect(Collectors.toList());
+    }
+
+    public List<SchAtdPeriod> getSchoolPeriods() {
+        return schoolPeriods;
+    }
+
+    public void setSchoolPeriods(List<SchAtdPeriod> schoolPeriods) {
+        this.schoolPeriods = schoolPeriods;
+    }
+
+    public List<FamilyParticularItem> getFamilyParticulars() {
+        return familyParticulars;
+    }
+
+    public void setFamilyParticulars(List<FamilyParticularItem> familyParticulars) {
+        this.familyParticulars = familyParticulars;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     public ApplForm() {
@@ -270,8 +320,10 @@ public class ApplForm {
         setAddress(p.getAddress());
         setCurriculumChoices(p.getCurriculumChoices());
         setPhoneNumbers(p.getPhoneNumbers());
-        setSchoolAttended(p.getSchoolAttended());
         setGsatResult(p.getGsatResult());
+        setSchoolPeriods(Arrays.asList(p.getSchAtdPeriods()));
+
+
     }
 
 }

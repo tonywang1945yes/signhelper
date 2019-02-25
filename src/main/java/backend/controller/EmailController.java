@@ -26,7 +26,7 @@ public class EmailController {
     }
 
     @RequestMapping(value = "/verification",
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseBody

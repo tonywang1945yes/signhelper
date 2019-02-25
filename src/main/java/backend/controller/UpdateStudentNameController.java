@@ -6,6 +6,7 @@ import backend.entity.application.ApplForm;
 import backend.response.ApplFormList.ApplFormList;
 import backend.service.UpdateStudentNameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/updateStudentName")
+@PreAuthorize("hasRole('ADMIN')")
 public class UpdateStudentNameController {
 
     @Autowired
