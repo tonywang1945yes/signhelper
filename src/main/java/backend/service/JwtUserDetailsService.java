@@ -17,13 +17,20 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.getOne(username);
-
-        if (user == null) {
+        User user = null;
+        try {
+            user = repository.getOne(username);
+        }catch (Exception e){
+            e.printStackTrace();
             throw new UsernameNotFoundException(String.format("No user found with email '%s'.", username));
-            //说是这么说，但在代码中此异常被隐藏，包装为密码错误异常
-        } else {
-            return JwtUserFactory.create(user);
         }
+
+//        if (user == null) {
+//            throw new UsernameNotFoundException(String.format("No user found with email '%s'.", username));
+//            //说是这么说，但在代码中此异常被隐藏，包装为密码错误异常
+//        } else {
+//            return JwtUserFactory.create(user);
+//        }
+        return JwtUserFactory.create(user);
     }
 }

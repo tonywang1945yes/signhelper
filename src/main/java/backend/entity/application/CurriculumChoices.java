@@ -6,17 +6,12 @@ import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class CurriculumChoices {
-    @Column(name = "first_choice")
-    @NotNull
     private String firstChoice;
 
-    @Column(name = "second_choice")
     private String secondChoice;
 
-    @Column(name = "third_choice")
     private String thirdChoice;
 
-    @Column(name = "fourth_choice")
     private String fourthChoice;
 
     public String getFirstChoice() {

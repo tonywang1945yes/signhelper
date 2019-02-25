@@ -114,6 +114,9 @@ public class AuthenticationController {
             throw new AuthenticationException("用户已被禁用", e);
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("密码错误!", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AuthenticationException(e.getMessage());
         }
     }
 

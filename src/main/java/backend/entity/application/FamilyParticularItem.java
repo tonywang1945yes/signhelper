@@ -10,24 +10,27 @@ public class FamilyParticularItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "form_id")
-    private String formId;
+    private ApplForm form;
 
     @NotNull
+    @Column(length = 20)
     private String relationship;
 
     @NotNull
+    @Column(length = 20)
     private String name;
 
-    @Column(name = "company_name")
+    @Column(length = 80)
     @NotNull
     private String companyName;
 
     @NotNull
+    @Column(length = 60)
     private String occupation;
 
-    @Column(name = "mobile_phone_number")
+    @Column( length = 40)
     @NotNull
     private String mobilePhoneNumber;
 
@@ -39,12 +42,12 @@ public class FamilyParticularItem {
         this.id = id;
     }
 
-    public String getFormId() {
-        return formId;
+    public ApplForm getForm() {
+        return form;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setForm(ApplForm form) {
+        this.form = form;
     }
 
     public String getRelationship() {

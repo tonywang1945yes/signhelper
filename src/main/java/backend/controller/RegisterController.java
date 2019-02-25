@@ -10,7 +10,6 @@ import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.PAData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,23 +41,17 @@ public class RegisterController {
         return new RegisterResponse(false, ex.getMessage());
     }
 
-    @GetMapping("/email_duplication_check")
-    public Map<String, Boolean> checkDuplicatedRegister(@RequestBody Map<String, String> param) {
+    @GetMapping("/email_duplication_check/{email}")
+    public Map<String, Boolean> checkDuplicatedRegister(@PathVariable String email) {
         Map<String, Boolean> res = new HashMap<>();
-        res.put("hasDuplication", false);
-        if (!param.containsKey("email"))
-            return res;
-        res.put("hasDuplication", service.checkDuplicatedRegister(param.get("email")));
+        res.put("hasDuplication", service.checkDuplicatedRegister(email));
         return res;
     }
 
-    @GetMapping("/MTPNumber_duplication_check")
-    public Map<String, Boolean> checkDuplicatedMTPNumber(@RequestBody Map<String, String> param) {
+    @GetMapping("/MTPNumber_duplication_check/{MTPNumber}")
+    public Map<String, Boolean> checkDuplicatedMTPNumber(@PathVariable String MTPNumber) {
         Map<String, Boolean> res = new HashMap<>();
-        res.put("hasDuplication", false);
-        if (!param.containsKey("MTPNumber"))
-            return res;
-        res.put("hasDuplication", service.checkDuplicatedVisaNum(param.get("MTPNumber")));
+        res.put("hasDuplication", service.checkDuplicatedVisaNum(MTPNumber));
         return res;
     }
 

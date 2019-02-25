@@ -1,8 +1,10 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.MessageRepository;
 import backend.entity.Administer;
 import backend.entity.AssessmentResult;
+import backend.entity.Message;
 import backend.entity.Student;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,14 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class MessageService {
-//    @Autowired
+
+    @Autowired
+    MessageRepository repository;
 
     public void updateState(String message,StudentState state){//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
         String path="src/main/resources/msgDic";
@@ -41,10 +46,6 @@ public class MessageService {
         }catch (IOException e){
             e.printStackTrace();
         }
-//        HibernateDao<Administer> dao = new HibernateDao<>(new Administer());
-//        Administer administer=dao.getAllObjects().get(0);
-//        administer.setMessage(message);
-//        dao.update(administer);//dao.update()方法返回DatabaseRM枚举类的结果，不需要用下面的判断方式
     }
 
     public String getMessage(){
@@ -52,6 +53,24 @@ public class MessageService {
         Administer administer=dao.getAllObjects().get(0);
         return administer.getMessage();
     }
+
+    public Message[] getMessageList(String email){
+        return (Message[])repository.findAllByEmail(email).toArray();//排序晚点再做
+    }
+
+    public Message getMessageDetail(Long id, String email){
+        Message message = repository.getOne(id);
+        if(message.getEmail() !=email)
+            return null;
+        return message;
+    }
+
+    public boolean updateMessagesState(Message[] messages){
+        List<Message> toSave = Arrays.asList(messages);
+        repository.saveAll(toSave);
+        return true;
+    }
+
 
     public void confirmSecondTestAttendance(String email, boolean willing){
         HibernateDao<AssessmentResult> dao = new HibernateDao<>(new AssessmentResult());

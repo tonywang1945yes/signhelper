@@ -5,6 +5,7 @@ import backend.service.AddMajorService;
 import backend.service.SetDDLService;
 import backend.service.StartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import java.util.Set;
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/start")
+@PreAuthorize("hasRole('ADMIN')")
 public class StartController {
 
     @Autowired

@@ -1,5 +1,6 @@
 package backend.entity.application;
 
+import backend.enums.SchoolType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,14 +11,18 @@ import java.util.Calendar;
 public class Activity {
     @Id
     @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "form_id")
     @JsonIgnore
-    private Long formId;
+    private ApplForm form;
 
+    @Column(length = 50)
     private String organization;
+
+    @Column(length = 50)
     private String award;
 
     @Temporal(TemporalType.DATE)
@@ -31,12 +36,12 @@ public class Activity {
         this.id = id;
     }
 
-    public Long getFormId() {
-        return formId;
+    public ApplForm getForm() {
+        return form;
     }
 
-    public void setFormId(Long formId) {
-        this.formId = formId;
+    public void setForm(ApplForm form) {
+        this.form = form;
     }
 
     public String getOrganization() {

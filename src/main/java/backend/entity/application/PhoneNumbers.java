@@ -6,14 +6,15 @@ import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class PhoneNumbers {
-    @Column(name = "home_phone_number")
-    private String homePhoneNumber = "-";
+    @Column(name = "home_phone_number", length = 50)
+    private String homePhoneNumber;
 
-    @Column(name = "mobile_phone_number")
-    private String mobilePhoneNumber = "-";
+    @Column(name = "mobile_phone_number", length = 50)
+    private String mobilePhoneNumber;
 
-    @Column(name = "fax_number")
-    private String faxNumber = "-";
+    @Column(name = "fax_number", length = 50)
+    private String faxNumber;
+	
 
     public String getHomePhoneNumber() {
         return homePhoneNumber;

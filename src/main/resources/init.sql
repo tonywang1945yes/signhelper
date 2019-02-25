@@ -40,4 +40,4 @@ school_attended_primary_school_start_date,school_attended_senior_middle_school_e
 school_attended_senior_middle_school_start_date,sex,visa_num)
 values(3,1,'台北市永和區中和路40號',1,STR_TO_DATE('10/09/1999', '%c/%e/%Y %r'),'自動化','','通信工程','海洋科學','黎',2006,15,15,14,15,15,'建國中學','C333222555','德謙',
 '0743218765','886987456123','+886743218765','111',STR_TO_DATE('06/30/2011', '%c/%e/%Y %r'),'屏東縣','萬芳國中',STR_TO_DATE('09/01/2008', '%c/%e/%Y %r'),
-STR_TO_DATE('06/30/2008', '%c/%e/%Y %r'),'高雄市','興德國小',STR_TO_DATE('09/01/2002', '%c/%e/%Y %r'),STR_TO_DATE('06/30/2014', '%c/%e/%Y %r'),'彰化縣','建國中學',STR_TO_DATE('09/01/2011', '%c/%e/%Y %r'),1,12345678);tbl_student
+STR_TO_DATE('06/30/2008', '%c/%e/%Y %r'),'高雄市','興德國小',STR_TO_DATE('09/01/2002', '%c/%e/%Y %r'),STR_TO_DATE('06/30/2014', '%c/%e/%Y %r'),'彰化縣','建國中學',STR_TO_DATE('09/01/2011', '%c/%e/%Y %r'),1,12345678);

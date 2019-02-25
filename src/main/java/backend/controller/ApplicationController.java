@@ -48,11 +48,12 @@ public class ApplicationController {
 
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
-    public ApplicationResponse sendAttachment(HttpServletRequest request, @Value("${savingPath}") String dest) {
+    public ApplicationResponse sendAttachment(HttpServletRequest request,  MultipartHttpServletRequest multiRequest,@Value("${savingPath}") String dest) {
         String email = getIdFromRequest(request);
         File target = new File(dest + email);
         if (!target.exists()) target.mkdir();
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("files");//这里似乎需要某部分的名字为files？
+        List<MultipartFile> files = multiRequest.getFiles("files");//这里似乎需要某部分的名字为files？
+//        List<MultipartFile> files= Arrays.asList(multipartFiles);
 
         try {
             for (MultipartFile file : files)

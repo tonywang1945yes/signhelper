@@ -1,6 +1,7 @@
 package backend.controller;
 
 
+import backend.entity.Message;
 import backend.parameter.SetMessage.MessageParam;
 import backend.service.MessageService;
 import backend.util.token.JwtToken;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @CrossOrigin
@@ -22,7 +24,6 @@ public class MessageController {
     JwtToken jwtToken;
 
     @Value("${jwt.header}")
-    String header;
     String tokenHeader;
 
     @RequestMapping(value = "/set",
@@ -40,6 +41,32 @@ public class MessageController {
         String token = request.getHeader(tokenHeader).substring(7);
         String email = jwtToken.getUsernameFromToken(token);
         service.confirmSecondTestAttendance(email, param.get("willAttend"));
+    }
+
+    @RequestMapping(value = "/",
+            method = RequestMethod.GET)
+    public Message[] getMessageList(HttpServletRequest request){
+        String email = getIdFromRequest(request);
+        return service.getMessageList(email);
+    }
+
+    @RequestMapping(value = "/{messageId}")
+    public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request){
+        String email = getIdFromRequest(request);
+        return service.getMessageDetail(messageId, email);
+    }
+
+    @RequestMapping(value = "/",
+            method = RequestMethod.POST)
+    public Map<String, Boolean> updateMessagesState(Message[] messages){
+        Map<String,Boolean> res = new HashMap<>();
+        res.put("succeed",service.updateMessagesState(messages));
+        return res;
+    }
+
+    private String getIdFromRequest(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader).substring(7);
+        return jwtToken.getUsernameFromToken(token);
     }
 
 }

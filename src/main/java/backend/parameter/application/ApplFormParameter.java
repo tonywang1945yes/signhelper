@@ -3,7 +3,6 @@ package backend.parameter.application;
 import backend.entity.application.*;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class ApplFormParameter {
 
@@ -37,7 +36,7 @@ public class ApplFormParameter {
 
     private Boolean acceptAssignment;
 
-    private SchoolAttended schoolAttended;
+    private SchAtdPeriod[] schAtdPeriods;
 
     private GSATresult gsatResult;
 
@@ -156,20 +155,20 @@ public class ApplFormParameter {
         this.acceptAssignment = acceptAssignment;
     }
 
-    public SchoolAttended getSchoolAttended() {
-        return schoolAttended;
-    }
-
-    public void setSchoolAttended(SchoolAttended schoolAttended) {
-        this.schoolAttended = schoolAttended;
-    }
-
     public GSATresult getGsatResult() {
         return gsatResult;
     }
 
     public void setGsatResult(GSATresult gsatResult) {
         this.gsatResult = gsatResult;
+    }
+
+    public SchAtdPeriod[] getSchAtdPeriods() {
+        return schAtdPeriods;
+    }
+
+    public void setSchAtdPeriods(SchAtdPeriod[] schAtdPeriods) {
+        this.schAtdPeriods = schAtdPeriods;
     }
 
     public Boolean getNeedSimplification() {

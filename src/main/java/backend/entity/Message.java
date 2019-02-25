@@ -1,5 +1,7 @@
 package backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -7,8 +9,10 @@ import java.util.Calendar;
 @Table(name = "tbl_message")
 public class Message {
     @Id
+    @JsonIgnore
     private Long id;
 
+    @JsonIgnore
     private String email;
 
     private String title;
