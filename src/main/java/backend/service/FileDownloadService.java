@@ -1,9 +1,15 @@
 package backend.service;
 
+import backend.dao.service.ApplFormRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Service
 public class FileDownloadService {
 
     /**
@@ -13,8 +19,13 @@ public class FileDownloadService {
      * @param url 请求的路径
      * @return
      */
+    @Autowired
+    ApplFormRepository repository;
 
-    public static File saveUrlAs(String url, String filePath, String method){
+    @Value("${downloadFileUrl}")
+    String url;
+
+    public  File saveUrlAs(Long id, String filePath, String method){
         //System.out.println("fileName---->"+filePath);
         //创建不同的文件夹目录
         File file=new File(filePath);
@@ -30,7 +41,7 @@ public class FileDownloadService {
         try
         {
             // 建立链接
-            URL httpUrl=new URL(url);
+            URL httpUrl=new URL(this.url);
             conn=(HttpURLConnection) httpUrl.openConnection();
             //以Post方式提交表单，默认get方式
             conn.setRequestMethod(method);
