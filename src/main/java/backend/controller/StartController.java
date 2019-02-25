@@ -14,7 +14,7 @@ import java.util.Set;
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/start")
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class StartController {
 
     @Autowired

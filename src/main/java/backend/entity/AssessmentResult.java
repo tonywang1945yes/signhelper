@@ -59,4 +59,10 @@ public class AssessmentResult {
     public void setSecondAssessment(Boolean secondAssessment) {
         this.secondAssessment = secondAssessment;
     }
+
+    public AssessmentResult() {
+        firstAssessment = false;
+        attendSecondTest = false;
+        secondAssessment = false;
+    }
 }

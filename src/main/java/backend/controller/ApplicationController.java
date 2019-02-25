@@ -49,6 +49,8 @@ public class ApplicationController {
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
     public ApplicationResponse sendAttachment(HttpServletRequest request,  MultipartHttpServletRequest multiRequest,@Value("${savingPath}") String dest) {
+        if(!service.beforeDDL())
+            return new ApplicationResponse(false,"超过提交时间");
         String email = getIdFromRequest(request);
         File target = new File(dest + email);
         if (!target.exists()) target.mkdir();

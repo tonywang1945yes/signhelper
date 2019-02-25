@@ -1,11 +1,11 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.AssessmentResultRepository;
 import backend.dao.service.MessageRepository;
 import backend.entity.Administer;
 import backend.entity.AssessmentResult;
 import backend.entity.Message;
-import backend.entity.Student;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,21 +20,34 @@ import java.util.List;
 public class MessageService {
 
     @Autowired
-    MessageRepository repository;
+    MessageRepository messageRepo;
 
-    public void updateState(String message,StudentState state){//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
-        String path="src/main/resources/msgDic";
-        File file=new File(path);
-        if(!file.exists()){
+    @Autowired
+    AssessmentResultRepository assessmentResultRepo;
+
+    public void updateState(String message, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
+        String path = "src/main/resources/msgDic";
+        File file = new File(path);
+        if (!file.exists()) {
             file.mkdir();
         }
-        switch (state){
-            case NULL:return;
-            case UNDER_EXAMINED:return;
-            case JUNIOR_FAILED:path+="/junior_failed.txt";break;
-            case JUNIOR_PASSED:path+="/junior_passed.txt";break;
-            case SENIOR_FAILED:path+="/senior_failed.txt";break;
-            case SENIOR_PASSED:path+="/senior_passed.txt";break;
+        switch (state) {
+            case NULL:
+                return;
+            case UNDER_EXAMINED:
+                return;
+            case JUNIOR_FAILED:
+                path += "/junior_failed.txt";
+                break;
+            case JUNIOR_PASSED:
+                path += "/junior_passed.txt";
+                break;
+            case SENIOR_FAILED:
+                path += "/senior_failed.txt";
+                break;
+            case SENIOR_PASSED:
+                path += "/senior_passed.txt";
+                break;
         }
         try {
             File writeName = new File(path);
@@ -43,38 +56,38 @@ public class MessageService {
             writer.write(message);
             writer.flush();
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getMessage(){
+    public String getMessage() {
         HibernateDao<Administer> dao = new HibernateDao<>(new Administer());
-        Administer administer=dao.getAllObjects().get(0);
+        Administer administer = dao.getAllObjects().get(0);
         return administer.getMessage();
     }
 
-    public Message[] getMessageList(String email){
-        return (Message[])repository.findAllByEmail(email).toArray();//排序晚点再做
+    public Message[] getMessageList(String email) {
+        return (Message[]) messageRepo.findAllByEmail(email).toArray();//排序晚点再做
     }
 
-    public Message getMessageDetail(Long id, String email){
-        Message message = repository.getOne(id);
-        if(message.getEmail() !=email)
+    public Message getMessageDetail(Long id, String email) {
+        Message message = messageRepo.getOne(id);
+        if (message.getEmail() != email)
             return null;
         return message;
     }
 
-    public boolean updateMessagesState(Message[] messages){
+    public boolean updateMessagesState(Message[] messages) {
         List<Message> toSave = Arrays.asList(messages);
-        repository.saveAll(toSave);
+        messageRepo.saveAll(toSave);
         return true;
     }
 
 
-    public void confirmSecondTestAttendance(String email, boolean willing){
+    public void confirmSecondTestAttendance(String email, boolean willing) {
         HibernateDao<AssessmentResult> dao = new HibernateDao<>(new AssessmentResult());
-        String sql = "SELECT r FROM AssessmentResult.r WHERE r.email = \'"+email+"\'";
+        String sql = "SELECT r FROM AssessmentResult.r WHERE r.email = \'" + email + "\'";
         AssessmentResult r = dao.executeQuerySql(sql).get(0);
         r.setAttendSecondTest(willing);
         dao.update(r);
