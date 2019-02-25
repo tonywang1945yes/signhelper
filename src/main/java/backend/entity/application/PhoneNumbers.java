@@ -7,13 +7,13 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class PhoneNumbers {
     @Column(name = "home_phone_number")
-    private String homePhoneNumber;
+    private String homePhoneNumber = "-";
 
     @Column(name = "mobile_phone_number")
-    private String mobilePhoneNumber;
+    private String mobilePhoneNumber = "-";
 
     @Column(name = "fax_number")
-    private String faxNumber;
+    private String faxNumber = "-";
 
     public String getHomePhoneNumber() {
         return homePhoneNumber;
@@ -37,5 +37,9 @@ public class PhoneNumbers {
 
     public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
+    }
+
+    public String toString(){
+        return homePhoneNumber + " / " + mobilePhoneNumber + " / " + faxNumber;
     }
 }

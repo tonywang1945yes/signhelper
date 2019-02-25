@@ -49,4 +49,8 @@ public class GSATresult {
     public void setSciences(Integer sciences) {
         this.sciences = sciences;
     }
+
+    public String toString(){
+        return chinese + " / " + math + " / " + english + " / " + socials + " / " + sciences;
+    }
 }
