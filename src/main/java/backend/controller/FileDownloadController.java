@@ -15,7 +15,7 @@ public class FileDownloadController {
     FileDownloadService service;
 
 
-    @RequestMapping(value = "/upload",
+    @RequestMapping(value = "/fileStorage",
             method = RequestMethod.GET,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
