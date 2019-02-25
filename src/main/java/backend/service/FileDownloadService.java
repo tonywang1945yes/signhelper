@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import backend.entity.Student;
+
 import backend.entity.application.ApplForm;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -94,7 +94,7 @@ public class FileDownloadService {
     }
 
 
-//    need to confirm
+    @Value("${createFileUrl}")
     String filepath;
 
     public void createFile(List<ApplForm> list){
@@ -148,7 +148,7 @@ public class FileDownloadService {
         title13.setCellValue("curriculumChoice");
 
         Cell title14 = title.createCell(14);
-        title12.setCellValue("artOrSci");
+        title14.setCellValue("artOrSci");
 
         Cell title15 = title.createCell(15);
         title15.setCellValue("acceptAssignment");

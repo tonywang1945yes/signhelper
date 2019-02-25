@@ -6,7 +6,6 @@ import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jnlp.DownloadService;
 
 @RestController
 @RequestMapping(value = "/fileDownload")
