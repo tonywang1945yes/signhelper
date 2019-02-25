@@ -205,6 +205,7 @@ public class ApplForm {
         this.curriculumChoices = curriculumChoices;
     }
 
+//    0 is art , 1 is sci
     public Integer getArtOrSci() {
         return artOrSci;
     }

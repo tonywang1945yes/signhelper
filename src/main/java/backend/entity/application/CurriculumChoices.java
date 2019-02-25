@@ -45,4 +45,8 @@ public class CurriculumChoices {
     public void setFourthChoice(String fourthChoice) {
         this.fourthChoice = fourthChoice;
     }
+
+    public String toString(){
+        return firstChoice + " / " + secondChoice + " / " + thirdChoice + " / " + firstChoice;
+    }
 }

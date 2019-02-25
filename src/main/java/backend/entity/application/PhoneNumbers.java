@@ -14,6 +14,7 @@ public class PhoneNumbers {
 
     @Column(name = "fax_number", length = 50)
     private String faxNumber;
+	
 
     public String getHomePhoneNumber() {
         return homePhoneNumber;
@@ -37,5 +38,9 @@ public class PhoneNumbers {
 
     public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
+    }
+
+    public String toString(){
+        return homePhoneNumber + " / " + mobilePhoneNumber + " / " + faxNumber;
     }
 }

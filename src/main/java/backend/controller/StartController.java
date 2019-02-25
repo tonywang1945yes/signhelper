@@ -28,7 +28,9 @@ public class StartController {
 
     @GetMapping(value = "/start") //两个start吗
     public void start(@RequestBody StartParameter parameter){
+//        更新管理员状态
         startService.start();
+//        更新专业列表
         Set<String> keySet = parameter.getMajors().keySet();
         Iterator<String> it = keySet.iterator();
         while (it.hasNext()){
@@ -36,6 +38,7 @@ public class StartController {
             Integer value = parameter.getMajors().get(key);
             addMajorService.add(key, value);
         }
+//        设置DDL
         setDDLService.setDDL(parameter.getCalendar());
     }
 
