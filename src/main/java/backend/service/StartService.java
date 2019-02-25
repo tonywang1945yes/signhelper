@@ -14,8 +14,9 @@ public class StartService {
     AdministerRepository administerRepo;
 
     public void start(){
-        Administer administer = administerRepo.findAll().get(0);
-        administer.setState(AdministerState.REGISTERING);
+        administerRepo.deleteAll();
+        Administer administer = new Administer();
+//        administer.setState(AdministerState.REGISTERING);
         administerRepo.save(administer);
     }
 }

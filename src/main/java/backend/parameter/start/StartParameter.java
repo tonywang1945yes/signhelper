@@ -30,4 +30,6 @@ public class StartParameter {
         calendar = ddl;
     }
 
+    public StartParameter() {
+    }
 }
