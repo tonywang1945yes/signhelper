@@ -1,6 +1,5 @@
 package backend.controller;
 
-
 import backend.entity.Student;
 import backend.entity.User;
 import backend.exception.RegisterException;
@@ -54,5 +53,6 @@ public class RegisterController {
         res.put("hasDuplication", service.checkDuplicatedVisaNum(MTPNumber));
         return res;
     }
+
 
 }

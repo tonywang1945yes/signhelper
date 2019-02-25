@@ -1,6 +1,7 @@
 package backend.service;
 
 import backend.dao.service.ActivityRepository;
+import backend.dao.service.AdministerRepository;
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
@@ -9,6 +10,7 @@ import backend.entity.application.ApplForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -22,6 +24,9 @@ public class ApplicationService {
 
     @Autowired
     StudentRepository studentRepo;
+
+    @Autowired
+    AdministerRepository administerRepo;
 
 
     public boolean updateApplFormAndActivities(ApplForm applForm, List<Activity> activities) {
@@ -48,5 +53,10 @@ public class ApplicationService {
         return studentRepo.getOne(email);
     }
 
+    public boolean beforeDDL(){
+        Calendar now = Calendar.getInstance();
+        Calendar ddl = administerRepo.findAll().get(0).getDdl();
+        return now.before(ddl);
+    }
 
 }
