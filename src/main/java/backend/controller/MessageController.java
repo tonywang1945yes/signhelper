@@ -30,6 +30,7 @@ public class MessageController {
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
     public void setmessage(@RequestBody MessageParam param)throws Exception{
+        param.setState();
         service.updateState(param.getMessage(),param.getState());
     }
 

@@ -26,7 +26,8 @@ public class StartController {
     @Autowired
     SetDDLService setDDLService;
 
-    @GetMapping(value = "/start") //两个start吗
+    @PostMapping(value = "/start",
+            consumes = {"application/json", "application/xml"}) //两个start吗
     public void start(@RequestBody StartParameter parameter){
 //        更新管理员状态
         startService.start();

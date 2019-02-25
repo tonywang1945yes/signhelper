@@ -39,7 +39,7 @@ public class MessageService {
         try {
             File writeName = new File(path);
             writeName.createNewFile();
-            FileWriter writer=new FileWriter(file);
+            FileWriter writer=new FileWriter(writeName);
             writer.write(message);
             writer.flush();
             writer.close();
