@@ -14,7 +14,7 @@ public class MajorController {
     @Autowired
     MajorService majorService;
 
-    @PostMapping(value = "setting")
+    @PostMapping(value = "/setting")
     public void addMajor(@RequestBody SetMajorParameter parameter){
         majorService.add(parameter.getName(), parameter.getStuNum(), parameter.getAcceptArt(), parameter.getTime(), parameter.getCollege(), parameter.getPrice(), parameter.getComment());
     }
