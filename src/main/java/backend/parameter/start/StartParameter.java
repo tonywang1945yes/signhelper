@@ -5,29 +5,52 @@ import java.util.Map;
 
 public class StartParameter {
 
-    private Map<String, Integer> majors;
+    private Long id;
 
-    private Calendar calendar;
+    private String name = "";
 
-    public Map<String, Integer> getMajors() {
-        return majors;
+    private Integer stuNum = 0;
+
+    private Boolean acceptArt;
+
+    private Integer time;
+
+    private String college;
+
+    private Integer price;
+
+    private String comment;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setMajors(Map<String, Integer> majors) {
-        this.majors = majors;
+    public String getName() {
+        return name;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public Integer getStuNum() {
+        return stuNum;
     }
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
+    public Boolean getAcceptArt() {
+        return acceptArt;
     }
 
-    public StartParameter(Map<String, Integer> majors, Calendar ddl){
-        this.majors = majors;
-        calendar = ddl;
+    public Integer getTime() {
+        return time;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public StartParameter() {

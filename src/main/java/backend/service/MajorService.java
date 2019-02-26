@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AddMajorService {
+public class MajorService {
 
     @Autowired
     MajorRepository majorRepo;
 
-    public void add(String name, Integer stuNUm){
-        majorRepo.save(new Major(name, stuNUm));
+    public void add(String name, Integer stuNum, Boolean acceptArt, Integer time, String college, Integer price, String comment){
+        majorRepo.save(new Major(name, stuNum, acceptArt, time, college, price, comment));
     }
 }
