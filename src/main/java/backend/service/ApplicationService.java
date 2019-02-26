@@ -10,6 +10,7 @@ import backend.entity.application.ApplForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ApplicationService {
 //        }
 //        return true;
         if (activities != null)
-            applForm.setActivities(Arrays.asList(activities));
+            applForm.setActivities(new ArrayList<>(Arrays.asList(activities)));
         applFormRepo.save(applForm);
         return true;
     }

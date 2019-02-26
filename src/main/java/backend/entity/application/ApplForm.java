@@ -6,6 +6,7 @@ import backend.parameter.application.ApplFormParameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -333,7 +334,7 @@ public class ApplForm {
         setCurriculumChoices(p.getCurriculumChoices());
         setPhoneNumbers(p.getPhoneNumbers());
         setGsatResult(p.getGsatResult());
-        setSchoolPeriods(Arrays.asList(p.getSchAtdPeriods()));
+        setSchoolPeriods(new ArrayList<SchAtdPeriod>(Arrays.asList(p.getSchAtdPeriods())));
         setStatement(p.getStatement());
     }
 
