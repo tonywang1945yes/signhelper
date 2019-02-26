@@ -15,6 +15,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -28,74 +31,87 @@ public class FileDownloadService {
      * @return
      */
     @Autowired
-    ApplFormRepository repository;
+    ApplFormRepository applFormRepo;
 
     @Value("${downloadFileUrl}")
     String url;
 
-    public  File saveUrlAs(Long id, String filePath, String method){
-        //System.out.println("fileName---->"+filePath);
-        //创建不同的文件夹目录
+//     服务器端文件临时存放路径
+    @Value("${createFileUrl}")
+    String filepath;
+
+    @Value("${fileName}")
+    String fileName;
+
+    public  File saveUrlAs(Long[] ids, String filePath, String method){
+
+////        根据id值筛选出要下载的目标申请表
+//        List<ApplForm> applFormTarget = new ArrayList<>();
+//        for (Long id : ids){
+//            List<ApplForm> list = applFormRepo.findAllById(new Iterable ();
+//            applFormTarget.add(list.get(0));
+//        }
+//
+//        createFile(applFormTarget);
+//
+//        //创建不同的文件夹目录
         File file=new File(filePath);
-        //判断文件夹是否存在
-        if (!file.exists())
-        {
-            //如果文件夹不存在，则创建新的的文件夹
-            file.mkdirs();
-        }
-        FileOutputStream fileOut = null;
-        HttpURLConnection conn = null;
-        InputStream inputStream = null;
-        try
-        {
-            // 建立链接
-            URL httpUrl=new URL(this.url);
-            conn=(HttpURLConnection) httpUrl.openConnection();
-            //以Post方式提交表单，默认get方式
-            conn.setRequestMethod(method);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            // post方式不能使用缓存
-            conn.setUseCaches(false);
-            //连接指定的资源
-            conn.connect();
-            //获取网络输入流
-            inputStream=conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(inputStream);
-            //判断文件的保存路径后面是否以/结尾
-            if (!filePath.endsWith("/")) {
-
-                filePath += "/";
-
-            }
-            //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
-            fileOut = new FileOutputStream(filePath+"123.png");
-            BufferedOutputStream bos = new BufferedOutputStream(fileOut);
-
-            byte[] buf = new byte[4096];
-            int length = bis.read(buf);
-            //保存文件
-            while(length != -1)
-            {
-                bos.write(buf, 0, length);
-                length = bis.read(buf);
-            }
-            bos.close();
-            bis.close();
-            conn.disconnect();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            System.out.println("抛出异常！！");
-        }
+//        //判断文件夹是否存在
+//        if (!file.exists())
+//        {
+//            //如果文件夹不存在，则创建新的的文件夹
+//            file.mkdirs();
+//        }
+//        FileOutputStream fileOut = null;
+//        HttpURLConnection conn = null;
+//        InputStream inputStream = null;
+//        try
+//        {
+//            // 建立链接
+//            URL httpUrl=new URL(filepath + fileName);
+//            conn=(HttpURLConnection) httpUrl.openConnection();
+//            //以Post方式提交表单，默认get方式
+//            conn.setRequestMethod(method);
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//            // post方式不能使用缓存
+//            conn.setUseCaches(false);
+//            //连接指定的资源
+//            conn.connect();
+//            //获取网络输入流
+//            inputStream=conn.getInputStream();
+//            BufferedInputStream bis = new BufferedInputStream(inputStream);
+//            //判断文件的保存路径后面是否以/结尾
+//            if (!filePath.endsWith("/")) {
+//
+//                filePath += "/";
+//
+//            }
+//            //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
+//            fileOut = new FileOutputStream(filePath+"StuInfo" + Calendar.getInstance().getTimeInMillis() + ".xlxs");
+//            BufferedOutputStream bos = new BufferedOutputStream(fileOut);
+//
+//            byte[] buf = new byte[4096];
+//            int length = bis.read(buf);
+//            //保存文件
+//            while(length != -1)
+//            {
+//                bos.write(buf, 0, length);
+//                length = bis.read(buf);
+//            }
+//            bos.close();
+//            bis.close();
+//            conn.disconnect();
+//        } catch (Exception e)
+//        {
+//            e.printStackTrace();
+//            System.out.println("抛出异常！！");
+//        }
 
         return file;
 
     }
 
-
-    @Value("${createFileUrl}")
-    String filepath;
 
     public void createFile(List<ApplForm> list){
         Workbook workbook = new XSSFWorkbook();
@@ -218,11 +234,11 @@ public class FileDownloadService {
 
         FileOutputStream out = null;
         try {
-            File file = new File(filepath).getParentFile();
+            File file = new File(filepath);
             if (!file.exists()){
                 file.mkdirs();
             }
-            out = new FileOutputStream(filepath);
+            out = new FileOutputStream(fileName);
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
@@ -235,5 +251,10 @@ public class FileDownloadService {
         }
 
     }
+
+
+//    public static void main(String args[]){
+//        System.out.println(Calendar.getInstance());
+//    }
 
 }

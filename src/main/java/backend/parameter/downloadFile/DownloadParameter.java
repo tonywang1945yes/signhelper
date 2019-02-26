@@ -2,11 +2,11 @@ package backend.parameter.downloadFile;
 
 public class DownloadParameter {
 
-    private Long id;
+    private Long[] id;
     private String filepath;
     private String method;
 
-    public Long getId() {
+    public Long[] getId() {
         return id;
     }
 

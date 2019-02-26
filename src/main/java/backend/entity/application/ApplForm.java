@@ -323,8 +323,6 @@ public class ApplForm {
         setPhoneNumbers(p.getPhoneNumbers());
         setGsatResult(p.getGsatResult());
         setSchoolPeriods(Arrays.asList(p.getSchAtdPeriods()));
-
-
     }
 
 }
