@@ -148,7 +148,7 @@ public class Student {
 
     public Student(RegisterParameter parameter) {
         this.setName(parameter.getName());
-        this.setIdentityNum(parameter.getIDCardNumber());
+        this.setIdentityNum(parameter.getIdCardNumber());
         this.setStudentState(StudentState.NULL);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());

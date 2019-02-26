@@ -53,7 +53,8 @@ public class ApplicationController {
         if (!service.beforeDDL())
             return new ApplicationResponse(false, "超过提交时间");
         String email = getIdFromRequest(request);
-        File target = new File(dest + email);
+        String studentName = service.getStudentName(email);
+        File target = new File(dest + studentName + "-" + email);
         if (!target.exists()) target.mkdir();
         List<MultipartFile> files = multiRequest.getFiles("file");//这里似乎需要某部分的名字为file？
 //        List<MultipartFile> files= Arrays.asList(multipartFiles);

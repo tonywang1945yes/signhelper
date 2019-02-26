@@ -52,8 +52,8 @@ public class ApplicationService {
         return applFormRepo.findByStudentId(studentId).get(0);
     }
 
-    public Student getStudent(String email) {
-        return studentRepo.getOne(email);
+    public String getStudentName(String email) {
+        return  studentRepo.getOne(email).getName();
     }
 
     public boolean beforeDDL() {

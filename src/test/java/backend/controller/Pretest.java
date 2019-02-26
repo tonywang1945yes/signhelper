@@ -27,7 +27,7 @@ public class Pretest {
         p1.setEmail("x950031@gmail.com");
         p1.setPassword("qwerasdf");
         p1.setHighSchool("台北市私立再興中學");
-        p1.setIDCardNumber("A123456789");
+        p1.setIdCardNumber("A123456789");
         p1.setAddress("台北市文山區興隆路4段2號");
         p1.setTel("+886905100114");
         Calendar c1 = Calendar.getInstance();
@@ -46,7 +46,7 @@ public class Pretest {
         p2.setEmail("superfreeeee@gmail.com");
         p2.setPassword("qazwsxedc");
         p2.setHighSchool("北一女中");
-        p2.setIDCardNumber("B987654321");
+        p2.setIdCardNumber("B987654321");
         p2.setAddress("台北市信義區信義路10號");
         p2.setTel("+886956189008");
         Calendar c2 = Calendar.getInstance();
@@ -65,7 +65,7 @@ public class Pretest {
         p3.setEmail("clv123654@yahoo.com.tw");
         p3.setPassword("qwerfdsa");
         p3.setHighSchool("建國中學");
-        p3.setIDCardNumber("C333222555");
+        p3.setIdCardNumber("C333222555");
         p3.setAddress("台北市永和區中和路40號");
         p3.setTel("+886987456123");
         Calendar c3 = Calendar.getInstance();

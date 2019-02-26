@@ -27,7 +27,7 @@ public class RegisterControllerTest {
         p.setEmail("1206985125@qq.com");
         p.setPassword("asdfg1234");
         p.setHighSchool("北海中学");
-        p.setIDCardNumber("A118822770");
+        p.setIdCardNumber("A118822770");
         p.setAddress("广西省北海市海城区");
         p.setTel("18577940215");
 
