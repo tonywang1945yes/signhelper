@@ -2,7 +2,7 @@ package backend.controller;
 
 import backend.parameter.start.StartParameter;
 import backend.service.MajorService;
-import backend.service.SetDDLService;
+import backend.service.SetDdLService;
 import backend.service.StartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,21 +20,19 @@ public class StartController {
     @Autowired
     StartService startService;
 
-    @Autowired
-    MajorService majorService;
+//    @Autowired
+//    MajorService majorService;
 
     @Autowired
-    SetDDLService setDDLService;
+    SetDdLService setDdLService;
 
     @PostMapping(value = "/start",
-            consumes = {"application/json", "application/xml"}) //两个start吗
+            consumes = {"application/json", "application/xml"})
     public void start(@RequestBody StartParameter parameter){
 //        更新管理员状态
         startService.start();
-//        更新专业列表
-        majorService.add(parameter.getName(), parameter.getStuNum(), parameter.getAcceptArt(), parameter.getTime(), parameter.getCollege(), parameter.getPrice(), parameter.getComment());
-////        设置DDL
-//        setDDLService.setDDL(parameter.getCalendar());
+//        设置DDL
+        setDdLService.setDDL(parameter.getDdl());
     }
 
 }
