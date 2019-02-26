@@ -8,6 +8,38 @@ public class SetMajorParameter {
 
     private Integer stuNum;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStuNum(Integer stuNum) {
+        this.stuNum = stuNum;
+    }
+
+    public void setAcceptArt(Boolean acceptArt) {
+        this.acceptArt = acceptArt;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     private Boolean acceptArt;
 
     private Integer time;

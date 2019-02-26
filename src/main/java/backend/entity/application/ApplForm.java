@@ -334,8 +334,12 @@ public class ApplForm {
         setCurriculumChoices(p.getCurriculumChoices());
         setPhoneNumbers(p.getPhoneNumbers());
         setGsatResult(p.getGsatResult());
+<<<<<<< HEAD
+        setSchoolPeriods(Arrays.asList(p.getSchAtdPeriods()));
+=======
         setSchoolPeriods(new ArrayList<SchAtdPeriod>(Arrays.asList(p.getSchAtdPeriods())));
         setStatement(p.getStatement());
+>>>>>>> 12242729a7ce5b87f9c5abb33667a600ca663dce
     }
 
 }
