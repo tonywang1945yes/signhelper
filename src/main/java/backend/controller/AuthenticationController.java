@@ -113,16 +113,16 @@ public class AuthenticationController {
         } catch (DisabledException e) {
             throw new AuthenticationException("用户已被禁用", e);
         } catch (BadCredentialsException e) {
-            throw new AuthenticationException("密码错误!", e);
+            throw new AuthenticationException("密码错误", e);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new AuthenticationException(e.getMessage());
+            throw new AuthenticationException("登录失败", e);
         }
     }
 
     private void validateCaptcha(String code, String captcha) throws AuthenticationException {
         if (!code.equalsIgnoreCase(captcha)) {
-            throw new AuthenticationException("验证码错误!");
+            throw new AuthenticationException("验证码错误");
         }
     }
 
