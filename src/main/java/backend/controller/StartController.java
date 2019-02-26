@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.parameter.start.StartParameter;
-import backend.service.AddMajorService;
+import backend.service.MajorService;
 import backend.service.SetDDLService;
 import backend.service.StartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class StartController {
     StartService startService;
 
     @Autowired
-    AddMajorService addMajorService;
+    MajorService majorService;
 
     @Autowired
     SetDDLService setDDLService;
@@ -32,15 +32,9 @@ public class StartController {
 //        更新管理员状态
         startService.start();
 //        更新专业列表
-        Set<String> keySet = parameter.getMajors().keySet();
-        Iterator<String> it = keySet.iterator();
-        while (it.hasNext()){
-            String key = it.next();
-            Integer value = parameter.getMajors().get(key);
-            addMajorService.add(key, value);
-        }
-//        设置DDL
-        setDDLService.setDDL(parameter.getCalendar());
+        majorService.add(parameter.getName(), parameter.getStuNum(), parameter.getAcceptArt(), parameter.getTime(), parameter.getCollege(), parameter.getPrice(), parameter.getComment());
+////        设置DDL
+//        setDDLService.setDDL(parameter.getCalendar());
     }
 
 }

@@ -20,6 +20,21 @@ public class Major {
     @Column(name = "student_number")
     private Integer stuNum = 0;
 
+    @Column(name = "accept_art")
+    private Boolean acceptArt;
+
+    @Column(name = "time")
+    private Integer time;
+
+    @Column(name = "college")
+    private String college;
+
+    @Column(name = "price")
+    private Integer price;
+
+    @Column(name = "comment")
+    private String comment;
+
     public Long getId() {
         return id;
     }
@@ -44,13 +59,58 @@ public class Major {
         this.stuNum = stuNum;
     }
 
+    public Boolean getAcceptArt() {
+        return acceptArt;
+    }
+
+    public void setAcceptArt(Boolean acceptArt) {
+        this.acceptArt = acceptArt;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public Major(){
 
     }
 
-    public Major(String name, Integer stuNum){
+    public Major(String name, Integer stuNum, Boolean acceptArt, Integer time, String college, Integer price, String comment){
         this.setName(name);
         this.setStuNum(stuNum);
+        this.setAcceptArt(acceptArt);
+        this.setTime(time);
+        this.setCollege(college);
+        this.setPrice(price);
+        this.setComment(comment);
     }
 
 }
