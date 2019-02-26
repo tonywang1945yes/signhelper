@@ -84,12 +84,9 @@ public class MessageService {
         return true;
     }
 
-
     public void confirmSecondTestAttendance(String email, boolean willing) {
-        HibernateDao<AssessmentResult> dao = new HibernateDao<>(new AssessmentResult());
-        String sql = "SELECT r FROM AssessmentResult.r WHERE r.email = \'" + email + "\'";
-        AssessmentResult r = dao.executeQuerySql(sql).get(0);
+        AssessmentResult r = assessmentResultRepo.findByEmail(email);
         r.setAttendSecondTest(willing);
-        dao.update(r);
+        assessmentResultRepo.save(r);
     }
 }
