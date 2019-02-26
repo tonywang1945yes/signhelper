@@ -26,10 +26,11 @@ public class MessageController {
     @Value("${jwt.header}")
     String tokenHeader;
 
-    @RequestMapping(value = "/set",
+    @RequestMapping(value = "/storage",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
     public void setmessage(@RequestBody MessageParam param)throws Exception{
+        param.setState();
         service.updateState(param.getMessage(),param.getState());
     }
 

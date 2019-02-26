@@ -9,11 +9,11 @@ import static backend.enums.StudentState.JUNIOR_PASSED;
 
 public class MessageParam {
     public String message;
-    public StudentFrom from;
+    public int from;
     public StudentState state;
 
 
-    public void setMessage(String message, StudentFrom from) {
+    public void setMessage(String message, int from) {
         this.message = message;
         this.from=from;
         setState();
@@ -28,7 +28,7 @@ public class MessageParam {
     }
 
     public void setState() {
-        switch (from.getState()) {
+        switch (from) {
             case 0:
                 state = JUNIOR_PASSED;
                 break;

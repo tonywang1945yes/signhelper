@@ -16,7 +16,7 @@ public class UpdateStudentStateController {
     @Autowired
     UpdateStudentStateService service;
 
-    @PostMapping(value = "/updateState")
+    @PostMapping(value = "/updating")
     public Boolean update(@RequestBody String id, StudentState state){
         return service.updateState(id, state);
     }

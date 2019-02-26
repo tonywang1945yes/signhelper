@@ -14,7 +14,7 @@ public class ListController {
     StuListService service;
 
 
-    @RequestMapping(value = "/getlist",
+    @RequestMapping(value = "/acquirement",
             method = RequestMethod.GET,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})

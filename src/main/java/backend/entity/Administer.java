@@ -12,15 +12,15 @@ public class Administer {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;//      无意义
 
     //    当前状态
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
-    private AdministerState state;
+    private AdministerState state;//    系统状态
 
     @Column(name = "DDL")
-    private Calendar ddl;
+    private Calendar ddl;//     材料上传ddl
 
     //    编辑待发送消息
     @Column(name = "message")

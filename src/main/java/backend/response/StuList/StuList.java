@@ -6,10 +6,10 @@ import java.util.List;
 
 public class StuList {
 
-    public List<Student> stuList;
+    public Student[] stuList;
     public int total;
 
-    public StuList(List<Student> list,int number){
+    public StuList(Student[] list,int number){
         stuList=list;
         total=number;
     }

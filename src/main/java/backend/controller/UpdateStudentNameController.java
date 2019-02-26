@@ -20,13 +20,13 @@ public class UpdateStudentNameController {
     @Autowired
     UpdateStudentNameService service;
 
-    @GetMapping(value = "/getApplFormList")
+    @GetMapping(value = "/acquirement")
     @ResponseBody
     public ApplFormList getApplFormList(){
         return new ApplFormList(service.getApplFormList());
     }
 
-    @PostMapping(value = "/update")
+    @PostMapping(value = "/updating")
     public Boolean update(@RequestBody List<ApplForm> list){
         return service.update(list);
     }

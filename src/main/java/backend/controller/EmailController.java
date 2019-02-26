@@ -38,7 +38,7 @@ public class EmailController {
         }
     }
 
-    @RequestMapping(value="/remind",
+    @RequestMapping(value="/hint",
             method = RequestMethod.GET)
     public void remind()throws Exception{
         service.groupSendMail();

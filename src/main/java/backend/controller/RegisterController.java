@@ -21,7 +21,7 @@ public class RegisterController {
     @Autowired
     RegisterService service;
 
-    @RequestMapping(value = "/student",
+    @RequestMapping(value = "/registration",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
