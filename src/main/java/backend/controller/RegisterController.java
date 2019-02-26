@@ -21,7 +21,7 @@ public class RegisterController {
     @Autowired
     RegisterService service;
 
-    @RequestMapping(value = "/registration",
+    @RequestMapping(value = "/",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
@@ -47,10 +47,10 @@ public class RegisterController {
         return res;
     }
 
-    @GetMapping("/MTPNumber_duplication_check/{MTPNumber}")
-    public Map<String, Boolean> checkDuplicatedMTPNumber(@PathVariable String MTPNumber) {
+    @GetMapping("/MTPNumber_duplication_check/{IDCardNumber}")
+    public Map<String, Boolean> checkDuplicatedIDCardNumber(@PathVariable String IDCardNumber) {
         Map<String, Boolean> res = new HashMap<>();
-        res.put("hasDuplication", service.checkDuplicatedVisaNum(MTPNumber));
+        res.put("hasDuplication", service.checkDuplicatedIDCardNumber(IDCardNumber));
         return res;
     }
 

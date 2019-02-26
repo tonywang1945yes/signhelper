@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class RegisterParameter {
     private String name;
-    private String id;
+    private String IDCardNumber;
     private String password;
     private Calendar birthDate;
     private String tel;
@@ -20,12 +20,12 @@ public class RegisterParameter {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public String getIDCardNumber() {
+        return IDCardNumber;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIDCardNumber(String IDCardNumber) {
+        this.IDCardNumber = IDCardNumber;
     }
 
     public String getPassword() {
@@ -83,7 +83,7 @@ public class RegisterParameter {
 
     /**
      * @param name        姓名
-     * @param id     签证号
+     * @param IDCardNumber     签证号
      * @param password    密码
      * @param birthDate   出生日期
      * @param tel         电话
@@ -91,9 +91,9 @@ public class RegisterParameter {
      * @param email       邮箱地址
      * @param highSchool  就读高中
      */
-    public RegisterParameter(String name, String id, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
+    public RegisterParameter(String name, String IDCardNumber, String password, Calendar birthDate, String tel, String address, String email, String highSchool) {
         this.setName(name);
-        this.setId(id);
+        this.setIDCardNumber(IDCardNumber);
         this.setPassword(password);
         this.setBirthDate(birthDate);
         this.setTel(tel);

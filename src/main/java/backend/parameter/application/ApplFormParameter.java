@@ -42,6 +42,8 @@ public class ApplFormParameter {
 
     private Activity[] activities;
 
+    private String statement;
+
 
     public String getFirstName() {
         return firstName;
@@ -185,5 +187,13 @@ public class ApplFormParameter {
 
     public void setActivities(Activity[] activities) {
         this.activities = activities;
+    }
+
+    public String getStatement() {
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 }

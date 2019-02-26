@@ -10,8 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +27,7 @@ public class RegisterControllerTest {
         p.setEmail("1206985125@qq.com");
         p.setPassword("asdfg1234");
         p.setHighSchool("北海中学");
-        p.setId("14725836");
+        p.setIDCardNumber("A118822770");
         p.setAddress("广西省北海市海城区");
         p.setTel("18577940215");
 
@@ -39,7 +37,7 @@ public class RegisterControllerTest {
 
         RegisterResponse expected = new RegisterResponse(true,"");
 
-        RegisterResponse response = this.testRestTemplate.postForObject("/register/student", p, RegisterResponse.class);
+        RegisterResponse response = this.testRestTemplate.postForObject("/register/", p, RegisterResponse.class);
         assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
     }
 

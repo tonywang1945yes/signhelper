@@ -6,6 +6,7 @@ import backend.parameter.application.ApplFormParameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -38,10 +39,10 @@ public class ApplForm {
     private Calendar birthDate;
 
     @Column(name = "visa_num")
-    @NotNull
     private String visaNum;
 
     @Column(name = "identity_num")
+    @NotNull
     private String identityNum;
 
     @Column(name = "high_school")
@@ -83,6 +84,9 @@ public class ApplForm {
 
     @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Activity> activities;
+
+    @Lob
+    private String statement;
 
 
     public Long getId() {
@@ -280,19 +284,27 @@ public class ApplForm {
         this.activities = activities;
     }
 
+    public String getStatement() {
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
+
     public ApplForm() {
-        setStudentId("");
-        setIdentityNum("");
-        setVisaNum("");
-        setFirstName("");
-        setLastName("");
-        setHighSchool("");
-        setAddress("");
-        setAcceptAssignment(false);
-        setArtOrSci(0);
-        setGraduationYear("");
-        setPostalCode("");
-        setSex(0);
+//        setStudentId("");
+//        setIdentityNum("");
+//        setVisaNum("");
+//        setFirstName("");
+//        setLastName("");
+//        setHighSchool("");
+//        setAddress("");
+//        setAcceptAssignment(false);
+//        setArtOrSci(0);
+//        setGraduationYear("");
+//        setPostalCode("");
+//        setSex(0);
     }
 
     public void updateInfo(Student s) {
@@ -302,7 +314,7 @@ public class ApplForm {
         setFirstName(s.getName().substring(0, 1));
         setLastName(s.getName().substring(1));
         setHighSchool(s.getHighSchool());
-        setVisaNum(s.getVisaNum());
+        setIdentityNum(s.getIdentityNum());
     }
 
     public void updateInfo(ApplFormParameter p) {
@@ -322,7 +334,12 @@ public class ApplForm {
         setCurriculumChoices(p.getCurriculumChoices());
         setPhoneNumbers(p.getPhoneNumbers());
         setGsatResult(p.getGsatResult());
+<<<<<<< HEAD
         setSchoolPeriods(Arrays.asList(p.getSchAtdPeriods()));
+=======
+        setSchoolPeriods(new ArrayList<SchAtdPeriod>(Arrays.asList(p.getSchAtdPeriods())));
+        setStatement(p.getStatement());
+>>>>>>> 12242729a7ce5b87f9c5abb33667a600ca663dce
     }
 
 }

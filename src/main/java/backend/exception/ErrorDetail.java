@@ -2,11 +2,11 @@ package backend.exception;
 
 public class ErrorDetail {
     private String error;
-    private String message;
+    private String msg;
 
-    public ErrorDetail(String error, String message) {
+    public ErrorDetail(String error, String msg) {
         this.error = error;
-        this.message = message;
+        this.msg = msg;
     }
 
     public String getError() {
@@ -17,11 +17,11 @@ public class ErrorDetail {
         this.error = error;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

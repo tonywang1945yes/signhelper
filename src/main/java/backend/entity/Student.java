@@ -18,11 +18,11 @@ public class Student {
     private StudentState studentState;
 
     //    身份证号
-    @Column(length = 50)
+    @Column(unique = true, length = 50)
     private String identityNum;
 
     //    通行证号
-    @Column(unique = true, length = 50)
+    @Column(length = 50)
     private String visaNum;
 
     //    出生日期
@@ -148,7 +148,7 @@ public class Student {
 
     public Student(RegisterParameter parameter) {
         this.setName(parameter.getName());
-        this.setVisaNum(parameter.getId());
+        this.setIdentityNum(parameter.getIDCardNumber());
         this.setStudentState(StudentState.NULL);
         this.setBirthDate(parameter.getBirthDate());
         this.setTel(parameter.getTel());

@@ -10,6 +10,8 @@ import backend.entity.application.ApplForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,18 +31,19 @@ public class ApplicationService {
     AdministerRepository administerRepo;
 
 
-    public boolean updateApplFormAndActivities(ApplForm applForm, List<Activity> activities) {
+    public boolean updateApplFormAndActivities(ApplForm applForm, Activity[] activities) {
 //        if (applForm == null)
 //            return false;
 //        ApplForm a = applFormRepo.save(applForm);
 //        if (activities != null) {
 //            for (Activity activity : activities){
-//                activity.setFormId(a.getId());
+//                activity.setFormId(a.getIdentityNum());
 //            }
 //            activityRepo.saveAll(activities);
 //        }
 //        return true;
-        applForm.setActivities(activities);
+        if (activities != null)
+            applForm.setActivities(new ArrayList<>(Arrays.asList(activities)));
         applFormRepo.save(applForm);
         return true;
     }
@@ -49,11 +52,11 @@ public class ApplicationService {
         return applFormRepo.findByStudentId(studentId).get(0);
     }
 
-    public Student getStudent(String email){
+    public Student getStudent(String email) {
         return studentRepo.getOne(email);
     }
 
-    public boolean beforeDDL(){
+    public boolean beforeDDL() {
         Calendar now = Calendar.getInstance();
         Calendar ddl = administerRepo.findAll().get(0).getDdl();
         return now.before(ddl);

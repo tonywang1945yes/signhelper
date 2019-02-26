@@ -27,16 +27,16 @@ public class RegisterService {
         return studentRepo.existsById(id);
     }
 
-    public boolean checkDuplicatedVisaNum(String visaNum) {
-        List<Student> result = studentRepo.findByVisaNum(visaNum);
+    public boolean checkDuplicatedIDCardNumber(String IDCardNumber) {
+        List<Student> result = studentRepo.findByIdentityNum(IDCardNumber);
         return (result != null && result.size() != 0);
     }
 
     public void register(User user, Student student) throws RegisterException {
         if (checkDuplicatedRegister(student.getEmail())) {
             throw new RegisterException("该邮箱已被注册过");
-        } else if (checkDuplicatedVisaNum(student.getVisaNum())) {
-            throw new RegisterException("该通行证号码已被使用过");
+        } else if (checkDuplicatedIDCardNumber(student.getIdentityNum())) {
+            throw new RegisterException("该身份证号码已被使用过");
         }
         userRepo.save(user);
         bindStudentAndApplForm(student);

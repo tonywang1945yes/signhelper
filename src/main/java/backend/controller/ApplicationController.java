@@ -1,5 +1,6 @@
 package backend.controller;
 
+import backend.entity.application.Activity;
 import backend.entity.application.ApplForm;
 import backend.parameter.application.ApplFormParameter;
 import backend.response.application.ApplicationResponse;
@@ -41,20 +42,20 @@ public class ApplicationController {
         String email = getIdFromRequest(request);
         ApplForm applForm = service.getApplicationForm(email);
         applForm.updateInfo(param);
-        if (service.updateApplFormAndActivities(applForm, Arrays.asList(param.getActivities())))
+        if (service.updateApplFormAndActivities(applForm, param.getActivities()))
             return new ApplicationResponse(true, "");
         else return new ApplicationResponse(false, "更新失败");
     }
 
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
-    public ApplicationResponse sendAttachment(HttpServletRequest request,  MultipartHttpServletRequest multiRequest,@Value("${savingPath}") String dest) {
-        if(!service.beforeDDL())
-            return new ApplicationResponse(false,"超过提交时间");
+    public ApplicationResponse sendAttachment(HttpServletRequest request, MultipartHttpServletRequest multiRequest, @Value("${savingPath}") String dest) {
+        if (!service.beforeDDL())
+            return new ApplicationResponse(false, "超过提交时间");
         String email = getIdFromRequest(request);
         File target = new File(dest + email);
         if (!target.exists()) target.mkdir();
-        List<MultipartFile> files = multiRequest.getFiles("files");//这里似乎需要某部分的名字为files？
+        List<MultipartFile> files = multiRequest.getFiles("file");//这里似乎需要某部分的名字为file？
 //        List<MultipartFile> files= Arrays.asList(multipartFiles);
 
         try {

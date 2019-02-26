@@ -12,7 +12,9 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student,String> {
 
-    List<Student> findByVisaNum(String visaNum);
+    List<Student> findByIdentityNum(String IdentityNum);
+
+    List<Student> findByVisaNum(String VisaNum);
 
     List<Student> findByEmail(String email);
 
