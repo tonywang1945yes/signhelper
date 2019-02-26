@@ -50,6 +50,6 @@ public class StartControllerTest {
         headers.add("Authorization",
                 "Bearer "+token);
         HttpEntity<SetMajorParameter> request = new HttpEntity<SetMajorParameter>(p, headers);
-        ApplicationResponse responses = this.testRestTemplate.postForObject("/majorSetting/setting", request,ApplicationResponse.class);
+        ApplicationResponse responses = this.testRestTemplate.postForObject("/majorSetting/majorSetting", request,ApplicationResponse.class);
     }
 }

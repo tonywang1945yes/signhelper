@@ -1,5 +1,6 @@
 package backend.controller;
 
+import backend.entity.Major;
 import backend.parameter.start.StartParameter;
 import backend.service.MajorService;
 import backend.service.SetDdLService;
@@ -8,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.Set;
 
 @CrossOrigin
 @RestController()
@@ -34,5 +33,7 @@ public class StartController {
 //        设置DDL
         setDdLService.setDDL(parameter.getDdl());
     }
+
+
 
 }
