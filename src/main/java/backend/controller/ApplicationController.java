@@ -1,6 +1,5 @@
 package backend.controller;
 
-import backend.entity.application.Activity;
 import backend.entity.application.ApplForm;
 import backend.parameter.application.ApplFormParameter;
 import backend.response.application.ApplicationResponse;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +37,14 @@ public class ApplicationController {
     @RequestMapping(value = "/form",
             method = RequestMethod.POST)
     public ApplicationResponse sendApplication(@RequestBody ApplFormParameter param, HttpServletRequest request) {
-        String email = getIdFromRequest(request);
-        ApplForm applForm = service.getApplicationForm(email);
-        applForm.updateInfo(param);
-        if (service.updateApplFormAndActivities(applForm, param.getActivities()))
+        try {
+            String email = getIdFromRequest(request);
+            service.updateApplForm(param, email);
             return new ApplicationResponse(true, "");
-        else return new ApplicationResponse(false, "更新失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApplicationResponse(false, "更新失败");
+        }
     }
 
     @RequestMapping(value = "/attachment",
@@ -57,7 +57,6 @@ public class ApplicationController {
         File target = new File(dest + studentName + "-" + email);
         if (!target.exists()) target.mkdir();
         List<MultipartFile> files = multiRequest.getFiles("file");//这里似乎需要某部分的名字为file？
-//        List<MultipartFile> files= Arrays.asList(multipartFiles);
 
         try {
             for (MultipartFile file : files)

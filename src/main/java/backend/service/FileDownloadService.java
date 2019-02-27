@@ -229,7 +229,7 @@ public class FileDownloadService {
             data15.setCellValue(applForm.getAcceptAssignment());
 
             Cell data16 = data.createCell(16);
-            data16.setCellValue(applForm.getGsatResult().toString());
+            data16.setCellValue(applForm.getResults().toString());
         }
 
         FileOutputStream out = null;

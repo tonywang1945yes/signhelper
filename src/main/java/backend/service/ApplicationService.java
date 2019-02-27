@@ -1,12 +1,11 @@
 package backend.service;
 
-import backend.dao.service.ActivityRepository;
-import backend.dao.service.AdministerRepository;
-import backend.dao.service.ApplFormRepository;
-import backend.dao.service.StudentRepository;
+import backend.dao.service.*;
 import backend.entity.Student;
 import backend.entity.application.Activity;
 import backend.entity.application.ApplForm;
+import backend.entity.application.FamilyParticularItem;
+import backend.parameter.application.ApplFormParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +24,16 @@ public class ApplicationService {
     ActivityRepository activityRepo;
 
     @Autowired
+    FamilyParticularRepository familyParticularRepo;
+
+    @Autowired
     StudentRepository studentRepo;
 
     @Autowired
     AdministerRepository administerRepo;
 
 
-    public boolean updateApplFormAndActivities(ApplForm applForm, Activity[] activities) {
+    public boolean updateApplForm(ApplForm applForm) {
 //        if (applForm == null)
 //            return false;
 //        ApplForm a = applFormRepo.save(applForm);
@@ -42,8 +44,19 @@ public class ApplicationService {
 //            activityRepo.saveAll(activities);
 //        }
 //        return true;
-        if (activities != null)
-            applForm.setActivities(new ArrayList<>(Arrays.asList(activities)));
+//        if (activities != null)
+//            applForm.setActivities(new ArrayList<>(Arrays.asList(activities)));
+        applFormRepo.save(applForm);
+        return true;
+    }
+
+    public boolean updateApplForm(ApplFormParameter param, String email) {
+        ApplForm applForm = applFormRepo.findByStudentId(email).get(0);
+//        if (applForm.getActivities() != null)
+//            activityRepo.deleteAll(applForm.getActivities());
+//        if (applForm.getFamilyParticulars() != null)
+//            familyParticularRepo.deleteAll(applForm.getFamilyParticulars());
+        applForm.updateInfo(param);
         applFormRepo.save(applForm);
         return true;
     }
@@ -53,7 +66,7 @@ public class ApplicationService {
     }
 
     public String getStudentName(String email) {
-        return  studentRepo.getOne(email).getName();
+        return studentRepo.getOne(email).getName();
     }
 
     public boolean beforeDDL() {

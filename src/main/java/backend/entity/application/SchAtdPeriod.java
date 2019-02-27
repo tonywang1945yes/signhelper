@@ -5,14 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Calendar;
 
-@Entity
-@Table(name = "tbl_school_atd")
+@Embeddable
 public class SchAtdPeriod {
-
-    @Id
-    @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(length = 30)
     private String name;
@@ -25,22 +19,6 @@ public class SchAtdPeriod {
     @Temporal(TemporalType.DATE)
     private Calendar endDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 30)
-    private SchoolType type;
-
-    @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "form_id")
-    @JsonIgnore
-    private ApplForm form;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -74,19 +52,4 @@ public class SchAtdPeriod {
         this.endDate = endDate;
     }
 
-    public SchoolType getType() {
-        return type;
-    }
-
-    public void setType(SchoolType type) {
-        this.type = type;
-    }
-
-    public ApplForm getForm() {
-        return form;
-    }
-
-    public void setForm(ApplForm form) {
-        this.form = form;
-    }
 }

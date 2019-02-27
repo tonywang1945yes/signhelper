@@ -1,6 +1,5 @@
 package backend.response.application;
 
-import backend.entity.Student;
 import backend.entity.application.ApplForm;
 
 import java.util.Calendar;
@@ -8,11 +7,9 @@ import java.util.Calendar;
 public class BasicInfoResponse {
     private String firstName;
     private String lastName;
-    private String MTPNumber;
-    private String IDCardNumber;
+    private String idCardNumber;
     private Calendar birthDate;
     private String highSchool;
-    private String graduationYear;
     private String address;
 
     public BasicInfoResponse() {
@@ -24,10 +21,8 @@ public class BasicInfoResponse {
         setLastName(a.getLastName());
         setAddress(a.getAddress());
         setBirthDate(a.getBirthDate());
-        setGraduationYear(a.getGraduationYear());
         setHighSchool(a.getHighSchool());
-        setIDCardNumber(a.getIdentityNum());
-        setMTPNumber(a.getVisaNum());
+        setIdCardNumber(a.getIdentityNum());
     }
 
     public String getFirstName() {
@@ -46,20 +41,12 @@ public class BasicInfoResponse {
         this.lastName = lastName;
     }
 
-    public String getMTPNumber() {
-        return MTPNumber;
+    public String getIdCardNumber() {
+        return idCardNumber;
     }
 
-    public void setMTPNumber(String MTPNumber) {
-        this.MTPNumber = MTPNumber;
-    }
-
-    public String getIDCardNumber() {
-        return IDCardNumber;
-    }
-
-    public void setIDCardNumber(String IDCardNumber) {
-        this.IDCardNumber = IDCardNumber;
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
     }
 
     public Calendar getBirthDate() {
@@ -76,14 +63,6 @@ public class BasicInfoResponse {
 
     public void setHighSchool(String highSchool) {
         this.highSchool = highSchool;
-    }
-
-    public String getGraduationYear() {
-        return graduationYear;
-    }
-
-    public void setGraduationYear(String graduationYear) {
-        this.graduationYear = graduationYear;
     }
 
     public String getAddress() {

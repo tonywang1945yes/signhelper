@@ -1,7 +1,7 @@
 package backend.entity.application;
 
 import backend.entity.Student;
-import backend.enums.SchoolType;
+import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
 
 import javax.persistence.*;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tbl_application_form")
@@ -21,11 +20,11 @@ public class ApplForm {
 
     private String studentId;
 
-    @Column(name = "first_name")
+    @Column(length = 10)
     @NotNull
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(length = 20)
     @NotNull
     private String lastName;
 
@@ -33,60 +32,74 @@ public class ApplForm {
 
     private Integer sex;
 
-    @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     @NotNull
     private Calendar birthDate;
 
-    @Column(name = "visa_num")
+    @Column(length = 30)
     private String visaNum;
 
-    @Column(name = "identity_num")
+    @Column(length = 30)
     @NotNull
     private String identityNum;
 
-    @Column(name = "high_school")
+    @Column(length = 80)
     @NotNull
     private String highSchool;
 
-    @Column(name = "graduation_year")
+    @Column(length = 15)
     private String graduationYear;
 
     @NotNull
     private String address;
 
-    @Column(name = "postal_code")
+    @Column(length = 15)
     private String postalCode;
 
-    @Column(name = "phone_numbers")
     @Embedded
     private PhoneNumbers phoneNumbers;
 
-    @Column(name = "curriculum_choices")
     @Embedded
     private CurriculumChoices curriculumChoices;
 
-    @Column(name = "art_or_sci")
     private Integer artOrSci;
 
-    @Column(name = "accept_assignment")
     private Boolean acceptAssignment;
 
-    @OneToMany(targetEntity = SchAtdPeriod.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<SchAtdPeriod> schoolPeriods;
+    @Embedded
+    private SchAtdPeriod primarySchool;
+
+    @Embedded
+    private SchAtdPeriod juniorMiddleSchool;
+
+    @Embedded
+    private SchAtdPeriod seniorMiddleSchool;
 
     @OneToMany(targetEntity = FamilyParticularItem.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FamilyParticularItem> familyParticulars;
 
-    @Column(name = "gsat_result")
     @Embedded
-    private GSATresult gsatResult;
+    private CustomResult<Integer> results;
+
+    @Embedded
+    private CustomResult<Integer> actualLevelPoints;
+
+    @Embedded
+    private CustomResult<Double> levelRange;
+
+    @Embedded
+    private CustomResult<SubjectCriteria> singleSubjectCriteria;
+
+    private Integer totalLevelPoints;
+
+    @Enumerated(EnumType.STRING)
+    private SubjectCriteria criteriaLevel;
 
     @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Activity> activities;
 
     @Lob
-    private String statement;
+    private String personalStatement;
 
 
     public Long getId() {
@@ -209,7 +222,7 @@ public class ApplForm {
         this.curriculumChoices = curriculumChoices;
     }
 
-//    0 is art , 1 is sci
+    //    0 is art , 1 is sci
     public Integer getArtOrSci() {
         return artOrSci;
     }
@@ -226,46 +239,76 @@ public class ApplForm {
         this.acceptAssignment = acceptAssignment;
     }
 
-    public GSATresult getGsatResult() {
-        return gsatResult;
+    public CustomResult<Integer> getResults() {
+        return results;
     }
 
-    public void setGsatResult(GSATresult gsatResult) {
-        this.gsatResult = gsatResult;
+    public void setResults(CustomResult<Integer> results) {
+        this.results = results;
     }
 
-    public List<SchAtdPeriod> getPrimarySchools() {
-        return getSchoolsByType(SchoolType.PRIMARY);
+    public CustomResult<Integer> getActualLevelPoints() {
+        return actualLevelPoints;
     }
 
-    public List<SchAtdPeriod> getJuniorMiddleSchools() {
-        return getSchoolsByType(SchoolType.JUNIORMIDDLE);
+    public void setActualLevelPoints(CustomResult<Integer> actualLevelPoints) {
+        this.actualLevelPoints = actualLevelPoints;
     }
 
-    public List<SchAtdPeriod> getSeniorMiddleSchools() {
-        return getSchoolsByType(SchoolType.SENIORMIDDLE);
+    public CustomResult<Double> getLevelRange() {
+        return levelRange;
     }
 
-    private List<SchAtdPeriod> getSchoolsByType(SchoolType type) {
-//        return this.getSchoolPeriods().stream()
-//                .filter(x -> x.getType()== type).sorted(new Comparator<SchAtdPeriod>() {
-//                    @Override
-//                    public int compare(SchAtdPeriod o1, SchAtdPeriod o2) {
-//                        return o1.getStartDate().before(o2.getStartDate())? 1:-1;
-//                    }
-//                }).collect(Collectors.toList());
-        return this.getSchoolPeriods().stream()
-                .filter(x -> x.getType() == type)
-                .sorted((o1, o2) -> o1.getStartDate().before(o2.getStartDate()) ? 1 : -1)
-                .collect(Collectors.toList());
+    public void setLevelRange(CustomResult<Double> levelRange) {
+        this.levelRange = levelRange;
     }
 
-    public List<SchAtdPeriod> getSchoolPeriods() {
-        return schoolPeriods;
+    public CustomResult<SubjectCriteria> getSingleSubjectCriteria() {
+        return singleSubjectCriteria;
     }
 
-    public void setSchoolPeriods(List<SchAtdPeriod> schoolPeriods) {
-        this.schoolPeriods = schoolPeriods;
+    public void setSingleSubjectCriteria(CustomResult<SubjectCriteria> singleSubjectCriteria) {
+        this.singleSubjectCriteria = singleSubjectCriteria;
+    }
+
+    public Integer getTotalLevelPoints() {
+        return totalLevelPoints;
+    }
+
+    public void setTotalLevelPoints(Integer totalLevelPoints) {
+        this.totalLevelPoints = totalLevelPoints;
+    }
+
+    public SubjectCriteria getCriteriaLevel() {
+        return criteriaLevel;
+    }
+
+    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
+        this.criteriaLevel = criteriaLevel;
+    }
+
+    public SchAtdPeriod getPrimarySchool() {
+        return primarySchool;
+    }
+
+    public void setPrimarySchool(SchAtdPeriod primarySchool) {
+        this.primarySchool = primarySchool;
+    }
+
+    public SchAtdPeriod getJuniorMiddleSchool() {
+        return juniorMiddleSchool;
+    }
+
+    public void setJuniorMiddleSchool(SchAtdPeriod juniorMiddleSchool) {
+        this.juniorMiddleSchool = juniorMiddleSchool;
+    }
+
+    public SchAtdPeriod getSeniorMiddleSchool() {
+        return seniorMiddleSchool;
+    }
+
+    public void setSeniorMiddleSchool(SchAtdPeriod seniorMiddleSchool) {
+        this.seniorMiddleSchool = seniorMiddleSchool;
     }
 
     public List<FamilyParticularItem> getFamilyParticulars() {
@@ -284,27 +327,15 @@ public class ApplForm {
         this.activities = activities;
     }
 
-    public String getStatement() {
-        return statement;
+    public String getPersonalStatement() {
+        return personalStatement;
     }
 
-    public void setStatement(String statement) {
-        this.statement = statement;
+    public void setPersonalStatement(String personalStatement) {
+        this.personalStatement = personalStatement;
     }
 
     public ApplForm() {
-//        setStudentId("");
-//        setIdentityNum("");
-//        setVisaNum("");
-//        setFirstName("");
-//        setLastName("");
-//        setHighSchool("");
-//        setAddress("");
-//        setAcceptAssignment(false);
-//        setArtOrSci(0);
-//        setGraduationYear("");
-//        setPostalCode("");
-//        setSex(0);
     }
 
     public void updateInfo(Student s) {
@@ -333,9 +364,28 @@ public class ApplForm {
         setAddress(p.getAddress());
         setCurriculumChoices(p.getCurriculumChoices());
         setPhoneNumbers(p.getPhoneNumbers());
-        setGsatResult(p.getGsatResult());
-        setSchoolPeriods(new ArrayList<SchAtdPeriod>(Arrays.asList(p.getSchAtdPeriods())));
-        setStatement(p.getStatement());
+        setPrimarySchool(p.getPrimarySchool());
+        setJuniorMiddleSchool(p.getJuniorMiddleSchool());
+        setSeniorMiddleSchool(p.getSeniorMiddleSchool());
+        setResults(p.getResults());
+        setActualLevelPoints(p.getActualLevelPoints());
+        setLevelRange(p.getLevelRange());
+        setSingleSubjectCriteria(p.getSingleSubjectCriteria());
+        setTotalLevelPoints(p.getTotalLevelPoints());
+        setCriteriaLevel(p.getCriteriaLevel());
+        if (p.getFamilyParticulars() != null) {
+            List<FamilyParticularItem> items = new ArrayList<FamilyParticularItem>(Arrays.asList(p.getFamilyParticulars()));
+            for (FamilyParticularItem item : items)
+                item.setForm(this);
+            setFamilyParticulars(items);
+        }
+        if (p.getActivities() != null) {
+            List<Activity> activities = new ArrayList<Activity>(Arrays.asList(p.getActivities()));
+            for (Activity a : activities)
+                a.setForm(this);
+            setActivities(activities);
+        }
+        setPersonalStatement(p.getPersonalStatement());
     }
 
 }

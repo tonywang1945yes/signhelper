@@ -1,6 +1,7 @@
 package backend.parameter.application;
 
 import backend.entity.application.*;
+import backend.enums.SubjectCriteria;
 
 import java.util.Calendar;
 
@@ -36,13 +37,29 @@ public class ApplFormParameter {
 
     private Boolean acceptAssignment;
 
-    private SchAtdPeriod[] schAtdPeriods;
+    private FamilyParticularItem[] familyParticulars;
 
-    private GSATresult gsatResult;
+    private SchAtdPeriod primarySchool;
+
+    private SchAtdPeriod juniorMiddleSchool;
+
+    private SchAtdPeriod seniorMiddleSchool;
+
+    private CustomResult<Integer> results;
+
+    private CustomResult<Integer> actualLevelPoints;
+
+    private CustomResult<Double> levelRange;
+
+    private CustomResult<SubjectCriteria> singleSubjectCriteria;
+
+    private Integer totalLevelPoints;
+
+    private SubjectCriteria criteriaLevel;
 
     private Activity[] activities;
 
-    private String statement;
+    private String personalStatement;
 
 
     public String getFirstName() {
@@ -157,20 +174,84 @@ public class ApplFormParameter {
         this.acceptAssignment = acceptAssignment;
     }
 
-    public GSATresult getGsatResult() {
-        return gsatResult;
+    public FamilyParticularItem[] getFamilyParticulars() {
+        return familyParticulars;
     }
 
-    public void setGsatResult(GSATresult gsatResult) {
-        this.gsatResult = gsatResult;
+    public void setFamilyParticulars(FamilyParticularItem[] familyParticulars) {
+        this.familyParticulars = familyParticulars;
     }
 
-    public SchAtdPeriod[] getSchAtdPeriods() {
-        return schAtdPeriods;
+    public CustomResult<Integer> getResults() {
+        return results;
     }
 
-    public void setSchAtdPeriods(SchAtdPeriod[] schAtdPeriods) {
-        this.schAtdPeriods = schAtdPeriods;
+    public void setResults(CustomResult<Integer> results) {
+        this.results = results;
+    }
+
+    public CustomResult<Integer> getActualLevelPoints() {
+        return actualLevelPoints;
+    }
+
+    public void setActualLevelPoints(CustomResult<Integer> actualLevelPoints) {
+        this.actualLevelPoints = actualLevelPoints;
+    }
+
+    public CustomResult<Double> getLevelRange() {
+        return levelRange;
+    }
+
+    public void setLevelRange(CustomResult<Double> levelRange) {
+        this.levelRange = levelRange;
+    }
+
+    public CustomResult<SubjectCriteria> getSingleSubjectCriteria() {
+        return singleSubjectCriteria;
+    }
+
+    public void setSingleSubjectCriteria(CustomResult<SubjectCriteria> singleSubjectCriteria) {
+        this.singleSubjectCriteria = singleSubjectCriteria;
+    }
+
+    public Integer getTotalLevelPoints() {
+        return totalLevelPoints;
+    }
+
+    public void setTotalLevelPoints(Integer totalLevelPoints) {
+        this.totalLevelPoints = totalLevelPoints;
+    }
+
+    public SubjectCriteria getCriteriaLevel() {
+        return criteriaLevel;
+    }
+
+    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
+        this.criteriaLevel = criteriaLevel;
+    }
+
+    public SchAtdPeriod getPrimarySchool() {
+        return primarySchool;
+    }
+
+    public void setPrimarySchool(SchAtdPeriod primarySchool) {
+        this.primarySchool = primarySchool;
+    }
+
+    public SchAtdPeriod getJuniorMiddleSchool() {
+        return juniorMiddleSchool;
+    }
+
+    public void setJuniorMiddleSchool(SchAtdPeriod juniorMiddleSchool) {
+        this.juniorMiddleSchool = juniorMiddleSchool;
+    }
+
+    public SchAtdPeriod getSeniorMiddleSchool() {
+        return seniorMiddleSchool;
+    }
+
+    public void setSeniorMiddleSchool(SchAtdPeriod seniorMiddleSchool) {
+        this.seniorMiddleSchool = seniorMiddleSchool;
     }
 
     public Boolean getNeedSimplification() {
@@ -189,11 +270,11 @@ public class ApplFormParameter {
         this.activities = activities;
     }
 
-    public String getStatement() {
-        return statement;
+    public String getPersonalStatement() {
+        return personalStatement;
     }
 
-    public void setStatement(String statement) {
-        this.statement = statement;
+    public void setPersonalStatement(String personalStatement) {
+        this.personalStatement = personalStatement;
     }
 }

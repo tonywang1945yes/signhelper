@@ -1,9 +1,7 @@
 package backend.controller;
 
-import backend.entity.application.CurriculumChoices;
-import backend.entity.application.GSATresult;
-import backend.entity.application.SchAtdPeriod;
-import backend.enums.SchoolType;
+import backend.entity.application.*;
+import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
 import backend.response.application.ApplicationResponse;
 import org.junit.Test;
@@ -51,51 +49,102 @@ public class ApplicationControllerTest {
         choices.setThirdChoice("电子");
         p.setCurriculumChoices(choices);
 
-        GSATresult grade = new GSATresult();
-        grade.setChinese(15);
-        grade.setEnglish(15);
-        grade.setMath(15);
-        grade.setSocials(15);
-        grade.setSocials(15);
-        p.setGsatResult(grade);
-
-        SchAtdPeriod[] periods = new SchAtdPeriod[3];
         SchAtdPeriod p1 = new SchAtdPeriod();
         p1.setName("海淀区第二小学");
         p1.setRegion("北京市");
-        p1.setType(SchoolType.PRIMARY);
         c.set(2005, 9, 1);
         p1.setStartDate((Calendar) c.clone());
         c.set(2011, 6, 30);
         p1.setEndDate((Calendar) c.clone());
-        periods[0] = p1;
 
         SchAtdPeriod p2 = new SchAtdPeriod();
         p2.setName("洛阳区第一中学");
         p2.setRegion("西安市");
-        p2.setType(SchoolType.JUNIORMIDDLE);
         c.set(2011, 9, 1);
         p2.setStartDate((Calendar) c.clone());
         c.set(2014, 6, 30);
         p2.setEndDate((Calendar) c.clone());
-        periods[1] = p2;
 
         SchAtdPeriod p3 = new SchAtdPeriod();
         p3.setName("如皋中学");
         p3.setRegion("江苏省");
-        p3.setType(SchoolType.SENIORMIDDLE);
         c.set(2014, 9, 1);
         p3.setStartDate((Calendar) c.clone());
         c.set(2017, 6, 30);
         p3.setEndDate((Calendar) c.clone());
-        periods[2] = p3;
 
-        p.setSchAtdPeriods(periods);
+        p.setPrimarySchool(p1);
+        p.setJuniorMiddleSchool(p2);
+        p.setSeniorMiddleSchool(p3);
+
+        CustomResult<Integer> results = new CustomResult<Integer>(80, 80, 80, 80, 80);
+        CustomResult<Integer> actualLevelPoints = new CustomResult<Integer>(15, 15, 15, 15, 15);
+        CustomResult<Double> levelRange = new CustomResult<Double>(6.0, 6.0, 6.0, 6.0, 6.0);
+        CustomResult<SubjectCriteria> criteria = new CustomResult<SubjectCriteria>(SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA);
+
+        p.setResults(results);
+        p.setActualLevelPoints(actualLevelPoints);
+        p.setLevelRange(levelRange);
+        p.setSingleSubjectCriteria(criteria);
+        p.setTotalLevelPoints(69);
+        p.setCriteriaLevel(SubjectCriteria.TOP_CRITERIA);
+
+        p.setPersonalStatement("长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
+                "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试");
+
+        Activity[] activities = new Activity[3];
+        Activity a1 = new Activity();
+        a1.setOrganization("国立台湾大学");
+        a1.setAward("参与奖");
+        a1.setAttendingDate(Calendar.getInstance());
+
+        Activity a2 = new Activity();
+        a2.setOrganization("九九文教基金会");
+        a2.setAward("AMC12数学竞赛");
+        a2.setAttendingDate(Calendar.getInstance());
+
+        Activity a3 = new Activity();
+        a3.setOrganization("台湾世界展望会");
+        a3.setAward("饥饿三十人道救援行动");
+        a3.setAttendingDate(Calendar.getInstance());
+
+        activities[0] = a1;
+        activities[1] = a2;
+        activities[2] = a3;
+        p.setActivities(activities);
+
+        FamilyParticularItem[] items = new FamilyParticularItem[2];
+        FamilyParticularItem i1 = new FamilyParticularItem();
+        i1.setRelationship("父亲");
+        i1.setName("黄帝");
+        i1.setCompanyName("光电");
+        i1.setOccupation("工程师");
+        i1.setMobilePhoneNumber("11332244");
+
+        FamilyParticularItem i2 = new FamilyParticularItem();
+        i2.setRelationship("母亲");
+        i2.setName("乐天");
+        i2.setCompanyName("荒唐中学");
+        i2.setOccupation("老师");
+        i2.setMobilePhoneNumber("11778899");
+        items[0] = i1;
+        items[1] = i2;
+        p.setFamilyParticulars(items);
+
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
                 "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTY5Mjc3NiwiaWF0IjoxNTUxMDg3OTc2fQ.lc9Ed_2r1Vk_E1rpJn1dBqUkYWoIJN3cCY887oirSfsTmoqQWGH88Cz8LJ1aRgVlde0eQa3Im32nZDIQUPlXzg");
         HttpEntity<ApplFormParameter> request = new HttpEntity<ApplFormParameter>(p, headers);
-        ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request,ApplicationResponse.class);
+        ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request, ApplicationResponse.class);
         assertThat(response.getSucceed()).isTrue();
 
 

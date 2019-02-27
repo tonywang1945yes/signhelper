@@ -1,15 +1,20 @@
 package backend.entity.application;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class CurriculumChoices {
+    @Column(length = 50)
     private String firstChoice;
 
+    @Column(length = 50)
     private String secondChoice;
 
+    @Column(length = 50)
     private String thirdChoice;
 
+    @Column(length = 50)
     private String fourthChoice;
 
     public String getFirstChoice() {
