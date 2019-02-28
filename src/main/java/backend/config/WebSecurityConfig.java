@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
+
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/email/**").permitAll()
                 .antMatchers("/register/**").permitAll()

@@ -1,6 +1,7 @@
 package backend.controller;
 
 import backend.parameter.emailVerification.SendMailParameter;
+import backend.parameter.emailVerification.SetSendAddressParam;
 import backend.parameter.emailVerification.VerifyMailParameter;
 import backend.response.emailVarification.EmailResponse;
 import backend.service.RegMailService;
@@ -16,6 +17,11 @@ public class EmailController {
 
     @Autowired
     RegMailService service;
+
+    @PostMapping(value = "/adminEmailSet",consumes = {"application/json", "application/xml"})
+    public void setEmail(@RequestBody SetSendAddressParam param){
+        service.setEmailPermission(param.getEmailAddress(),param.getAdmission());
+    }
 
     @RequestMapping(value = "/send-verification-email",
             method = RequestMethod.POST,
