@@ -17,9 +17,9 @@ public class ApplFormParameter {
 
     private Calendar birthDate;
 
-    private String MTPNumber;
+    private String mtpNumber;
 
-    private String IDCardNumber;
+    private String idCardNumber;
 
     private String highSchool;
 
@@ -94,20 +94,20 @@ public class ApplFormParameter {
         this.birthDate = birthDate;
     }
 
-    public String getMTPNumber() {
-        return MTPNumber;
+    public String getMtpNumber() {
+        return mtpNumber;
     }
 
-    public void setMTPNumber(String MTPNumber) {
-        this.MTPNumber = MTPNumber;
+    public void setMtpNumber(String mtpNumber) {
+        this.mtpNumber = mtpNumber;
     }
 
-    public String getIDCardNumber() {
-        return IDCardNumber;
+    public String getIdCardNumber() {
+        return idCardNumber;
     }
 
-    public void setIDCardNumber(String IDCardNumber) {
-        this.IDCardNumber = IDCardNumber;
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
     }
 
     public String getHighSchool() {

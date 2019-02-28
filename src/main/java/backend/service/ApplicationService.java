@@ -52,12 +52,15 @@ public class ApplicationService {
 
     public boolean updateApplForm(ApplFormParameter param, String email) {
         ApplForm applForm = applFormRepo.findByStudentId(email).get(0);
-//        if (applForm.getActivities() != null)
+        if (applForm.getActivities() != null)
 //            activityRepo.deleteAll(applForm.getActivities());
-//        if (applForm.getFamilyParticulars() != null)
+            applForm.getActivities().clear();
+        if (applForm.getFamilyParticulars() != null)
 //            familyParticularRepo.deleteAll(applForm.getFamilyParticulars());
-        applForm.updateInfo(param);
-        applFormRepo.save(applForm);
+            applForm.getFamilyParticulars().clear();
+        ApplForm updated =  applFormRepo.saveAndFlush(applForm);
+        updated.updateInfo(param);
+        applFormRepo.saveAndFlush(updated);
         return true;
     }
 

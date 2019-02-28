@@ -30,8 +30,8 @@ public class ApplicationControllerTest {
         p.setLastName("国钊");
         p.setGraduationYear("2017");
         p.setHighSchool("北海中学");
-        p.setIDCardNumber("x12341234");
-        p.setMTPNumber("14725836");
+        p.setIdCardNumber("x12341234");
+        p.setMtpNumber("14725836");
         p.setNeedSimplification(false);
         p.setSex(1);
         p.setPostalCode("210046");
@@ -142,7 +142,7 @@ public class ApplicationControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTY5Mjc3NiwiaWF0IjoxNTUxMDg3OTc2fQ.lc9Ed_2r1Vk_E1rpJn1dBqUkYWoIJN3cCY887oirSfsTmoqQWGH88Cz8LJ1aRgVlde0eQa3Im32nZDIQUPlXzg");
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
         HttpEntity<ApplFormParameter> request = new HttpEntity<ApplFormParameter>(p, headers);
         ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request, ApplicationResponse.class);
         assertThat(response.getSucceed()).isTrue();

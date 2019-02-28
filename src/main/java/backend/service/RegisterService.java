@@ -38,12 +38,12 @@ public class RegisterService {
         } else if (checkDuplicatedIDCardNumber(student.getIdentityNum())) {
             throw new RegisterException("该身份证号码已被使用过");
         }
-        userRepo.save(user);
-        bindStudentAndApplForm(student);
+        initialization(user,student);
     }
 
-    private void bindStudentAndApplForm(Student s) throws RegisterException {
+    private void initialization(User u, Student s) throws RegisterException {
         try {
+            userRepo.save(u);
             Student res = studentRepo.save(s);
             ApplForm applForm = new ApplForm();
             applForm.updateInfo(s);

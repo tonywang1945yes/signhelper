@@ -50,14 +50,22 @@ public class ApplicationController {
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
     public ApplicationResponse sendAttachment(HttpServletRequest request, MultipartHttpServletRequest multiRequest, @Value("${savingPath}") String dest) {
-        if (!service.beforeDDL())
-            return new ApplicationResponse(false, "超过提交时间");
+//        if (!service.beforeDDL())
+//            return new ApplicationResponse(false, "超过提交时间");
         String email = getIdFromRequest(request);
         String studentName = service.getStudentName(email);
         File target = new File(dest + studentName + "-" + email);
-        if (!target.exists()) target.mkdir();
-        List<MultipartFile> files = multiRequest.getFiles("file");//这里似乎需要某部分的名字为file？
+        if (!target.exists())
+            target.mkdir();
+        else {//如果目录里已有文件则先清空，仅局限于文件而无法删除子文件夹
+            String[] items = target.list();
+            for (String item : items) {
+                File fullPath = new File(target, item);
+                fullPath.delete();
+            }
+        }
 
+        List<MultipartFile> files = multiRequest.getFiles("file");//这里似乎需要某部分的名字为file？
         try {
             for (MultipartFile file : files)
                 file.transferTo(new File(target, file.getOriginalFilename()));

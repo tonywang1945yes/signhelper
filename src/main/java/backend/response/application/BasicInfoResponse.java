@@ -5,6 +5,7 @@ import backend.entity.application.ApplForm;
 import java.util.Calendar;
 
 public class BasicInfoResponse {
+    private String email;
     private String firstName;
     private String lastName;
     private String idCardNumber;
@@ -17,12 +18,21 @@ public class BasicInfoResponse {
 
     public BasicInfoResponse(ApplForm a){
         this();
+        setEmail(a.getStudentId());
         setFirstName(a.getFirstName());
         setLastName(a.getLastName());
         setAddress(a.getAddress());
         setBirthDate(a.getBirthDate());
         setHighSchool(a.getHighSchool());
         setIdCardNumber(a.getIdentityNum());
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {

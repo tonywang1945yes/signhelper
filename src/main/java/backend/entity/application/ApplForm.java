@@ -33,7 +33,6 @@ public class ApplForm {
     private Integer sex;
 
     @Temporal(TemporalType.DATE)
-    @NotNull
     private Calendar birthDate;
 
     @Column(length = 30)
@@ -44,13 +43,11 @@ public class ApplForm {
     private String identityNum;
 
     @Column(length = 80)
-    @NotNull
     private String highSchool;
 
     @Column(length = 15)
     private String graduationYear;
 
-    @NotNull
     private String address;
 
     @Column(length = 15)
@@ -341,11 +338,12 @@ public class ApplForm {
     public void updateInfo(Student s) {
         setStudentId(s.getEmail());
         setAddress(s.getAddress());
-        setBirthDate((Calendar) s.getBirthDate().clone());
+        setBirthDate(s.getBirthDate());
         setFirstName(s.getName().substring(0, 1));
         setLastName(s.getName().substring(1));
         setHighSchool(s.getHighSchool());
         setIdentityNum(s.getIdentityNum());
+        //没加电话
     }
 
     public void updateInfo(ApplFormParameter p) {
@@ -353,8 +351,8 @@ public class ApplForm {
         setLastName(p.getLastName());
         setNeedSimplification(p.getNeedSimplification());
         setSex(p.getSex());
-        setIdentityNum(p.getIDCardNumber());
-        setVisaNum(p.getMTPNumber());
+        setIdentityNum(p.getIdCardNumber());
+        setVisaNum(p.getMtpNumber());
         setArtOrSci(p.getArtOrSci());
         setPostalCode(p.getPostalCode());
         setGraduationYear(p.getGraduationYear());

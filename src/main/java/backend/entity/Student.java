@@ -155,6 +155,7 @@ public class Student {
         this.setAddress(parameter.getAddress());
         this.setEmail(parameter.getEmail());
         this.setHighSchool(parameter.getHighSchool());
+        this.setTel(parameter.getTel());
     }
 
 

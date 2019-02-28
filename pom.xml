@@ -11,12 +11,13 @@
     <groupId>com.bitability</groupId>
     <artifactId>signhelper</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>signhelper</name>
     <description>a project for taiwan studentId in NJU</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <star-class>backend.Application</star-class>
     </properties>
 
     <dependencies>
