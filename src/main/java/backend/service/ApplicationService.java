@@ -1,18 +1,13 @@
 package backend.service;
 
 import backend.dao.service.*;
-import backend.entity.Student;
-import backend.entity.application.Activity;
 import backend.entity.application.ApplForm;
-import backend.entity.application.FamilyParticularItem;
 import backend.parameter.application.ApplFormParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class ApplicationService {
@@ -32,33 +27,16 @@ public class ApplicationService {
     @Autowired
     AdministerRepository administerRepo;
 
-
-    public boolean updateApplForm(ApplForm applForm) {
-//        if (applForm == null)
-//            return false;
-//        ApplForm a = applFormRepo.save(applForm);
-//        if (activities != null) {
-//            for (Activity activity : activities){
-//                activity.setFormId(a.getIdentityNum());
-//            }
-//            activityRepo.saveAll(activities);
-//        }
-//        return true;
-//        if (activities != null)
-//            applForm.setActivities(new ArrayList<>(Arrays.asList(activities)));
-        applFormRepo.save(applForm);
-        return true;
-    }
-
+    @Transactional
     public boolean updateApplForm(ApplFormParameter param, String email) {
         ApplForm applForm = applFormRepo.findByStudentId(email).get(0);
-        if (applForm.getActivities() != null)
-//            activityRepo.deleteAll(applForm.getActivities());
-            applForm.getActivities().clear();
-        if (applForm.getFamilyParticulars() != null)
-//            familyParticularRepo.deleteAll(applForm.getFamilyParticulars());
-            applForm.getFamilyParticulars().clear();
-        ApplForm updated =  applFormRepo.saveAndFlush(applForm);
+        if (applForm.getActivities() != null) {
+            activityRepo.deleteActivities(applForm.getId());
+        }
+        if (applForm.getFamilyParticulars() != null) {
+            familyParticularRepo.deleteItems(applForm.getId());
+        }
+        ApplForm updated = applFormRepo.saveAndFlush(applForm);
         updated.updateInfo(param);
         applFormRepo.saveAndFlush(updated);
         return true;
