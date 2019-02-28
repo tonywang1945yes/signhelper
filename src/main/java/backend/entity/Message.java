@@ -71,4 +71,8 @@ public class Message {
     public void setRead(Boolean read) {
         isRead = read;
     }
+
+    public Message() {
+        setRead(false);
+    }
 }

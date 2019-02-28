@@ -45,7 +45,7 @@ public class ApplFormParameter {
 
     private SchAtdPeriod seniorMiddleSchool;
 
-    private CustomResult<Integer> results;
+    private CustomResult<Double> results;
 
     private CustomResult<Integer> actualLevelPoints;
 
@@ -182,11 +182,11 @@ public class ApplFormParameter {
         this.familyParticulars = familyParticulars;
     }
 
-    public CustomResult<Integer> getResults() {
+    public CustomResult<Double> getResults() {
         return results;
     }
 
-    public void setResults(CustomResult<Integer> results) {
+    public void setResults(CustomResult<Double> results) {
         this.results = results;
     }
 

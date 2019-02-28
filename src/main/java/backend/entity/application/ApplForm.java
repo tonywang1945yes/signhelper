@@ -76,7 +76,7 @@ public class ApplForm {
     private List<FamilyParticularItem> familyParticulars;
 
     @Embedded
-    private CustomResult<Integer> results;
+    private CustomResult<Double> results;
 
     @Embedded
     private CustomResult<Integer> actualLevelPoints;
@@ -236,11 +236,11 @@ public class ApplForm {
         this.acceptAssignment = acceptAssignment;
     }
 
-    public CustomResult<Integer> getResults() {
+    public CustomResult<Double> getResults() {
         return results;
     }
 
-    public void setResults(CustomResult<Integer> results) {
+    public void setResults(CustomResult<Double> results) {
         this.results = results;
     }
 
