@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AssessmentResultRepository extends JpaRepository<AssessmentResult, Long> {
-    AssessmentResult findByEmail(String email);
+    List<AssessmentResult> findByEmail(String email);
 
 }

@@ -1,6 +1,5 @@
 package backend.controller;
 
-import backend.entity.application.ApplForm;
 import backend.parameter.application.ApplFormParameter;
 import backend.response.application.ApplicationResponse;
 import backend.response.application.BasicInfoResponse;
@@ -50,8 +49,8 @@ public class ApplicationController {
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
     public ApplicationResponse sendAttachment(HttpServletRequest request, MultipartHttpServletRequest multiRequest, @Value("${savingPath}") String dest) {
-//        if (!service.beforeDDL())
-//            return new ApplicationResponse(false, "超过提交时间");
+        if (!service.beforeDDL())
+            return new ApplicationResponse(false, "超过提交时间");
         String email = getIdFromRequest(request);
         String studentName = service.getStudentName(email);
         File target = new File(dest + studentName + "-" + email);

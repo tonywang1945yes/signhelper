@@ -77,7 +77,7 @@ public class ApplicationControllerTest {
         p.setJuniorMiddleSchool(p2);
         p.setSeniorMiddleSchool(p3);
 
-        CustomResult<Integer> results = new CustomResult<Integer>(80, 80, 80, 80, 80);
+        CustomResult<Double> results = new CustomResult<Double>(80.5, 80.5, 80.5, 80.5, 80.5);
         CustomResult<Integer> actualLevelPoints = new CustomResult<Integer>(15, 15, 15, 15, 15);
         CustomResult<Double> levelRange = new CustomResult<Double>(6.0, 6.0, 6.0, 6.0, 6.0);
         CustomResult<SubjectCriteria> criteria = new CustomResult<SubjectCriteria>(SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA, SubjectCriteria.TOP_CRITERIA);
