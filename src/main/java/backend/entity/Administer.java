@@ -26,6 +26,30 @@ public class Administer {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "emailaddress")
+    private String emailAddress;
+
+    @Column(name = "emailadmission")
+    private String emailadmission;
+
+    public String getEmailadmission() {
+        return emailadmission;
+    }
+
+    public void setEmailadmission(String emailadmission) {
+        this.emailadmission = emailadmission;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+
+
     public Long getId() {
         return id;
     }

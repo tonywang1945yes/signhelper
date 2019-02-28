@@ -2,13 +2,16 @@ package backend.service;
 
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.AdministerRepository;
 import backend.dao.service.MailCaptchaRepository;
 import backend.dao.service.UserRepository;
+import backend.entity.Administer;
 import backend.entity.MailCaptcha;
 import backend.entity.Student;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -24,20 +27,31 @@ import java.util.Properties;
 @Service
 public class RegMailService {
     //使用@Value注解导入值
-    @Value("${sendAddress}")
-    String sendAddress;
-
-    @Value("${mailPassword}")
-    String password;
+//    @Value("${sendAddress}")
+//    String sendAddress;
+//
+//    @Value("${mailPassword}")
+//    String password;
 
     @Value("${GroupSendMail}")
     String content;
+
+    @Autowired
+    AdministerRepository adminRepo;
 
     @Autowired
     UserRepository repository;
 
     @Autowired
     MailCaptchaRepository mailCaptchaRepo;
+
+
+    public void setEmailPermission(String emailAddress,String permission){
+        Administer admin = adminRepo.findAll().get(0);
+        admin.setEmailAddress(emailAddress);
+        admin.setEmailadmission(permission);
+        adminRepo.save(admin);
+    }
 
     /**
      * @param name
@@ -92,8 +106,10 @@ public class RegMailService {
      * @throws Exception                host未找到异常
      */
     private void sendSimpleMail(String subject, String receiveAddress, String content) throws GeneralSecurityException, MessagingException, Exception {
-        MimeMessage message = new MimeMessage(init(sendAddress, password));
-        message.setFrom(new InternetAddress(sendAddress));// 发件人
+        Administer admin = adminRepo.findAll().get(0);
+
+        MimeMessage message = new MimeMessage(init(admin.getEmailAddress(), admin.getEmailadmission()));
+        message.setFrom(new InternetAddress(admin.getEmailAddress()));// 发件人
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiveAddress));// 收件人
         message.setSubject(subject);// 主题
         message.setText(content);// 内容
