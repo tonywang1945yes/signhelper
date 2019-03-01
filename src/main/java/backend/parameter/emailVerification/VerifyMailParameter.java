@@ -2,17 +2,18 @@ package backend.parameter.emailVerification;
 
 public class VerifyMailParameter {
 
-    public String emailAddress;
+    public String email;
     public String code;
+    public String password;
 
 
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getCode() {
@@ -21,5 +22,13 @@ public class VerifyMailParameter {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

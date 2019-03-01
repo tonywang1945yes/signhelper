@@ -2,7 +2,7 @@ package backend.controller;
 
 import backend.parameter.application.ApplFormParameter;
 import backend.response.application.ApplicationResponse;
-import backend.response.application.BasicInfoResponse;
+import backend.response.application.ApplFormResponse;
 import backend.service.ApplicationService;
 import backend.util.token.JwtToken;
 import com.hankcs.hanlp.HanLP;
@@ -32,6 +32,12 @@ public class ApplicationController {
     @Value("${jwt.header}")
     String tokenHeader;
 
+    @RequestMapping(value = "/form",
+            method = RequestMethod.GET)
+    public ApplFormResponse getApplication(HttpServletRequest request) {
+        String email = getIdFromRequest(request);
+        return new ApplFormResponse(service.getApplicationForm(email));
+    }
 
     @RequestMapping(value = "/form",
             method = RequestMethod.POST)
@@ -73,13 +79,6 @@ public class ApplicationController {
             return new ApplicationResponse(false, "上传失败");
         }
         return new ApplicationResponse(true, "");
-    }
-
-    @RequestMapping(value = "/basic_info",
-            method = RequestMethod.GET)
-    public BasicInfoResponse getBasicInfo(HttpServletRequest request) {
-        String email = getIdFromRequest(request);
-        return new BasicInfoResponse(service.getApplicationForm(email));
     }
 
     @RequestMapping(value = "/simplify_api",

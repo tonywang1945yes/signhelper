@@ -8,6 +8,7 @@ import backend.entity.AssessmentResult;
 import backend.entity.Message;
 import backend.entity.Student;
 import backend.enums.AdministerState;
+import backend.enums.MessageType;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,6 +79,8 @@ public class MessageService {
         message.setReleasedTime(Calendar.getInstance());
         message.setTitle(administerState == AdministerState.JUNIOR_CHECKING ?
                 "第一次审核结果" : "第二次审核结果");
+        message.setType(administerState == AdministerState.JUNIOR_CHECKING ?
+                MessageType.FIRST_ASSESSMENT: MessageType.SECOND_ASSESSMENT);
         switch (studentState) {//暂时相信学生和管理员的状态是配套的
             case JUNIOR_FAILED:
                 message.setContent(getTemplateContent(messageTemplatePath + JUNIOR_FAILED_PATH));

@@ -8,8 +8,6 @@ import backend.service.RegMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @CrossOrigin
 @RestController()
 @RequestMapping("/email")
@@ -18,35 +16,40 @@ public class EmailController {
     @Autowired
     RegMailService service;
 
-    @PostMapping(value = "/adminEmailSet",consumes = {"application/json", "application/xml"})
-    public void setEmail(@RequestBody SetSendAddressParam param){
-        service.setEmailPermission(param.getEmailAddress(),param.getAdmission());
+    @PostMapping(value = "/adminEmailSet", consumes = {"application/json", "application/xml"})
+    public void setEmail(@RequestBody SetSendAddressParam param) {
+        service.setEmailPermission(param.getEmailAddress(), param.getAdmission());
     }
 
     @RequestMapping(value = "/send-verification-email",
-            method = RequestMethod.POST,
-            consumes = {"application/json", "application/xml"})
-    public void sendMail(@RequestBody SendMailParameter param) throws Exception {
-        service.insertCode(param.getName(), param.getEmailAddress());
-        System.out.println("发送成功");
+            method = RequestMethod.POST)
+    public EmailResponse sendMail(@RequestBody SendMailParameter param) {
+        if (service.checkIdentity(param.getEmailAddress(), param.getIdCardNumber())) {
+            try {
+                service.sendVerificationCode(param.getEmailAddress());
+                return new EmailResponse(true, "");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new EmailResponse(false, "发送失败");
+            }
+        }
+        return new EmailResponse(false, "身份验证不通过");
     }
 
     @RequestMapping(value = "/verification",
-            method = RequestMethod.POST,
-            consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"})
+            method = RequestMethod.POST)
     @ResponseBody
-    public EmailResponse verifyCode(@RequestBody VerifyMailParameter param, HttpServletRequest request) {
-        if (service.checkCode(param.getEmailAddress(), param.getCode())) {
-            return new EmailResponse(true);
+    public EmailResponse checkCodeAndReset(@RequestBody VerifyMailParameter param) {
+        if (service.checkCodeAndReset(param.getEmail(), param.getPassword(), param.getCode())) {
+            return new EmailResponse(true, "");
         } else {
-            return new EmailResponse(false);
+            return new EmailResponse(false, "重置失败");
         }
     }
 
-    @RequestMapping(value="/hint",
+    @RequestMapping(value = "/hint",
             method = RequestMethod.GET)
-    public void remind()throws Exception{
+    public void remind() throws Exception {
         service.groupSendMail();
     }
 

@@ -1,6 +1,5 @@
 package backend.entity.application;
 
-import backend.enums.SchoolType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,8 +9,8 @@ import java.util.Calendar;
 @Table(name  = "tbl_activity")
 public class Activity {
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)

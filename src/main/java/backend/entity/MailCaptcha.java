@@ -50,6 +50,7 @@ public class MailCaptcha {
     @Temporal(TemporalType.TIMESTAMP)
     Calendar builtTime;
 
+
     public MailCaptcha() {
     }
 }

@@ -1,5 +1,7 @@
 package backend.entity.application;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,10 +10,12 @@ import javax.validation.constraints.NotNull;
 public class FamilyParticularItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne(targetEntity = ApplForm.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "form_id")
+    @JsonIgnore
     private ApplForm form;
 
     @NotNull

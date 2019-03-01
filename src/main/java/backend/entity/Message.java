@@ -1,5 +1,6 @@
 package backend.entity;
 
+import backend.enums.MessageType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,10 +18,15 @@ public class Message {
 
     private String title;
 
+    @Lob
     private String content;
 
     @Temporal(TemporalType.DATE)
     private Calendar releasedTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private MessageType type;
 
     private Boolean isRead;
 
@@ -62,6 +68,14 @@ public class Message {
 
     public void setReleasedTime(Calendar releasedTime) {
         this.releasedTime = releasedTime;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public void setType(MessageType type) {
+        this.type = type;
     }
 
     public Boolean getRead() {

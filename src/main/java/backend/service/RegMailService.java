@@ -4,14 +4,16 @@ package backend.service;
 import backend.dao.impl.HibernateDao;
 import backend.dao.service.AdministerRepository;
 import backend.dao.service.MailCaptchaRepository;
+import backend.dao.service.StudentRepository;
 import backend.dao.service.UserRepository;
 import backend.entity.Administer;
 import backend.entity.MailCaptcha;
 import backend.entity.Student;
+import backend.entity.User;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -40,13 +42,16 @@ public class RegMailService {
     AdministerRepository adminRepo;
 
     @Autowired
-    UserRepository repository;
+    UserRepository userRepo;
+
+    @Autowired
+    StudentRepository studentRepo;
 
     @Autowired
     MailCaptchaRepository mailCaptchaRepo;
 
 
-    public void setEmailPermission(String emailAddress,String permission){
+    public void setEmailPermission(String emailAddress, String permission) {
         Administer admin = adminRepo.findAll().get(0);
         admin.setEmailAddress(emailAddress);
         admin.setEmailadmission(permission);
@@ -54,7 +59,6 @@ public class RegMailService {
     }
 
     /**
-     * @param name
      * @param emailAddress
      * @throws FileNotFoundException
      * @throws IOException              getProperties方法中的异常
@@ -62,7 +66,7 @@ public class RegMailService {
      * @throws MessagingException       Message方法调用异常sendSimpleMail方法中
      * @throws Exception                getHost方法中的host不存在异常，这个后面会改的更明确
      */
-    public void insertCode(String name, String emailAddress) throws GeneralSecurityException, MessagingException, Exception {
+    public void sendVerificationCode(String emailAddress) throws GeneralSecurityException, MessagingException, Exception {
         char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         char[] code = new char[6];
         for (int i = 0; i < 6; i++) {
@@ -70,7 +74,9 @@ public class RegMailService {
         }
         String codeStr = String.valueOf(code);
 
-        MailCaptcha mailCaptcha = new MailCaptcha();
+        MailCaptcha mailCaptcha;
+        List<MailCaptcha> res = mailCaptchaRepo.findByEmailAddress(emailAddress);
+        mailCaptcha = (res == null || res.size() == 0) ? new MailCaptcha() : res.get(0);//设定每个用户同时最多只有一个验证码
         mailCaptcha.setEmailAddress(emailAddress);
         mailCaptcha.setCode(codeStr);
         mailCaptcha.setBuiltTime(Calendar.getInstance());
@@ -86,7 +92,7 @@ public class RegMailService {
         String postfix = "如有疑問，請訪問網站 xxxx 或咨詢網站管理員。";
 
         StringBuilder fullContent = new StringBuilder();
-        fullContent.append(prefix).append(repository.existsById(emailAddress) ? body1 : body2).append(postfix);
+        fullContent.append(prefix).append(userRepo.existsById(emailAddress) ? body1 : body2).append(postfix);
 
 //        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
 //        String password = getProperty("mailPassword");  //有这么个密码
@@ -167,12 +173,19 @@ public class RegMailService {
         }
     }
 
-    public boolean checkCode(String emailAddress, String code) {
-        HibernateDao<MailCaptcha> dao = new HibernateDao<MailCaptcha>(new MailCaptcha());
-        MailCaptcha mailCaptcha = dao.findByKey(emailAddress);
+    public boolean checkCodeAndReset(String email, String password, String code) {
+        List<MailCaptcha> res = mailCaptchaRepo.findByEmailAddress(email);
+        if (res == null || res.size() == 0)
+            return false;
+        MailCaptcha mailCaptcha = res.get(0);
         Calendar limit = Calendar.getInstance();
         limit.add(Calendar.MINUTE, -30);
         if (mailCaptcha != null && mailCaptcha.getCode().equals(code) && mailCaptcha.getBuiltTime().after(limit)) {
+            User user = userRepo.getOne(email);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            user.setPasswordEncoded(passwordEncoder.encode(password));
+            user.setLastPasswordResetDate(Calendar.getInstance());
+            userRepo.save(user);
             return true;
         } else {
             return false;
@@ -180,8 +193,6 @@ public class RegMailService {
     }
 
     public void groupSendMail() throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
-//        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
-//        String password = getProperty("mailpassword");  //有这么个密码
         String subject = "南京大學進度申請通知";
 //        String content = getProperty("GroupSendMail");
 
@@ -191,6 +202,15 @@ public class RegMailService {
             String receiveAddress = stuList.get(i).getAddress();
             sendSimpleMail(subject, receiveAddress, content);
         }
+    }
+
+    public boolean checkIdentity(String email, String idCardNumber) {
+        if (studentRepo.existsById(email)) {
+            Student student = studentRepo.getOne(email);
+            if (student.getIdentityNum() ==idCardNumber)
+                return true;
+        }
+        return false;
     }
 
 }

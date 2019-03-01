@@ -3,6 +3,7 @@ package backend.controller;
 import backend.entity.application.*;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
+import backend.response.application.ApplFormResponse;
 import backend.response.application.ApplicationResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -147,7 +152,6 @@ public class ApplicationControllerTest {
         ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request, ApplicationResponse.class);
         assertThat(response.getSucceed()).isTrue();
 
-
     }
 
     @Test
@@ -155,10 +159,24 @@ public class ApplicationControllerTest {
     }
 
     @Test
-    public void getBasicInfo() {
+    public void getApplication() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+        HttpEntity<?> request = new HttpEntity<ApplFormParameter>(null, headers);
+        ResponseEntity<ApplFormResponse> response = this.testRestTemplate.exchange("/application/form", HttpMethod.GET, request, ApplFormResponse.class);
+        System.out.println(response.getBody());
     }
 
     @Test
     public void simplifyChars() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+        Map<String, String> param = new HashMap<>();
+        param.put("raw", "憂鬱");
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(param, headers);
+        Map<String, String> response = this.testRestTemplate.postForObject("/application/simplify_api", request, Map.class);
+        assertThat(response.get("simplifiedChars")).isEqualTo("忧郁");
     }
 }

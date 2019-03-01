@@ -2,17 +2,9 @@ package backend.parameter.emailVerification;
 
 public class SendMailParameter {
 
-    public String name;
     public String emailAddress;
+    public String idCardNumber;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -20,5 +12,13 @@ public class SendMailParameter {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getIdCardNumber() {
+        return idCardNumber;
+    }
+
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
     }
 }

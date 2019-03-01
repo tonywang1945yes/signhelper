@@ -3,6 +3,7 @@ package backend.entity.application;
 import backend.entity.Student;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ApplForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     private String studentId;
