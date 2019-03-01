@@ -70,4 +70,13 @@ public class MessageController {
         return jwtToken.getUsernameFromToken(token);
     }
 
+    @GetMapping(value = "/messageSending")
+    public Boolean sendMessage(){
+        if (!service.check()){
+            return false;
+        }
+        service.sendMessage();
+        return true;
+    }
+
 }
