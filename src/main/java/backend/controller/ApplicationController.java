@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.parameter.application.ApplFormParameter;
-import backend.response.application.ApplicationResponse;
+import backend.response.BasicResponse;
 import backend.response.application.ApplFormResponse;
 import backend.service.ApplicationService;
 import backend.util.token.JwtToken;
@@ -41,27 +41,28 @@ public class ApplicationController {
 
     @RequestMapping(value = "/form",
             method = RequestMethod.POST)
-    public ApplicationResponse sendApplication(@RequestBody ApplFormParameter param, HttpServletRequest request) {
+    public BasicResponse sendApplication(@RequestBody ApplFormParameter param, HttpServletRequest request) {
         try {
             String email = getIdFromRequest(request);
             service.updateApplForm(param, email);
-            return new ApplicationResponse(true, "");
+            return new BasicResponse(true, "");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ApplicationResponse(false, "更新失败");
+            return new BasicResponse(false, "更新失败");
         }
     }
 
     @RequestMapping(value = "/attachment",
             method = RequestMethod.POST)
-    public ApplicationResponse sendAttachment(HttpServletRequest request, MultipartHttpServletRequest multiRequest, @Value("${savingPath}") String dest) {
-        if (!service.beforeDDL())
-            return new ApplicationResponse(false, "超过提交时间");
-        String email = getIdFromRequest(request);
+    public BasicResponse sendAttachment(MultipartHttpServletRequest multiRequest, @Value("${savingPath}") String dest) {
+//        if (!service.beforeDDL())
+//            return new BasicResponse(false, "超过提交时间");
+        String type = multiRequest.getParameter("type");
+        String email = getIdFromRequest(multiRequest);
         String studentName = service.getStudentName(email);
-        File target = new File(dest + studentName + "-" + email);
+        File target = new File(dest + studentName + "-" + email+"/"+type);
         if (!target.exists())
-            target.mkdir();
+            target.mkdirs();
         else {//如果目录里已有文件则先清空，仅局限于文件而无法删除子文件夹
             String[] items = target.list();
             for (String item : items) {
@@ -76,9 +77,9 @@ public class ApplicationController {
                 file.transferTo(new File(target, file.getOriginalFilename()));
         } catch (IOException e) {
             e.printStackTrace();
-            return new ApplicationResponse(false, "上传失败");
+            return new BasicResponse(false, "上传失败");
         }
-        return new ApplicationResponse(true, "");
+        return new BasicResponse(true, "");
     }
 
     @RequestMapping(value = "/simplify_api",
@@ -102,5 +103,17 @@ public class ApplicationController {
     private String getIdFromRequest(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         return jwtTokenUtil.getUsernameFromToken(token);
+    }
+
+    private void deleteDirContent(File root) {
+        String[] items = root.list();
+        for (String item : items) {
+            File fullPath = new File(root, item);
+            if(fullPath.isFile()){
+                fullPath.delete();
+            }else{
+                deleteDirContent(fullPath);
+            }
+        }
     }
 }

@@ -3,8 +3,8 @@ package backend.controller;
 import backend.entity.application.*;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
+import backend.response.BasicResponse;
 import backend.response.application.ApplFormResponse;
-import backend.response.application.ApplicationResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+//建议一个一个方法进行测试
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApplicationControllerTest {
@@ -149,7 +150,7 @@ public class ApplicationControllerTest {
         headers.add("Authorization",
                 "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
         HttpEntity<ApplFormParameter> request = new HttpEntity<ApplFormParameter>(p, headers);
-        ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request, ApplicationResponse.class);
+        BasicResponse response = this.testRestTemplate.postForObject("/application/form", request, BasicResponse.class);
         assertThat(response.getSucceed()).isTrue();
 
     }

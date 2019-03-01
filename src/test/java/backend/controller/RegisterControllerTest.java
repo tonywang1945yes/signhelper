@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.parameter.register.RegisterParameter;
-import backend.response.register.RegisterResponse;
+import backend.response.BasicResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +35,9 @@ public class RegisterControllerTest {
         c.set(1998,10,12);
         p.setBirthDate((Calendar)c.clone());
 
-        RegisterResponse expected = new RegisterResponse(true,"");
+        BasicResponse expected = new BasicResponse(true,"");
 
-        RegisterResponse response = this.testRestTemplate.postForObject("/register/", p, RegisterResponse.class);
+        BasicResponse response = this.testRestTemplate.postForObject("/register/", p, BasicResponse.class);
         assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
     }
 

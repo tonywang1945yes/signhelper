@@ -1,14 +1,9 @@
 package backend.controller;
 
-import backend.entity.Major;
-import backend.parameter.application.ApplFormParameter;
 import backend.parameter.authentication.JwtAuthenticationParameter;
 import backend.parameter.setMajor.SetMajorParameter;
-import backend.parameter.start.StartParameter;
-import backend.response.application.ApplicationResponse;
+import backend.response.BasicResponse;
 import backend.response.authentication.JwtAuthenticationResponse;
-import backend.response.register.RegisterResponse;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +12,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -50,6 +43,6 @@ public class StartControllerTest {
         headers.add("Authorization",
                 "Bearer "+token);
         HttpEntity<SetMajorParameter> request = new HttpEntity<SetMajorParameter>(p, headers);
-        ApplicationResponse responses = this.testRestTemplate.postForObject("/majorSetting/majorSetting", request,ApplicationResponse.class);
+        BasicResponse responses = this.testRestTemplate.postForObject("/majorSetting/majorSetting", request,BasicResponse.class);
     }
 }

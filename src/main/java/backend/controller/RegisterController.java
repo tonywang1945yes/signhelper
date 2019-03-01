@@ -4,7 +4,7 @@ import backend.entity.Student;
 import backend.entity.User;
 import backend.exception.RegisterException;
 import backend.parameter.register.RegisterParameter;
-import backend.response.register.RegisterResponse;
+import backend.response.BasicResponse;
 import backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @CrossOrigin
-@RestController()
+@RestController
 @RequestMapping(value = "/register")
 public class RegisterController {
 
@@ -25,19 +25,19 @@ public class RegisterController {
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
-    public RegisterResponse register(@RequestBody RegisterParameter param) throws RegisterException {
+    public BasicResponse register(@RequestBody RegisterParameter param) throws RegisterException {
         User user = new User(param);//student初始化在构造函数中完成，也许用工厂更好？
         user.setPasswordEncoded(new BCryptPasswordEncoder().encode(param.getPassword()));
         Student student = new Student(param);
         service.register(user, student);
-        return new RegisterResponse(true, "");
+        return new BasicResponse(true, "");
 
     }
 
     @ExceptionHandler(RegisterException.class)
-    public RegisterResponse handleRegisterException(RegisterException ex) {
+    public BasicResponse handleRegisterException(RegisterException ex) {
         ex.printStackTrace();
-        return new RegisterResponse(false, ex.getMessage());
+        return new BasicResponse(false, ex.getMessage());
     }
 
     @GetMapping("/email_duplication_check/{email}")
