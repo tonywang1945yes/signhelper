@@ -1,12 +1,8 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
-import backend.dao.service.AssessmentResultRepository;
-import backend.dao.service.MessageRepository;
-import backend.entity.Administer;
-import backend.entity.AssessmentResult;
-import backend.entity.Message;
-import backend.entity.Student;
+import backend.dao.service.*;
+import backend.entity.*;
 import backend.enums.AdministerState;
 import backend.enums.MessageType;
 import backend.enums.StudentState;
@@ -25,6 +21,12 @@ public class MessageService {
 
     @Autowired
     MessageRepository messageRepo;
+
+    @Autowired
+    StudentRepository studentRepo;
+
+    @Autowired
+    AdministerRepository administerRepo;
 
     @Autowired
     AssessmentResultRepository assessmentResultRepo;
@@ -73,7 +75,7 @@ public class MessageService {
         }
     }
 
-    public void sendMessage(String studentId, StudentState studentState, AdministerState administerState) {
+    public void sendSingleMessage(String studentId, StudentState studentState, AdministerState administerState) {
         Message message = new Message();
         message.setEmail(studentId);
         message.setReleasedTime(Calendar.getInstance());
@@ -96,6 +98,35 @@ public class MessageService {
                 break;
         }
         messageRepo.save(message);
+    }
+
+    public void sendMessage(){
+        Administer administer = administerRepo.findAll().get(0);
+        List<Student> list = studentRepo.findAllByStudentState(StudentState.JUNIOR_PASSED);
+        for (Student student : list){
+            sendSingleMessage(student.getEmail(), StudentState.JUNIOR_PASSED, administer.getState());
+        }
+        list = studentRepo.findAllByStudentState(StudentState.JUNIOR_FAILED);
+        for (Student student : list){
+            sendSingleMessage(student.getEmail(), StudentState.JUNIOR_FAILED, administer.getState());
+        }
+        list = studentRepo.findAllByStudentState(StudentState.SENIOR_PASSED);
+        for (Student student : list){
+            sendSingleMessage(student.getEmail(), StudentState.SENIOR_PASSED, administer.getState());
+        }
+        list = studentRepo.findAllByStudentState(StudentState.SENIOR_FAILED);
+        for (Student student : list){
+            sendSingleMessage(student.getEmail(), StudentState.SENIOR_FAILED, administer.getState());
+        }
+    }
+
+//    检查是否所有学生申请表均已被审核
+    public Boolean check(){
+        List<Student> list = studentRepo.findAllByStudentState(StudentState.UNDER_EXAMINED);
+        if (list.size() == 0){
+            return true;
+        }
+        return false;
     }
 
     public String getTemplateContent(String path) {

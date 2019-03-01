@@ -7,6 +7,8 @@ import backend.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/majorSetting")
@@ -23,7 +25,12 @@ public class MajorController {
 
     @GetMapping(value = "/majorGetting")
     public Major[] getMajors(){
-        return (Major[]) majorService.getMajors().toArray();
+        List<Major> majors = majorService.getMajors();
+        Major[] lists = new Major[majors.size()];
+        for(int i=0;i<majors.size();i++){
+            lists[i] = majors.get(i);
+        }
+        return lists;
     }
 
 }
