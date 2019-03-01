@@ -206,8 +206,8 @@ public class RegMailService {
 
     public boolean checkIdentity(String email, String idCardNumber) {
         if (studentRepo.existsById(email)) {
-            Student student = studentRepo.getOne(email);
-            if (student.getIdentityNum() ==idCardNumber)
+            Student student = studentRepo.findById(email).get();
+            if (student.getIdentityNum().equals(idCardNumber))
                 return true;
         }
         return false;

@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -60,7 +58,7 @@ public class ApplicationController {
         String type = multiRequest.getParameter("type");
         String email = getIdFromRequest(multiRequest);
         String studentName = service.getStudentName(email);
-        File target = new File(dest + studentName + "-" + email+"/"+type);
+        File target = new File(dest + studentName + "-" + email + "/" + type);
         if (!target.exists())
             target.mkdirs();
         else {//如果目录里已有文件则先清空，仅局限于文件而无法删除子文件夹
@@ -80,6 +78,44 @@ public class ApplicationController {
             return new BasicResponse(false, "上传失败");
         }
         return new BasicResponse(true, "");
+    }
+
+    @RequestMapping(value = "/attachment_check", method = RequestMethod.GET)
+    public Map<String, Boolean> hasUploadedAttachment(HttpServletRequest request, @Value("${savingPath}") String dest) {
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("hasUploaded", true);
+
+        String email = getIdFromRequest(request);
+        String studentName = service.getStudentName(email);
+        File target = new File(dest + studentName + "-" + email);
+        if (!target.exists()) {
+            result.put("hasUploaded", false);
+            return result;
+        }
+        String[] folders = target.list();
+        for (String folder : folders) {
+            File fullPath = new File(target, folder);
+            if (fullPath.list().length == 0) {
+                result.put("hasUploaded", false);
+                return result;
+            }
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/attachment_names", method = RequestMethod.GET)
+    public String[] getFileNames(HttpServletRequest request, @Value("${savingPath}") String dest) {
+        String email = getIdFromRequest(request);
+        String studentName = service.getStudentName(email);
+        File target = new File(dest + studentName + "-" + email);
+        if (!target.exists())
+            return null;
+        List<String> result = new ArrayList<>();
+        String[] folders = target.list();
+        for (String folder : folders)
+            result.addAll(Arrays.asList(new File(target, folder).list()));
+        String[] names = new String[result.size()];
+        return result.toArray(names);
     }
 
     @RequestMapping(value = "/simplify_api",
@@ -105,15 +141,4 @@ public class ApplicationController {
         return jwtTokenUtil.getUsernameFromToken(token);
     }
 
-    private void deleteDirContent(File root) {
-        String[] items = root.list();
-        for (String item : items) {
-            File fullPath = new File(root, item);
-            if(fullPath.isFile()){
-                fullPath.delete();
-            }else{
-                deleteDirContent(fullPath);
-            }
-        }
-    }
 }
