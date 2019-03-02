@@ -1,8 +1,12 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
-import backend.dao.service.*;
-import backend.entity.*;
+import backend.dao.service.AdministerRepository;
+import backend.dao.service.MessageRepository;
+import backend.dao.service.StudentRepository;
+import backend.entity.Administer;
+import backend.entity.Message;
+import backend.entity.Student;
 import backend.enums.AdministerState;
 import backend.enums.MessageType;
 import backend.enums.StudentState;
@@ -16,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static backend.enums.StudentState.*;
 
 @Service
 public class MessageService {
@@ -29,9 +36,6 @@ public class MessageService {
     @Autowired
     AdministerRepository administerRepo;
 
-    @Autowired
-    AssessmentResultRepository assessmentResultRepo;
-
     @Value("${messageTemplatePath}")
     String messageTemplatePath;
 
@@ -40,7 +44,7 @@ public class MessageService {
     static final String SENIOR_FAILED_PATH = "/senior_failed.txt";
     static final String SENIOR_PASSED_PATH = "/senior_passed.txt";
 
-    public void updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
+    public boolean updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
         String path = "src/main/resources/msgDic";
         File file = new File(path);
         if (!file.exists()) {
@@ -48,9 +52,9 @@ public class MessageService {
         }
         switch (state) {
             case NULL:
-                return;
+                return false;
             case UNDER_EXAMINED:
-                return;
+                return false;
             case JUNIOR_FAILED:
                 path += "/junior_failed.txt";
                 break;
@@ -63,6 +67,8 @@ public class MessageService {
             case SENIOR_PASSED:
                 path += "/senior_passed.txt";
                 break;
+            default:
+                return false;
         }
         try {
             File writeName = new File(path);
@@ -71,12 +77,35 @@ public class MessageService {
             writer.write(content);
             writer.flush();
             writer.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public void sendSingleMessage(String studentId, StudentState studentState, AdministerState administerState) {
+    public String getTemplate(StudentState state) {
+        if (state == null)
+            return null;
+        File file = null;
+        String line;
+        StringBuilder res = new StringBuilder();
+        if (Arrays.asList(JUNIOR_FAILED, JUNIOR_PASSED, SENIOR_FAILED).contains(state)) {
+            file = new File(messageTemplatePath + "/" + state.toString().toLowerCase() + ".txt");
+        }
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+                res.append("\n" + line);
+            }
+            return res.substring(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void sendSingleResultMessage(String studentId, StudentState studentState, AdministerState administerState) {
         Message message = new Message();
         message.setEmail(studentId);
         message.setReleasedTime(Calendar.getInstance());
@@ -101,28 +130,28 @@ public class MessageService {
         messageRepo.save(message);
     }
 
-    public void sendMessage() {
+    public void sendResultMessage() {
         Administer administer = administerRepo.findAll().get(0);
-        List<Student> list = studentRepo.findAllByStudentState(StudentState.JUNIOR_PASSED);
+        List<Student> list = studentRepo.findAllByStudentState(JUNIOR_PASSED);
         for (Student student : list) {
-            sendSingleMessage(student.getEmail(), StudentState.JUNIOR_PASSED, administer.getState());
+            sendSingleResultMessage(student.getEmail(), JUNIOR_PASSED, administer.getState());
         }
-        list = studentRepo.findAllByStudentState(StudentState.JUNIOR_FAILED);
+        list = studentRepo.findAllByStudentState(JUNIOR_FAILED);
         for (Student student : list) {
-            sendSingleMessage(student.getEmail(), StudentState.JUNIOR_FAILED, administer.getState());
+            sendSingleResultMessage(student.getEmail(), JUNIOR_FAILED, administer.getState());
         }
         list = studentRepo.findAllByStudentState(StudentState.SENIOR_PASSED);
         for (Student student : list) {
-            sendSingleMessage(student.getEmail(), StudentState.SENIOR_PASSED, administer.getState());
+            sendSingleResultMessage(student.getEmail(), StudentState.SENIOR_PASSED, administer.getState());
         }
-        list = studentRepo.findAllByStudentState(StudentState.SENIOR_FAILED);
+        list = studentRepo.findAllByStudentState(SENIOR_FAILED);
         for (Student student : list) {
-            sendSingleMessage(student.getEmail(), StudentState.SENIOR_FAILED, administer.getState());
+            sendSingleResultMessage(student.getEmail(), SENIOR_FAILED, administer.getState());
         }
     }
 
     //建议使用此方法，每个状态开启一次流
-    public void sendMessages(List<String> studentIds, StudentState studentState, AdministerState administerState) {
+    public void sendResultMessages(List<String> studentIds, StudentState studentState, AdministerState administerState) {
         String content = null;
         switch (studentState) {//暂时相信学生和管理员的状态是配套的
             case JUNIOR_FAILED:
@@ -167,6 +196,16 @@ public class MessageService {
         return false;
     }
 
+    public boolean sendGlobalMessage(String title, String content) {
+        List<Student> list = studentRepo.findAll();//假设学生表里的学生都是有效的，(也许需要每年删一次学生)
+        List<String> emails = list.stream().map(Student::getEmail).collect(Collectors.toList());
+        List<Message> toSave = new ArrayList<>();
+        for (String email : emails)
+            toSave.add(new Message(email, title, content, MessageType.NORMAL));
+        messageRepo.saveAll(toSave);
+        return true;
+    }
+
     public String getTemplateContent(String path) {
         ClassPathResource resource = new ClassPathResource(path);
         BufferedReader reader = null;
@@ -208,8 +247,10 @@ public class MessageService {
     }
 
     public void confirmSecondTestAttendance(String email, boolean willing) {
-        AssessmentResult r = assessmentResultRepo.findByEmail(email).get(0);
-        r.setAttendSecondTest(willing);
-        assessmentResultRepo.save(r);
+        if (willing)
+            return;
+        Student student = studentRepo.findById(email).get();
+        student.setStudentState(StudentState.REJECT_ATTENDANCE);
+        studentRepo.save(student);
     }
 }

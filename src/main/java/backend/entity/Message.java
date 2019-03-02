@@ -89,4 +89,13 @@ public class Message {
     public Message() {
         setRead(false);
     }
+
+    public Message(String email, String title, String content, MessageType type) {
+        this.email = email;
+        this.title = title;
+        this.content = content;
+        this.releasedTime = Calendar.getInstance();
+        this.type = type;
+        this.isRead = false;
+    }
 }

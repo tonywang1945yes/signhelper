@@ -89,11 +89,6 @@ public class ApplForm {
     @Embedded
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 
-    private Integer totalLevelPoints;
-
-    @Enumerated(EnumType.STRING)
-    private SubjectCriteria criteriaLevel;
-
     @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Activity> activities;
 
@@ -270,22 +265,6 @@ public class ApplForm {
         this.singleSubjectCriteria = singleSubjectCriteria;
     }
 
-    public Integer getTotalLevelPoints() {
-        return totalLevelPoints;
-    }
-
-    public void setTotalLevelPoints(Integer totalLevelPoints) {
-        this.totalLevelPoints = totalLevelPoints;
-    }
-
-    public SubjectCriteria getCriteriaLevel() {
-        return criteriaLevel;
-    }
-
-    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
-        this.criteriaLevel = criteriaLevel;
-    }
-
     public SchAtdPeriod getPrimarySchool() {
         return primarySchool;
     }
@@ -371,8 +350,6 @@ public class ApplForm {
         setActualLevelPoints(p.getActualLevelPoints());
         setLevelRange(p.getLevelRange());
         setSingleSubjectCriteria(p.getSingleSubjectCriteria());
-        setTotalLevelPoints(p.getTotalLevelPoints());
-        setCriteriaLevel(p.getCriteriaLevel());
         if (p.getFamilyParticulars() != null) {
             List<FamilyParticularItem> items = new ArrayList<FamilyParticularItem>(Arrays.asList(p.getFamilyParticulars()));
             for (FamilyParticularItem item : items)

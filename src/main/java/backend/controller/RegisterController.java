@@ -6,6 +6,7 @@ import backend.exception.RegisterException;
 import backend.parameter.register.RegisterParameter;
 import backend.response.BasicResponse;
 import backend.service.RegisterService;
+import com.hankcs.hanlp.HanLP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class RegisterController {
         User user = new User(param);//student初始化在构造函数中完成，也许用工厂更好？
         user.setPasswordEncoded(new BCryptPasswordEncoder().encode(param.getPassword()));
         Student student = new Student(param);
+
         service.register(user, student);
         return new BasicResponse(true, "");
 

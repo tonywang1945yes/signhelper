@@ -53,10 +53,6 @@ public class ApplFormParameter {
 
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 
-    private Integer totalLevelPoints;
-
-    private SubjectCriteria criteriaLevel;
-
     private Activity[] activities;
 
     private String personalStatement;
@@ -212,22 +208,6 @@ public class ApplFormParameter {
 
     public void setSingleSubjectCriteria(CustomResult<SubjectCriteria> singleSubjectCriteria) {
         this.singleSubjectCriteria = singleSubjectCriteria;
-    }
-
-    public Integer getTotalLevelPoints() {
-        return totalLevelPoints;
-    }
-
-    public void setTotalLevelPoints(Integer totalLevelPoints) {
-        this.totalLevelPoints = totalLevelPoints;
-    }
-
-    public SubjectCriteria getCriteriaLevel() {
-        return criteriaLevel;
-    }
-
-    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
-        this.criteriaLevel = criteriaLevel;
     }
 
     public SchAtdPeriod getPrimarySchool() {
