@@ -51,10 +51,11 @@ public class MessageController {
             method = RequestMethod.GET)
     public Message[] getMessageList(HttpServletRequest request) {
         String email = getIdFromRequest(request);
-        return service.getMessageList(email);
+        return service.getMessageArray(email);
     }
 
-    @RequestMapping(value = "/{messageId}")
+    @RequestMapping(value = "/{messageId}",
+            method = RequestMethod.GET)
     public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request) {
         String email = getIdFromRequest(request);
         return service.getMessageDetail(messageId, email);

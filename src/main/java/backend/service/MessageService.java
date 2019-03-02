@@ -229,8 +229,10 @@ public class MessageService {
         return administer.getMessage();
     }
 
-    public Message[] getMessageList(String email) {
-        return (Message[]) messageRepo.findAllByEmail(email).toArray();//排序晚点再做
+    public Message[] getMessageArray(String email) {
+        List<Message> messages = messageRepo.findAllByEmail(email);
+        Message[] res = new Message[messages.size()];
+        return messages.toArray(res);
     }
 
     public Message getMessageDetail(Long id, String email) {

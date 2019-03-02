@@ -10,7 +10,6 @@ import java.util.Calendar;
 @Table(name = "tbl_message")
 public class Message {
     @Id
-    @JsonIgnore
     private Long id;
 
     @JsonIgnore
