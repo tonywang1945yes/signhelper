@@ -59,6 +59,14 @@ public class ApplicationController {
 
     }
 
+    @RequestMapping(value = "/form_check", method = RequestMethod.POST)
+    public Map<String, Boolean> hasUploadApplForm(HttpServletRequest request) {
+        String email = getIdFromRequest(request);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("hasUploaded", service.hasUploadedApplForm(email));
+        return result;
+    }
+
     @RequestMapping(value = "/attachment_check", method = RequestMethod.POST)
     public Map<String, Boolean> hasUploadedAttachment(@RequestBody Map<String, String[]> param, HttpServletRequest request, @Value("${savingPath}") String dest) {
         Map<String, Boolean> result = new HashMap<>();

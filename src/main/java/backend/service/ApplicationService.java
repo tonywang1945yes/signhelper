@@ -1,7 +1,9 @@
 package backend.service;
 
 import backend.dao.service.*;
+import backend.entity.Student;
 import backend.entity.application.ApplForm;
+import backend.enums.StudentState;
 import backend.parameter.application.ApplFormParameter;
 import com.hankcs.hanlp.HanLP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ApplicationService {
@@ -36,6 +35,10 @@ public class ApplicationService {
 
     @Transactional
     public boolean updateApplForm(ApplFormParameter param, String email) {
+        Student student = studentRepo.findById(email).get();
+        student.setStudentState(StudentState.UNDER_EXAMINED);
+        studentRepo.save(student);
+
         ApplForm applForm = applFormRepo.findByStudentId(email).get(0);
         if (applForm.getActivities() != null) {
             activityRepo.deleteActivities(applForm.getId());
@@ -84,6 +87,14 @@ public class ApplicationService {
             }
         }
         return true;
+    }
+
+    public boolean hasUploadedApplForm(String email) {
+        if (studentRepo.existsById(email)) {
+            Student student = studentRepo.findById(email).get();
+            return student.getStudentState().equals(StudentState.UNDER_EXAMINED);
+        }
+        return false;
     }
 
     public String[] getFileNames(String dest, String email) {

@@ -70,6 +70,7 @@ public class MessageController {
 
 
     @RequestMapping(value = "/global_message", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
     public BasicResponse sendGlobalMessage(@RequestBody Map<String, String> param) {
         if (service.sendGlobalMessage(param.get("title"), param.get("content")))
             return new BasicResponse(true, "");
