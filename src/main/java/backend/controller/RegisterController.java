@@ -6,7 +6,6 @@ import backend.exception.RegisterException;
 import backend.parameter.register.RegisterParameter;
 import backend.response.BasicResponse;
 import backend.service.RegisterService;
-import com.hankcs.hanlp.HanLP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;

@@ -53,4 +53,13 @@ public class SchAtdPeriod {
         this.endDate = endDate;
     }
 
+    public SchAtdPeriod() {
+    }
+
+    public SchAtdPeriod(String name, String region, Calendar startDate, Calendar endDate) {
+        this.name = name;
+        this.region = region;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

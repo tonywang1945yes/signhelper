@@ -55,6 +55,8 @@ public class ApplicationControllerTest {
         choices.setThirdChoice("电子");
         p.setCurriculumChoices(choices);
 
+        p.setPhoneNumbers(new PhoneNumbers());
+
         SchAtdPeriod p1 = new SchAtdPeriod();
         p1.setName("海淀区第二小学");
         p1.setRegion("北京市");
@@ -146,7 +148,7 @@ public class ApplicationControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
         HttpEntity<ApplFormParameter> request = new HttpEntity<ApplFormParameter>(p, headers);
         BasicResponse response = this.testRestTemplate.postForObject("/application/form", request, BasicResponse.class);
         assertThat(response.getSucceed()).isTrue();
@@ -161,7 +163,7 @@ public class ApplicationControllerTest {
     public void getApplication() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
         HttpEntity<?> request = new HttpEntity<ApplFormParameter>(null, headers);
         ResponseEntity<ApplFormResponse> response = this.testRestTemplate.exchange("/application/form", HttpMethod.GET, request, ApplFormResponse.class);
         System.out.println(response.getBody());
@@ -171,7 +173,7 @@ public class ApplicationControllerTest {
     public void simplifyChars() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
         Map<String, String> param = new HashMap<>();
         param.put("raw", "憂鬱");
         HttpEntity<Map<String, String>> request = new HttpEntity<>(param, headers);

@@ -89,6 +89,7 @@ public class ApplForm {
     @Embedded
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 
+
     @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Activity> activities;
 
@@ -316,18 +317,53 @@ public class ApplForm {
     public ApplForm() {
     }
 
-    public void updateInfo(Student s) {
+    public void updateInfo(Student s) {//仅注册时会调用一次，将所有字段设为非null值
+        needSimplification = false;
+        sex = 1;
+        visaNum = "";
+        graduationYear = "";
+        postalCode = "";
+        phoneNumbers = new PhoneNumbers("", "", "");
+        curriculumChoices = new CurriculumChoices("", "", "", "");
+        artOrSci = 1;
+        acceptAssignment = false;
+
         setStudentId(s.getEmail());
-        setAddress(s.getAddress());
-        setBirthDate(s.getBirthDate());
         setFirstName(s.getName().substring(0, 1));
         setLastName(s.getName().substring(1));
-        setHighSchool(s.getHighSchool());
         setIdentityNum(s.getIdentityNum());
+
+        setAddress(s.getAddress() == null ? "" : s.getAddress());
+        Calendar c = Calendar.getInstance();
+        c.set(2000, 1, 1);
+        setBirthDate(s.getBirthDate() == null ? c : s.getBirthDate());
+        setHighSchool(s.getHighSchool() == null ? "" : s.getHighSchool());
         //没加电话
+
+        phoneNumbers = new PhoneNumbers("", "", "");
+        curriculumChoices = new CurriculumChoices("", "", "", "");
+
+        Calendar c1 = Calendar.getInstance();
+        c1.set(2010, 1, 1);
+        Calendar c2 = Calendar.getInstance();
+        c2.set(2010, 1, 2);
+        setPrimarySchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+        setJuniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+        setSeniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        results = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
+        actualLevelPoints = new CustomResult<Integer>(0, 0, 0, 0, 0);
+        levelRange = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
+        singleSubjectCriteria = new CustomResult<SubjectCriteria>(SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA);
+
+        personalStatement = "";
     }
 
-    public void updateInfo(ApplFormParameter p) {
+    public void updateInfo(ApplFormParameter p) {//如果能保证传来的参数都不为null，更新后返回的申请表也不会有null值
         setFirstName(p.getFirstName());
         setLastName(p.getLastName());
         setNeedSimplification(p.getNeedSimplification());

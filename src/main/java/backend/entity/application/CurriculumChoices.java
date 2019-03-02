@@ -52,4 +52,14 @@ public class CurriculumChoices {
     public String toString(){
         return firstChoice + " / " + secondChoice + " / " + thirdChoice + " / " + firstChoice;
     }
+
+    public CurriculumChoices(){
+    }
+
+    public CurriculumChoices(String firstChoice, String secondChoice, String thirdChoice, String fourthChoice) {
+        this.firstChoice = firstChoice;
+        this.secondChoice = secondChoice;
+        this.thirdChoice = thirdChoice;
+        this.fourthChoice = fourthChoice;
+    }
 }

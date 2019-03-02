@@ -30,13 +30,12 @@ public class ApplFormResponse {
     private CustomResult<Integer> actualLevelPoints;
     private CustomResult<Double> levelRange;
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
-    private Integer totalLevelPoints;
-    private SubjectCriteria criteriaLevel;
     private FamilyParticularItem[] familyParticulars;
     private Activity[] activities;
     private String personalStatement;
 
     public ApplFormResponse() {
+
     }
 
     public ApplFormResponse(ApplForm a) {
@@ -264,22 +263,6 @@ public class ApplFormResponse {
         this.singleSubjectCriteria = singleSubjectCriteria;
     }
 
-    public Integer getTotalLevelPoints() {
-        return totalLevelPoints;
-    }
-
-    public void setTotalLevelPoints(Integer totalLevelPoints) {
-        this.totalLevelPoints = totalLevelPoints;
-    }
-
-    public SubjectCriteria getCriteriaLevel() {
-        return criteriaLevel;
-    }
-
-    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
-        this.criteriaLevel = criteriaLevel;
-    }
-
     public Activity[] getActivities() {
         return activities;
     }
@@ -322,8 +305,6 @@ public class ApplFormResponse {
                 ", actualLevelPoints=" + actualLevelPoints +
                 ", levelRange=" + levelRange +
                 ", singleSubjectCriteria=" + singleSubjectCriteria +
-                ", totalLevelPoints=" + totalLevelPoints +
-                ", criteriaLevel=" + criteriaLevel +
                 ", familyParticulars=" + Arrays.toString(familyParticulars) +
                 ", activities=" + Arrays.toString(activities) +
                 ", personalStatement='" + personalStatement + '\'' +
