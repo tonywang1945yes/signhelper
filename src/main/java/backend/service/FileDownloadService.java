@@ -113,7 +113,8 @@ public class FileDownloadService {
     }
 
 
-    public void createFile(List<ApplForm> list){
+    public void createFile(){
+        List<ApplForm> list = applFormRepo.findAll();
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("学生申请表信息");
         Row title = sheet.createRow(0);
@@ -238,7 +239,7 @@ public class FileDownloadService {
             if (!file.exists()){
                 file.mkdirs();
             }
-            out = new FileOutputStream(fileName);
+            out = new FileOutputStream(filepath+"/"+fileName);
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
