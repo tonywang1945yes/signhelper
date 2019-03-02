@@ -1,10 +1,16 @@
 package backend.controller;
 
 
+import backend.dao.service.ApplFormRepository;
+import backend.entity.application.ApplForm;
 import backend.parameter.downloadFile.DownloadParameter;
+import backend.parameter.register.RegisterParameter;
+import backend.response.application.ApplicationResponse;
 import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Calendar;
 
 
 @RestController
@@ -23,5 +29,11 @@ public class FileDownloadController {
     public boolean downLoadFile(@RequestBody DownloadParameter parameter){
         service.saveUrlAs(parameter.getId(),parameter.getFilepath(),parameter.getMethod());
         return true;
+    }
+
+
+    @RequestMapping(value = "/create")
+    public void create(){
+        service.createFile();
     }
 }

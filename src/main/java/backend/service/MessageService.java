@@ -32,7 +32,7 @@ public class MessageService {
     @Autowired
     AssessmentResultRepository assessmentResultRepo;
 
-    @Value("${messageTemplatePath}")
+    @Value("${createFileUrl}")
     String messageTemplatePath;
 
     static final String JUNIOR_FAILED_PATH = "/junior_failed.txt";
@@ -41,7 +41,7 @@ public class MessageService {
     static final String SENIOR_PASSED_PATH = "/senior_passed.txt";
 
     public void updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
-        String path = "src/main/resources/msgDic";
+        String path = messageTemplatePath;
         File file = new File(path);
         if (!file.exists()) {
             file.mkdir();
