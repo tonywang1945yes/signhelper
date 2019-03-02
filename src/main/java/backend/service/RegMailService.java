@@ -10,6 +10,7 @@ import backend.entity.Administer;
 import backend.entity.MailCaptcha;
 import backend.entity.Student;
 import backend.entity.User;
+import backend.response.EmailResponse.SETAdmissionResponse;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -216,6 +217,26 @@ public class RegMailService {
                 return true;
         }
         return false;
+    }
+
+    public SETAdmissionResponse getSETAdmission(){
+        List<Administer> list = adminRepo.findAll();
+        if(list.size()!=0){
+            SETAdmissionResponse response = new SETAdmissionResponse();
+            response.email = "";
+            response.admission = "";
+            if(list.get(0).getEmailAddress() != null){
+                response.email = list.get(0).getEmailAddress();
+            }
+            if(list.get(0).getEmailadmission()!=null){
+                response.admission = list.get(0).getEmailadmission();
+            }
+
+            return response;
+        }
+        else {
+            return new SETAdmissionResponse("No admin","No admin");
+        }
     }
 
 }

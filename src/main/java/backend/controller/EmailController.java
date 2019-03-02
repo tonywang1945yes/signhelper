@@ -4,6 +4,7 @@ import backend.parameter.emailVerification.SendMailParameter;
 import backend.parameter.emailVerification.SetSendAddressParam;
 import backend.parameter.emailVerification.VerifyMailParameter;
 import backend.response.BasicResponse;
+import backend.response.EmailResponse.SETAdmissionResponse;
 import backend.service.RegMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,11 @@ public class EmailController {
             method = RequestMethod.GET)
     public void remind() throws Exception {
         service.groupSendMail();
+    }
+
+    @GetMapping(value = "/preAdmission")
+    public SETAdmissionResponse getAdmission(){
+        return service.getSETAdmission();
     }
 
 }
