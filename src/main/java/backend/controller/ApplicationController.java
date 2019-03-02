@@ -58,7 +58,7 @@ public class ApplicationController {
         String type = multiRequest.getParameter("type");
         String email = getIdFromRequest(multiRequest);
         String studentName = service.getStudentName(email);
-        File target = new File(dest + studentName + "-" + email + "/" + type);
+        File target = new File(dest + "/" +studentName + "-" + email + "/" + type);
         if (!target.exists())
             target.mkdirs();
         else {//如果目录里已有文件则先清空，仅局限于文件而无法删除子文件夹
@@ -80,22 +80,22 @@ public class ApplicationController {
         return new BasicResponse(true, "");
     }
 
-    @RequestMapping(value = "/attachment_check", method = RequestMethod.GET)
-    public Map<String, Boolean> hasUploadedAttachment(HttpServletRequest request, @Value("${savingPath}") String dest) {
+    @RequestMapping(value = "/attachment_check", method = RequestMethod.POST)
+    public Map<String, Boolean> hasUploadedAttachment(@RequestBody String[] types, HttpServletRequest request, @Value("${savingPath}") String dest) {
         Map<String, Boolean> result = new HashMap<>();
         result.put("hasUploaded", true);
 
         String email = getIdFromRequest(request);
         String studentName = service.getStudentName(email);
         File target = new File(dest + studentName + "-" + email);
+
         if (!target.exists()) {
             result.put("hasUploaded", false);
             return result;
         }
-        String[] folders = target.list();
-        for (String folder : folders) {
+        for (String folder : types) {
             File fullPath = new File(target, folder);
-            if (fullPath.list().length == 0) {
+            if (!fullPath.exists() || fullPath.list().length == 0) {
                 result.put("hasUploaded", false);
                 return result;
             }

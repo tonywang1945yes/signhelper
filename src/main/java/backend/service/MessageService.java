@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -82,7 +83,7 @@ public class MessageService {
         message.setTitle(administerState == AdministerState.JUNIOR_CHECKING ?
                 "第一次审核结果" : "第二次审核结果");
         message.setType(administerState == AdministerState.JUNIOR_CHECKING ?
-                MessageType.FIRST_ASSESSMENT: MessageType.SECOND_ASSESSMENT);
+                MessageType.FIRST_ASSESSMENT : MessageType.SECOND_ASSESSMENT);
         switch (studentState) {//暂时相信学生和管理员的状态是配套的
             case JUNIOR_FAILED:
                 message.setContent(getTemplateContent(messageTemplatePath + JUNIOR_FAILED_PATH));
@@ -100,30 +101,67 @@ public class MessageService {
         messageRepo.save(message);
     }
 
-    public void sendMessage(){
+    public void sendMessage() {
         Administer administer = administerRepo.findAll().get(0);
         List<Student> list = studentRepo.findAllByStudentState(StudentState.JUNIOR_PASSED);
-        for (Student student : list){
+        for (Student student : list) {
             sendSingleMessage(student.getEmail(), StudentState.JUNIOR_PASSED, administer.getState());
         }
         list = studentRepo.findAllByStudentState(StudentState.JUNIOR_FAILED);
-        for (Student student : list){
+        for (Student student : list) {
             sendSingleMessage(student.getEmail(), StudentState.JUNIOR_FAILED, administer.getState());
         }
         list = studentRepo.findAllByStudentState(StudentState.SENIOR_PASSED);
-        for (Student student : list){
+        for (Student student : list) {
             sendSingleMessage(student.getEmail(), StudentState.SENIOR_PASSED, administer.getState());
         }
         list = studentRepo.findAllByStudentState(StudentState.SENIOR_FAILED);
-        for (Student student : list){
+        for (Student student : list) {
             sendSingleMessage(student.getEmail(), StudentState.SENIOR_FAILED, administer.getState());
         }
     }
 
-//    检查是否所有学生申请表均已被审核
-    public Boolean check(){
+    //建议使用此方法，每个状态开启一次流
+    public void sendMessages(List<String> studentIds, StudentState studentState, AdministerState administerState) {
+        String content = null;
+        switch (studentState) {//暂时相信学生和管理员的状态是配套的
+            case JUNIOR_FAILED:
+                content = getTemplateContent(messageTemplatePath + JUNIOR_FAILED_PATH);
+                break;
+            case JUNIOR_PASSED:
+                content = getTemplateContent(messageTemplatePath + JUNIOR_PASSED_PATH);
+                break;
+            case SENIOR_FAILED:
+                content = getTemplateContent(messageTemplatePath + SENIOR_FAILED_PATH);
+                break;
+            case SENIOR_PASSED:
+                content = getTemplateContent(messageTemplatePath + SENIOR_PASSED_PATH);
+                break;
+        }
+
+        MessageType type = administerState == AdministerState.JUNIOR_CHECKING ?
+                MessageType.FIRST_ASSESSMENT : MessageType.SECOND_ASSESSMENT;
+        String title = administerState == AdministerState.JUNIOR_CHECKING ?
+                "第一次审核结果" : "第二次审核结果";
+
+        List<Message> messages = new ArrayList<>();
+        for (String id : studentIds) {
+            Message message = new Message();
+            message.setEmail(id);
+            message.setTitle(title);
+            message.setType(type);
+            message.setContent(content);
+            message.setReleasedTime(Calendar.getInstance());
+            messages.add(message);
+        }
+
+        messageRepo.saveAll(messages);
+    }
+
+    //    检查是否所有学生申请表均已被审核
+    public Boolean check() {
         List<Student> list = studentRepo.findAllByStudentState(StudentState.UNDER_EXAMINED);
-        if (list.size() == 0){
+        if (list.size() == 0) {
             return true;
         }
         return false;
