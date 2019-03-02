@@ -17,8 +17,16 @@ public class EmailController {
     RegMailService service;
 
     @PostMapping(value = "/adminEmailSet", consumes = {"application/json", "application/xml"})
-    public void setEmail(@RequestBody SetSendAddressParam param) {
-        service.setEmailPermission(param.getEmailAddress(), param.getAdmission());
+    public BasicResponse setEmail(@RequestBody SetSendAddressParam param) {
+        BasicResponse response ;
+        Boolean bool = service.setEmailPermission(param.getEmailAddress(), param.getAdmission());
+        if(bool){
+            response = new BasicResponse(bool,"");
+        }
+        else {
+            response = new BasicResponse(bool,"设置失败");
+        }
+        return response;
     }
 
     @RequestMapping(value = "/send-verification-email",

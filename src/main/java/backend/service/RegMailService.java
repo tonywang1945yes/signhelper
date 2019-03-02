@@ -51,11 +51,16 @@ public class RegMailService {
     MailCaptchaRepository mailCaptchaRepo;
 
 
-    public void setEmailPermission(String emailAddress, String permission) {
-        Administer admin = adminRepo.findAll().get(0);
-        admin.setEmailAddress(emailAddress);
-        admin.setEmailadmission(permission);
-        adminRepo.save(admin);
+    public boolean setEmailPermission(String emailAddress, String permission) {
+        List<Administer> list = adminRepo.findAll();
+        if(list.size()!=0){
+            Administer admin = list.get(0);
+            admin.setEmailAddress(emailAddress);
+            admin.setEmailadmission(permission);
+            adminRepo.save(admin);
+            return true;
+        }
+        return false;
     }
 
     /**
