@@ -44,7 +44,7 @@ public class MessageService {
     static final String SENIOR_FAILED_PATH = "/senior_failed.txt";
     static final String SENIOR_PASSED_PATH = "/senior_passed.txt";
 
-    public void updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
+    public boolean updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
         String path = messageTemplatePath;
         File file = new File(path);
         if (!file.exists()) {

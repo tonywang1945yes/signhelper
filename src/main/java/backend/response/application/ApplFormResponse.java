@@ -69,8 +69,6 @@ public class ApplFormResponse {
         setLevelRange(a.getLevelRange());
         setSingleSubjectCriteria(a.getSingleSubjectCriteria());
 
-        setTotalLevelPoints(a.getTotalLevelPoints());
-        setCriteriaLevel(a.getCriteriaLevel());
         setPersonalStatement(a.getPersonalStatement());
     }
 

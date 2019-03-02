@@ -92,8 +92,6 @@ public class ApplicationControllerTest {
         p.setActualLevelPoints(actualLevelPoints);
         p.setLevelRange(levelRange);
         p.setSingleSubjectCriteria(criteria);
-        p.setTotalLevelPoints(69);
-        p.setCriteriaLevel(SubjectCriteria.TOP_CRITERIA);
 
         p.setPersonalStatement("长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
                 "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
