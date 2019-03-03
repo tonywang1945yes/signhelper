@@ -1,8 +1,8 @@
 package backend.controller;
 
+import backend.entity.application.ApplForm;
 import backend.parameter.application.ApplFormParameter;
 import backend.response.BasicResponse;
-import backend.response.application.ApplFormResponse;
 import backend.service.ApplicationService;
 import backend.util.token.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -29,9 +28,9 @@ public class ApplicationController {
 
     @RequestMapping(value = "/form",
             method = RequestMethod.GET)
-    public ApplFormResponse getApplication(HttpServletRequest request) {
+    public ApplForm getApplication(HttpServletRequest request) {
         String email = getIdFromRequest(request);
-        return new ApplFormResponse(service.getApplicationForm(email));
+        return service.getApplicationForm(email);
     }
 
     @RequestMapping(value = "/form",
@@ -87,7 +86,6 @@ public class ApplicationController {
         res.put("simplifiedChars", param.containsKey("raw") ? service.simplifyChars(param.get("raw")) : "");
         return res;
     }
-
 
     private String getIdFromRequest(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);

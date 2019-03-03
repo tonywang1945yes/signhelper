@@ -255,7 +255,7 @@ public class MessageService {
 
     public Message[] getReleasedMessages() {
         List<Message> list = messageRepo.findAll();
-        return list.stream().filter(distinctByKey(Message::getReleasedTime)).toArray(Message[]::new);
+        return list.stream().filter(distinctByKey(Message::getContent)).toArray(Message[]::new);
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
