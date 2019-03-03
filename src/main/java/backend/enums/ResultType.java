@@ -1,5 +1,5 @@
 package backend.enums;
 
-public enum MessageType {
+public enum ResultType {
     FIRST_ASSESSMENT, SECOND_ASSESSMENT, NORMAL
 }

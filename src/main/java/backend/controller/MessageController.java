@@ -1,7 +1,8 @@
 package backend.controller;
 
 
-import backend.entity.Message;
+import backend.entity.message.Broadcast;
+import backend.entity.message.Message;
 import backend.enums.StudentState;
 import backend.parameter.SetMessage.MessageParam;
 import backend.response.BasicResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -49,34 +51,17 @@ public class MessageController {
 
     @RequestMapping(value = "/",
             method = RequestMethod.GET)
-    public Message[] getMessageList(HttpServletRequest request) {
+    public List<Message> getMessageList(HttpServletRequest request) {
         String email = getIdFromRequest(request);
-        return service.getMessageArray(email);
+        return service.getMessageList(email);
     }
 
-    @RequestMapping(value = "/{messageId}",
-            method = RequestMethod.GET)
-    public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request) {
-        String email = getIdFromRequest(request);
-        return service.getMessageDetail(messageId, email);
-    }
-
-    @RequestMapping(value = "/",
-            method = RequestMethod.POST)
-    public Map<String, Boolean> updateMessagesState(Message[] messages) {
-        Map<String, Boolean> res = new HashMap<>();
-        res.put("succeed", service.updateMessagesState(messages));
-        return res;
-    }
-
-
-    @RequestMapping(value = "/global_message", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ADMIN')")
-    public BasicResponse sendGlobalMessage(@RequestBody Map<String, String> param) {
-        if (service.sendGlobalMessage(param.get("title"), param.get("content")))
-            return new BasicResponse(true, "");
-        return new BasicResponse(false, "发送失败");
-    }
+//    @RequestMapping(value = "/{messageId}",
+//            method = RequestMethod.GET)
+//    public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request) {
+//        String email = getIdFromRequest(request);
+//        return service.getMessageDetail(messageId, email);
+//    }
 
     //    @GetMapping(value = "/messageSending")
 //    public Boolean sendResultMessage() {
@@ -86,10 +71,28 @@ public class MessageController {
 //        service.sendResultMessage();
 //        return true;
 //    }
+
+    @RequestMapping(value = "/global_broadcast", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse sendGlobalBroadcast(@RequestBody Map<String, String> param) {
+        if (service.sendGlobalBroadcast(param.get("title"), param.get("content")))
+            return new BasicResponse(true, "");
+        return new BasicResponse(false, "发送失败");
+    }
+
     @RequestMapping(value = "/released_messages", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
-    public Message[] getReleasedMessages() {
-        return service.getReleasedMessages();
+    public List<Broadcast> getReleasedBroadcast() {
+        return service.getReleasedBroadcast();
+    }
+
+    @RequestMapping(value = "/",
+            method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Boolean> updateBroadcast(@RequestBody List<Broadcast> broadcasts) {
+        Map<String, Boolean> res = new HashMap<>();
+        res.put("succeed", service.updateBroadcast(broadcasts));
+        return res;
     }
 
     @RequestMapping(value = "/template/{type}", method = RequestMethod.GET)

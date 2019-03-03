@@ -1,26 +1,33 @@
 package backend.service;
 
-import backend.dao.impl.HibernateDao;
 import backend.dao.service.AdministerRepository;
-import backend.dao.service.MessageRepository;
+import backend.dao.service.BroadcastRepository;
+import backend.dao.service.ResultMessageRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Administer;
-import backend.entity.Message;
 import backend.entity.Student;
+import backend.entity.message.Broadcast;
+import backend.entity.message.Message;
+import backend.entity.message.ResultMessage;
 import backend.enums.AdministerState;
-import backend.enums.MessageType;
+import backend.enums.ResultType;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static backend.enums.StudentState.*;
 
@@ -28,7 +35,10 @@ import static backend.enums.StudentState.*;
 public class MessageService {
 
     @Autowired
-    MessageRepository messageRepo;
+    ResultMessageRepository resultMessageRepo;
+
+    @Autowired
+    BroadcastRepository broadcastRepo;
 
     @Autowired
     StudentRepository studentRepo;
@@ -77,24 +87,20 @@ public class MessageService {
     public String getTemplate(StudentState state) {
         if (state == null)
             return null;
-        File file;
-        String line;
+        String path;
         StringBuilder res = new StringBuilder();
         switch (state) {
             case JUNIOR_FAILED:
             case JUNIOR_PASSED:
             case SENIOR_FAILED:
             case SENIOR_PASSED:
-                file = new File("/" + state.toString().toLowerCase() + ".txt");
+                path = messageTemplatePath + "/" + state.toString().toLowerCase() + ".txt";
                 break;
             default:
                 return null;
         }
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            while ((line = reader.readLine()) != null) {
-                res.append("\n" + line);
-            }
+            Files.lines(Paths.get(path)).forEach(o -> res.append("\n").append(o));
             return res.substring(1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,28 +109,24 @@ public class MessageService {
     }
 
     public void sendSingleResultMessage(String studentId, StudentState studentState, AdministerState administerState) {
-        Message message = new Message();
-        message.setEmail(studentId);
-        message.setReleasedTime(Calendar.getInstance());
-        message.setTitle(administerState == AdministerState.JUNIOR_CHECKING ?
+        ResultMessage resultMessage = new ResultMessage();
+        resultMessage.setEmail(studentId);
+        resultMessage.setReleasedTime(Calendar.getInstance());
+        resultMessage.setTitle(administerState == AdministerState.JUNIOR_CHECKING ?
                 "第一次审核结果" : "第二次审核结果");
-        message.setType(administerState == AdministerState.JUNIOR_CHECKING ?
-                MessageType.FIRST_ASSESSMENT : MessageType.SECOND_ASSESSMENT);
+        resultMessage.setType(administerState == AdministerState.JUNIOR_CHECKING ?
+                ResultType.FIRST_ASSESSMENT : ResultType.SECOND_ASSESSMENT);
         switch (studentState) {//暂时相信学生和管理员的状态是配套的
             case JUNIOR_FAILED:
-                message.setContent(getTemplateContent(messageTemplatePath + JUNIOR_FAILED_PATH));
-                break;
             case JUNIOR_PASSED:
-                message.setContent(getTemplateContent(messageTemplatePath + JUNIOR_PASSED_PATH));
-                break;
             case SENIOR_FAILED:
-                message.setContent(getTemplateContent(messageTemplatePath + SENIOR_FAILED_PATH));
-                break;
             case SENIOR_PASSED:
-                message.setContent(getTemplateContent(messageTemplatePath + SENIOR_PASSED_PATH));
+                resultMessage.setContent(getTemplateContent(messageTemplatePath + "/" + studentState.toString().toLowerCase() + ".txt"));
                 break;
+            default:
+                return;
         }
-        messageRepo.save(message);
+        resultMessageRepo.save(resultMessage);
     }
 
     public void sendResultMessage() {
@@ -165,23 +167,23 @@ public class MessageService {
                 break;
         }
 
-        MessageType type = administerState == AdministerState.JUNIOR_CHECKING ?
-                MessageType.FIRST_ASSESSMENT : MessageType.SECOND_ASSESSMENT;
+        ResultType type = administerState == AdministerState.JUNIOR_CHECKING ?
+                ResultType.FIRST_ASSESSMENT : ResultType.SECOND_ASSESSMENT;
         String title = administerState == AdministerState.JUNIOR_CHECKING ?
                 "第一次审核结果" : "第二次审核结果";
 
-        List<Message> messages = new ArrayList<>();
+        List<ResultMessage> resultMessages = new ArrayList<>();
         for (String id : studentIds) {
-            Message message = new Message();
-            message.setEmail(id);
-            message.setTitle(title);
-            message.setType(type);
-            message.setContent(content);
-            message.setReleasedTime(Calendar.getInstance());
-            messages.add(message);
+            ResultMessage resultMessage = new ResultMessage();
+            resultMessage.setEmail(id);
+            resultMessage.setTitle(title);
+            resultMessage.setType(type);
+            resultMessage.setContent(content);
+            resultMessage.setReleasedTime(Calendar.getInstance());
+            resultMessages.add(resultMessage);
         }
 
-        messageRepo.saveAll(messages);
+        resultMessageRepo.saveAll(resultMessages);
     }
 
     //    检查是否所有学生申请表均已被审核
@@ -193,69 +195,45 @@ public class MessageService {
         return false;
     }
 
-    public boolean sendGlobalMessage(String title, String content) {
-        List<Student> list = studentRepo.findAll();//假设学生表里的学生都是有效的，(也许需要每年删一次学生)
-        List<String> emails = list.stream().map(Student::getEmail).collect(Collectors.toList());
-        List<Message> toSave = new ArrayList<>();
-        for (String email : emails)
-            toSave.add(new Message(email, title, content, MessageType.NORMAL));
-        messageRepo.saveAll(toSave);
+    public boolean sendGlobalBroadcast(String title, String content) {
+        broadcastRepo.save(new Broadcast(title, content, Calendar.getInstance()));
         return true;
     }
 
     public String getTemplateContent(String path) {
-        ClassPathResource resource = new ClassPathResource(path);
-        BufferedReader reader = null;
-        StringBuilder sb = new StringBuilder();
-        String line = null;
+        StringBuilder builder = new StringBuilder();
         try {
-            reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "/n");
-            }
+            Files.lines(Paths.get(path)).forEach(o -> builder.append("\n").append(o));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return sb.toString();
+        return builder.substring(1);
     }
 
-    public String getMessage() {
-        HibernateDao<Administer> dao = new HibernateDao<>(new Administer());
-        Administer administer = dao.getAllObjects().get(0);
-        return administer.getMessage();
-    }
-
-    public Message[] getMessageArray(String email) {
-        List<Message> messages = messageRepo.findAllByEmail(email);
-        Message[] res = new Message[messages.size()];
-        return messages.toArray(res);
-    }
-
-    public Message getMessageDetail(Long id, String email) {
-        Message message = messageRepo.getOne(id);
-        if (message.getEmail() != email)
-            return null;
-        return message;
-    }
-
-    public boolean updateMessagesState(Message[] messages) {
-        List<Message> toSave = Arrays.asList(messages);
-        messageRepo.saveAll(toSave);
-        return true;
+    public List<Message> getMessageList(String email) {
+        List<Message> messages = new ArrayList<>();
+        messages.addAll(resultMessageRepo.findAllByEmail(email));
+        messages.addAll(broadcastRepo.findAll());
+        return messages;
     }
 
     public void confirmSecondTestAttendance(String email, boolean willing) {
         if (willing)
             return;
-        Student student = studentRepo.findById(email).get();
-        student.setStudentState(StudentState.REJECT_ATTENDANCE);
-        studentRepo.save(student);
+        studentRepo.findById(email).ifPresent(o -> {
+            o.setStudentState(StudentState.REJECT_ATTENDANCE);
+            studentRepo.save(o);
+        });
     }
 
-    public Message[] getReleasedMessages() {
-        List<Message> list = messageRepo.findAll();
-        return list.stream().filter(distinctByKey(Message::getReleasedTime)).toArray(Message[]::new);
+    public List<Broadcast> getReleasedBroadcast() {
+        return broadcastRepo.findAll();
+    }
+
+    public boolean updateBroadcast(List<Broadcast> broadcasts) {
+        broadcastRepo.saveAll(broadcasts);
+        return true;
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
