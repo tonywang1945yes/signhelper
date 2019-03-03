@@ -1,14 +1,14 @@
-package backend.entity;
+package backend.entity.message;
 
-import backend.enums.MessageType;
+import backend.enums.ResultType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "tbl_message")
-public class Message {
+@Table(name = "tbl_result_message")
+public class ResultMessage extends Message{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class Message {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30)
-    private MessageType type;
+    private ResultType type;
 
     private Boolean isRead;
 
@@ -70,11 +70,11 @@ public class Message {
         this.releasedTime = releasedTime;
     }
 
-    public MessageType getType() {
+    public ResultType getType() {
         return type;
     }
 
-    public void setType(MessageType type) {
+    public void setType(ResultType type) {
         this.type = type;
     }
 
@@ -86,11 +86,11 @@ public class Message {
         isRead = read;
     }
 
-    public Message() {
+    public ResultMessage() {
         setRead(false);
     }
 
-    public Message(String email, String title, String content, MessageType type) {
+    public ResultMessage(String email, String title, String content, ResultType type) {
         this.email = email;
         this.title = title;
         this.content = content;
