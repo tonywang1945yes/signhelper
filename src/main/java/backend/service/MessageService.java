@@ -16,10 +16,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static backend.enums.StudentState.*;
@@ -51,21 +51,11 @@ public class MessageService {
             file.mkdir();
         }
         switch (state) {
-            case NULL:
-                return false;
-            case UNDER_EXAMINED:
-                return false;
             case JUNIOR_FAILED:
-                path += "/junior_failed.txt";
-                break;
             case JUNIOR_PASSED:
-                path += "/junior_passed.txt";
-                break;
             case SENIOR_FAILED:
-                path += "/senior_failed.txt";
-                break;
             case SENIOR_PASSED:
-                path += "/senior_passed.txt";
+                path += ("/" + state.toString().toLowerCase() + ".txt");
                 break;
             default:
                 return false;
@@ -87,11 +77,18 @@ public class MessageService {
     public String getTemplate(StudentState state) {
         if (state == null)
             return null;
-        File file = null;
+        File file;
         String line;
         StringBuilder res = new StringBuilder();
-        if (Arrays.asList(JUNIOR_FAILED, JUNIOR_PASSED, SENIOR_FAILED).contains(state)) {
-            file = new File(messageTemplatePath + "/" + state.toString().toLowerCase() + ".txt");
+        switch (state) {
+            case JUNIOR_FAILED:
+            case JUNIOR_PASSED:
+            case SENIOR_FAILED:
+            case SENIOR_PASSED:
+                file = new File("/" + state.toString().toLowerCase() + ".txt");
+                break;
+            default:
+                return null;
         }
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -254,5 +251,15 @@ public class MessageService {
         Student student = studentRepo.findById(email).get();
         student.setStudentState(StudentState.REJECT_ATTENDANCE);
         studentRepo.save(student);
+    }
+
+    public Message[] getReleasedMessages() {
+        List<Message> list = messageRepo.findAll();
+        return list.stream().filter(distinctByKey(Message::getReleasedTime)).toArray(Message[]::new);
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 }

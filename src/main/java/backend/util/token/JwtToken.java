@@ -65,8 +65,8 @@ public class JwtToken implements Serializable {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private Boolean isCreatedBeforeLastLogOut(Date created, Date lastLogOut) {
-        return (lastLogOut != null && created.before(lastLogOut));
+    private Boolean isCreatedBeforeLastLogout(Date created, Date lastLogout) {
+        return (lastLogout != null && created.before(lastLogout));
     }
 
     private Boolean ignoreTokenExpiration(String token) {
@@ -120,7 +120,7 @@ public class JwtToken implements Serializable {
         return username.equals(user.getUsername())
                 && !isTokenExpired(token)
                 && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate().getTime())
-                && !isCreatedBeforeLastLogOut(created, user.getLastLogoutDate().getTime());
+                && !isCreatedBeforeLastLogout(created, user.getLastLogoutDate().getTime());
     }
 
     private Date calculateExpirationDate(Date createdDate) {

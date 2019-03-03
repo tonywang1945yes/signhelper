@@ -10,6 +10,7 @@ import java.util.Calendar;
 @Table(name = "tbl_message")
 public class Message {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore

@@ -78,7 +78,7 @@ public class MessageController {
         return new BasicResponse(false, "发送失败");
     }
 
-//    @GetMapping(value = "/messageSending")
+    //    @GetMapping(value = "/messageSending")
 //    public Boolean sendResultMessage() {
 //        if (!service.check()) {
 //            return false;
@@ -86,39 +86,28 @@ public class MessageController {
 //        service.sendResultMessage();
 //        return true;
 //    }
+    @RequestMapping(value = "/released_messages", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Message[] getReleasedMessages() {
+        return service.getReleasedMessages();
+    }
 
     @RequestMapping(value = "/template/{type}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public String getTemplate(@PathVariable String type) {
-        return service.getTemplate(string2State(type));
+        return service.getTemplate(StudentState.valueOf(type));
     }
 
     @RequestMapping(value = "/template", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
     public BasicResponse updateTemplate(@RequestBody Map<String, String> param) {
-        boolean res = service.updateTemplate(param.get("content"), string2State(param.get("type")));
+        boolean res = service.updateTemplate(param.get("content"), StudentState.valueOf(param.get("type")));
         return new BasicResponse(res, res ? "" : "更新失败");
-    }
-
-    private StudentState string2State(String s) {
-        switch (s) {
-            case "JUNIOR_FAILED":
-                return StudentState.JUNIOR_FAILED;
-            case "JUNIOR_PASSED":
-                return StudentState.JUNIOR_PASSED;
-            case "SENIOR_FAILED":
-                return StudentState.SENIOR_FAILED;
-            case "SENIOR_PASSED":
-                return StudentState.SENIOR_PASSED;
-            default:
-                return null;
-        }
     }
 
     private String getIdFromRequest(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         return jwtToken.getUsernameFromToken(token);
     }
-
 
 }
