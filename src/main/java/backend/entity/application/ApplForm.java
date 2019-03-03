@@ -7,10 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tbl_application_form")
@@ -344,12 +341,20 @@ public class ApplForm {
         curriculumChoices = new CurriculumChoices("", "", "", "");
 
         Calendar c1 = Calendar.getInstance();
-        c1.set(2010, 1, 1);
+        int currentYear = c1.get(Calendar.YEAR);
+        c1.set(currentYear-3, Calendar.SEPTEMBER, 1);
         Calendar c2 = Calendar.getInstance();
-        c2.set(2010, 1, 2);
-        setPrimarySchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
-        setJuniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+        c2.set(currentYear, Calendar.JUNE, 30);
+        c2.setTimeZone(TimeZone.getDefault());
         setSeniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        c1.set(Calendar.YEAR, currentYear-6);
+        c2.set(Calendar.YEAR, currentYear-3);
+        setJuniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        c1.set(Calendar.YEAR, currentYear-12);
+        c2.set(Calendar.YEAR, currentYear-6);
+        setPrimarySchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
 
         results = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
         actualLevelPoints = new CustomResult<Integer>(0, 0, 0, 0, 0);
