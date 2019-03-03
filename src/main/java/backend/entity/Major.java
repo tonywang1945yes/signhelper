@@ -113,4 +113,11 @@ public class Major {
         this.setComment(comment);
     }
 
+
+    public Major(String name, Boolean acceptArt, Integer time, String college, String comment){
+        this.setName(name);
+        this.setAcceptArt(acceptArt);
+        this.setTime(time);
+        this.setComment(comment);
+    }
 }

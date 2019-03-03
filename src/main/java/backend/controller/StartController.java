@@ -25,11 +25,16 @@ public class StartController {
     @Autowired
     SetDdLService setDdLService;
 
+    @Autowired
+    MajorService majorService;
+
     @PostMapping(value = "/start",
             consumes = {"application/json", "application/xml"})
     public void start(@RequestBody StartParameter parameter){
 //        更新管理员状态
         startService.start();
+
+        majorService.init();
 //        设置DDL
         setDdLService.setDDL(parameter.getDdl());
     }
