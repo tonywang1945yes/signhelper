@@ -15,6 +15,7 @@ import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -195,20 +196,27 @@ public class MessageService {
         return false;
     }
 
+    public List<Broadcast> getReleasedBroadcast() {
+        return broadcastRepo.findAll();
+    }
+
+    @Transactional
     public boolean sendGlobalBroadcast(String title, String content) {
         broadcastRepo.save(new Broadcast(title, content, Calendar.getInstance()));
         return true;
     }
 
-    public String getTemplateContent(String path) {
-        StringBuilder builder = new StringBuilder();
-        try {
-            Files.lines(Paths.get(path)).forEach(o -> builder.append("\n").append(o));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return builder.substring(1);
+    @Transactional
+    public boolean deleteBroadcast(List<Long> ids) {
+        for (Long id : ids)
+            broadcastRepo.deleteById(id);
+        return true;
+    }
+
+    @Transactional
+    public boolean updateBroadcast(List<Broadcast> broadcasts) {
+        broadcastRepo.saveAll(broadcasts);
+        return true;
     }
 
     public List<Message> getMessageList(String email) {
@@ -218,6 +226,7 @@ public class MessageService {
         return messages;
     }
 
+    @Transactional
     public void confirmSecondTestAttendance(String email, boolean willing) {
         if (willing)
             return;
@@ -227,17 +236,19 @@ public class MessageService {
         });
     }
 
-    public List<Broadcast> getReleasedBroadcast() {
-        return broadcastRepo.findAll();
-    }
-
-    public boolean updateBroadcast(List<Broadcast> broadcasts) {
-        broadcastRepo.saveAll(broadcasts);
-        return true;
-    }
-
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
+    }
+
+    private String getTemplateContent(String path) {
+        StringBuilder builder = new StringBuilder();
+        try {
+            Files.lines(Paths.get(path)).forEach(o -> builder.append("\n").append(o));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return builder.substring(1);
     }
 }

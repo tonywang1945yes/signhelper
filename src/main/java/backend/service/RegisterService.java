@@ -10,6 +10,7 @@ import backend.exception.RegisterException;
 import com.hankcs.hanlp.HanLP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class RegisterService {
         return (result != null && result.size() != 0);
     }
 
+    @Transactional
     public void register(User user, Student student) throws RegisterException {
         if (checkDuplicatedRegister(student.getEmail())) {
             throw new RegisterException("该邮箱已被注册过");

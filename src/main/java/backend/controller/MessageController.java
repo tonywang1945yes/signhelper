@@ -80,18 +80,27 @@ public class MessageController {
         return new BasicResponse(false, "发送失败");
     }
 
-    @RequestMapping(value = "/released_messages", method = RequestMethod.GET)
+    @RequestMapping(value = "/released_broadcast", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public List<Broadcast> getReleasedBroadcast() {
         return service.getReleasedBroadcast();
     }
 
-    @RequestMapping(value = "/",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/global_broadcast",
+            method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN')")
     public Map<String, Boolean> updateBroadcast(@RequestBody List<Broadcast> broadcasts) {
         Map<String, Boolean> res = new HashMap<>();
         res.put("succeed", service.updateBroadcast(broadcasts));
+        return res;
+    }
+
+    @RequestMapping(value = "/global_broadcast",
+            method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Boolean> deleteBroadcast(@RequestBody Map<String,List<Long>> param) {
+        Map<String, Boolean> res = new HashMap<>();
+        res.put("succeed", service.deleteBroadcast(param.get("ids")));
         return res;
     }
 

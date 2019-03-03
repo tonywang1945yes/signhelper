@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -72,6 +73,7 @@ public class RegMailService {
      * @throws MessagingException       Message方法调用异常sendSimpleMail方法中
      * @throws Exception                getHost方法中的host不存在异常，这个后面会改的更明确
      */
+    @Transactional
     public void sendVerificationCode(String emailAddress) throws GeneralSecurityException, MessagingException, Exception {
         char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         char[] code = new char[6];
