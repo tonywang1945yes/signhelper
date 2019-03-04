@@ -119,5 +119,6 @@ public class Major {
         this.setAcceptArt(acceptArt);
         this.setTime(time);
         this.setComment(comment);
+        this.setCollege(college);
     }
 }
