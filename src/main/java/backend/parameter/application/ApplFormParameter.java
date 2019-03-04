@@ -57,6 +57,8 @@ public class ApplFormParameter {
 
     private String personalStatement;
 
+    private Integer cacheOrSubmit;
+
 
     public String getFirstName() {
         return firstName;
@@ -256,5 +258,13 @@ public class ApplFormParameter {
 
     public void setPersonalStatement(String personalStatement) {
         this.personalStatement = personalStatement;
+    }
+
+    public Integer getCacheOrSubmit() {
+        return cacheOrSubmit;
+    }
+
+    public void setCacheOrSubmit(Integer cacheOrSubmit) {
+        this.cacheOrSubmit = cacheOrSubmit;
     }
 }

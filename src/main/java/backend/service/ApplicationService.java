@@ -36,7 +36,16 @@ public class ApplicationService {
     @Transactional
     public boolean updateApplForm(ApplFormParameter param, String email) {
         Student student = studentRepo.findById(email).get();
-        student.setStudentState(StudentState.UNDER_EXAMINED);
+        switch (param.getCacheOrSubmit()) {
+            case 0:
+                student.setStudentState(StudentState.FORM_CACHED);
+                break;
+            case 1:
+                student.setStudentState(StudentState.UNDER_EXAMINED);
+                break;
+            default:
+                return false;
+        }
         studentRepo.save(student);
 
         ApplForm applForm = applFormRepo.findByStudentId(email).get(0);
