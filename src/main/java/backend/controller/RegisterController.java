@@ -55,5 +55,11 @@ public class RegisterController {
         return res;
     }
 
+    @RequestMapping(value = "/encode/{password}", method = RequestMethod.GET)
+    public String encodePassword(@PathVariable String password){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
+    }
+
 
 }
