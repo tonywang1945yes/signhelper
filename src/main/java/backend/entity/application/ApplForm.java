@@ -161,6 +161,7 @@ public class ApplForm {
         this.visaNum = visaNum;
     }
 
+    @JsonProperty("idCardNumber")
     public String getIdentityNum() {
         return identityNum;
     }
@@ -169,7 +170,6 @@ public class ApplForm {
         this.identityNum = identityNum;
     }
 
-    @JsonProperty("idCardNumber")
     public String getHighSchool() {
         return highSchool;
     }
