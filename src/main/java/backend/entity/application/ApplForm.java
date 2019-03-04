@@ -4,6 +4,7 @@ import backend.entity.Student;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -102,6 +103,7 @@ public class ApplForm {
         this.id = id;
     }
 
+    @JsonProperty("email")
     public String getStudentId() {
         return studentId;
     }
@@ -150,6 +152,7 @@ public class ApplForm {
         this.birthDate = birthDate;
     }
 
+    @JsonProperty("mtpNumber")
     public String getVisaNum() {
         return visaNum;
     }
@@ -166,6 +169,7 @@ public class ApplForm {
         this.identityNum = identityNum;
     }
 
+    @JsonProperty("idCardNumber")
     public String getHighSchool() {
         return highSchool;
     }
@@ -342,18 +346,18 @@ public class ApplForm {
 
         Calendar c1 = Calendar.getInstance();
         int currentYear = c1.get(Calendar.YEAR);
-        c1.set(currentYear-3, Calendar.SEPTEMBER, 1);
+        c1.set(currentYear - 3, Calendar.SEPTEMBER, 1);
         Calendar c2 = Calendar.getInstance();
         c2.set(currentYear, Calendar.JUNE, 30);
         c2.setTimeZone(TimeZone.getDefault());
         setSeniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
 
-        c1.set(Calendar.YEAR, currentYear-6);
-        c2.set(Calendar.YEAR, currentYear-3);
+        c1.set(Calendar.YEAR, currentYear - 6);
+        c2.set(Calendar.YEAR, currentYear - 3);
         setJuniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
 
-        c1.set(Calendar.YEAR, currentYear-12);
-        c2.set(Calendar.YEAR, currentYear-6);
+        c1.set(Calendar.YEAR, currentYear - 12);
+        c2.set(Calendar.YEAR, currentYear - 6);
         setPrimarySchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
 
         results = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
