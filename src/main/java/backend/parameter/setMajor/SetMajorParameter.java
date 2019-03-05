@@ -2,15 +2,25 @@ package backend.parameter.setMajor;
 
 public class SetMajorParameter {
 
-    private Long id;
+//    private Long id;
 
     private String name;
 
     private Integer stuNum;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Boolean acceptArt;
+
+    private Integer time;
+
+    private String college;
+
+    private Integer price;
+
+    private String comment;
+
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public void setName(String name) {
         this.name = name;
@@ -40,19 +50,9 @@ public class SetMajorParameter {
         this.comment = comment;
     }
 
-    private Boolean acceptArt;
-
-    private Integer time;
-
-    private String college;
-
-    private Integer price;
-
-    private String comment;
-
-    public Long getId() {
-        return id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
 
     public String getName() {
         return name;

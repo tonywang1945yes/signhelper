@@ -1,5 +1,10 @@
 package backend;
 
+import backend.controller.StartController;
+import backend.dao.service.MajorRepository;
+import backend.service.MajorService;
+import backend.service.StartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,6 +17,7 @@ import org.springframework.web.WebApplicationInitializer;
 
 import java.io.*;
 
+
 @SpringBootApplication
 @EnableTransactionManagement
 public class Application extends SpringBootServletInitializer implements WebApplicationInitializer{
@@ -20,7 +26,10 @@ public class Application extends SpringBootServletInitializer implements WebAppl
         System.out.println("启动成功！！");
         System.out.println();
     }
+
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
     }
+
+
 }
