@@ -89,9 +89,9 @@ public class MessageController {
     @RequestMapping(value = "/global_broadcast",
             method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN')")
-    public Map<String, Boolean> updateBroadcast(@RequestBody List<Broadcast> broadcasts) {
+    public Map<String, Boolean> updateBroadcast(@RequestBody Map<String, List<Broadcast>> param) {
         Map<String, Boolean> res = new HashMap<>();
-        res.put("succeed", service.updateBroadcast(broadcasts));
+        res.put("succeed", service.updateBroadcast(param.get("messages")));
         return res;
     }
 
