@@ -25,7 +25,7 @@ public class StartControllerTest {
         p.setAcceptArt(true);
         p.setCollege("软件学院");
         p.setComment("三四年级费用为16000");
-        p.setId((long)1);
+//        p.setId((long)1);
         p.setName("软件工程");
         p.setTime(4);
         p.setStuNum(30);
