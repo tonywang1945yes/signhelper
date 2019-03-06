@@ -30,6 +30,17 @@ public class MajorController {
         }
     }
 
+    @PostMapping(value = "/majorChanging")
+    public BasicResponse changeMajor(@RequestBody Major major){
+        Boolean res = majorService.change(major);
+        if (res){
+            return new BasicResponse(true, "Succeed.");
+        }
+        else {
+            return new BasicResponse(false, "Fail to add major.");
+        }
+    }
+
     @PostMapping(value = "/majorDeleting")
     public BasicResponse deleteMajor(@RequestBody String name){
         Boolean res = majorService.delete(name);

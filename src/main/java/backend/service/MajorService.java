@@ -26,6 +26,14 @@ public class MajorService {
         return !isExist(name);
     }
 
+    public Boolean change(Major major){
+        if (isExist(major.getName())){
+            delete(major.getName());
+        }
+        majorRepo.save(major);
+        return isExist(major.getName());
+    }
+
     private Boolean isExist(String name){
         return majorRepo.findByName(name) != null;
     }
