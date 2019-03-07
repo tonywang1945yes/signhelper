@@ -97,21 +97,21 @@ public class RegMailService {
         mailCaptcha.setBuiltTime(Calendar.getInstance());
         mailCaptchaRepo.save(mailCaptcha);
 
-        String prefix = "您(或者其他人)在重置我們的臺灣學生註冊網站的賬戶密碼時輸入了該郵箱地址。\n\n" +
+        String prefix = "您(或他人)在申請重置南京大學臺灣免試生報名系統的賬戶密碼。\n\n" +
                 "如果該操作不是由您本人做出，請無視這封郵件。\n\n";
         String body1 =
-                "為了重置您的密碼，您需要輸入該郵件中附帶的驗證碼以驗證您的身份(請註意不要泄露該驗證碼以免讓您的信息面臨泄露的風險)。\n\n" +
+                "為了重置您的密碼，您需要輸入該郵件中附帶的驗證碼以驗證您的身份(請註意不要洩露該驗證碼以免讓您的資訊面臨洩露的風險)。\n\n" +
                         "驗證碼為 %s , 有效時間為30min，過期失效。\n\n";
         String body2 = "然而該郵箱並不在我們的數據庫記錄裏， 因此重置密碼操作將不能進行。\n\n" +
                 "如果您確實擁有網站的賬戶並想重置密碼，請重試並使用註冊賬戶時所使用的郵箱。\n\n";
-        String postfix = "如有疑問，請訪問網站 xxxx 或咨詢網站管理員。";
+        String postfix = "如有疑問，請撥打招生電話 86-4001859680 咨詢。";
 
         StringBuilder fullContent = new StringBuilder();
         fullContent.append(prefix).append(userRepo.existsById(emailAddress) ? body1 : body2).append(postfix);
 
 //        String sendAddress = getProperty("sendAddress");  //有这么个发件人地址,
 //        String password = getProperty("mailPassword");  //有这么个密码
-        String subject = "xxxx網站驗證碼";
+        String subject = "南京大學臺灣免試生報名系統重置密碼驗證碼";
 
         sendSimpleMail(subject, emailAddress, String.format(fullContent.toString(), codeStr));
         //随机数生成完毕

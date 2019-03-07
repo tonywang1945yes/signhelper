@@ -43,7 +43,7 @@ public class Pretest {
     public void init2(){
         RegisterParameter p2 = new RegisterParameter();
         p2.setName("藍于涵");
-        p2.setEmail("superfreeeee@gmail.com");
+        p2.setEmail("1216161424@qq.com");
         p2.setPassword("qazwsxedc");
         p2.setHighSchool("北一女中");
         p2.setIdCardNumber("B987654321");
