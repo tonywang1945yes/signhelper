@@ -55,7 +55,14 @@ public class RegMailService {
 
     public boolean setEmailPermission(String emailAddress, String permission) {
         List<Administer> list = adminRepo.findAll();
-        if(list.size()!=0){
+        if(list.size()==0){
+            Administer admin =new Administer();
+            admin.setEmailAddress(emailAddress);
+            admin.setEmailadmission(permission);
+            adminRepo.save(admin);
+            return true;
+        }
+        else if(list.size()!=0){
             Administer admin = list.get(0);
             admin.setEmailAddress(emailAddress);
             admin.setEmailadmission(permission);
