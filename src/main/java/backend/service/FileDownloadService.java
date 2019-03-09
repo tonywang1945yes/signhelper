@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,6 +43,7 @@ public class FileDownloadService {
 
     @Value("${fileName}")
     String fileName;
+
 
     public  File saveUrlAs(Long[] ids, String filePath, String method){
 
@@ -113,7 +115,35 @@ public class FileDownloadService {
     }
 
 
-    public void createFile(List<ApplForm> list){
+
+    public byte[] input2byte()throws IOException{
+        FileInputStream fis = null;
+        fis = new FileInputStream(new File(url+"/"+fileName));
+        return input2byte(fis);
+    }
+    public static final byte[]input2byte(InputStream inStream)throws IOException{
+        ByteArrayOutputStream swapStream = null;
+        try{
+            swapStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[1024];
+            int rc =0;
+            while((rc = inStream.read(buff,0,1024))>0){
+                swapStream.write(buff,0,1024);
+            }
+            return swapStream.toByteArray();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if(swapStream!=null){
+                swapStream.close();
+            }
+            return null;
+        }
+    }
+
+
+    public void createFile(){
+        List<ApplForm> list = applFormRepo.findAll();
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("学生申请表信息");
         Row title = sheet.createRow(0);
