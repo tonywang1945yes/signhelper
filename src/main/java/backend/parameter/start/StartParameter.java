@@ -15,7 +15,5 @@ public class StartParameter {
         this.ddl = ddl;
     }
 
-    public StartParameter() {
-    }
 
 }

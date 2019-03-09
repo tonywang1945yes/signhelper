@@ -6,15 +6,11 @@ public class SetMajorParameter {
 
     private String name;
 
-    private Integer stuNum;
-
     private Boolean acceptArt;
 
     private Integer time;
 
     private String college;
-
-    private Integer price;
 
     private String comment;
 
@@ -26,9 +22,6 @@ public class SetMajorParameter {
         this.name = name;
     }
 
-    public void setStuNum(Integer stuNum) {
-        this.stuNum = stuNum;
-    }
 
     public void setAcceptArt(Boolean acceptArt) {
         this.acceptArt = acceptArt;
@@ -40,10 +33,6 @@ public class SetMajorParameter {
 
     public void setCollege(String college) {
         this.college = college;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
     }
 
     public void setComment(String comment) {
@@ -58,9 +47,6 @@ public class SetMajorParameter {
         return name;
     }
 
-    public Integer getStuNum() {
-        return stuNum;
-    }
 
     public Boolean getAcceptArt() {
         return acceptArt;
@@ -72,10 +58,6 @@ public class SetMajorParameter {
 
     public String getCollege() {
         return college;
-    }
-
-    public Integer getPrice() {
-        return price;
     }
 
     public String getComment() {

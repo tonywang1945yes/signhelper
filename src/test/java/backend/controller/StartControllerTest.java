@@ -28,8 +28,7 @@ public class StartControllerTest {
 //        p.setId((long)1);
         p.setName("软件工程");
         p.setTime(4);
-        p.setStuNum(30);
-        p.setPrice(3000);
+
 
 
         JwtAuthenticationParameter user = new JwtAuthenticationParameter();

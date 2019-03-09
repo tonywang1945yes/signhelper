@@ -62,7 +62,7 @@ public class MajorInitializationRunner implements ApplicationRunner{
             majorRepo.save(major);
             major = new Major("電子信息類", false, 4, "電子科學與工程學院", "");
             majorRepo.save(major);
-            major = new Major("材料學", false, 4, "現代工程與應用科學學院", "一流學科：材料科學與工程");
+            major = new Major("材料類", false, 4, "現代工程與應用科學學院", "一流學科：材料科學與工程");
             majorRepo.save(major);
             major = new Major("地質學類", false, 4, "地球科學與工程學院", "一流學科：地質學、礦業工程");
             majorRepo.save(major);
