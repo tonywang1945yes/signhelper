@@ -25,15 +25,15 @@ public class FileDownloadController {
     FileDownloadService service;
 
 
-    @RequestMapping(value = "/fileStorage",
-            method = RequestMethod.GET,
-            consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"})
-    @ResponseBody
-    public boolean downLoadFile(@RequestBody DownloadParameter parameter){
-        service.saveUrlAs(parameter.getId(),parameter.getFilepath(),parameter.getMethod());
-        return true;
-    }
+//    @RequestMapping(value = "/fileStorage",
+//            method = RequestMethod.GET,
+//            consumes = {"application/json", "application/xml"},
+//            produces = {"application/json", "application/xml"})
+//    @ResponseBody
+//    public boolean downLoadFile(@RequestBody DownloadParameter parameter){
+//        service.saveUrlAs(parameter.getId(),parameter.getFilepath(),parameter.getMethod());
+//        return true;
+//    }
 
 
 
