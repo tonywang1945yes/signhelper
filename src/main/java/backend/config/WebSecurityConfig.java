@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/captcha").permitAll()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/DDL/getting").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity

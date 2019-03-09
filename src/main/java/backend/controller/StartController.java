@@ -27,7 +27,7 @@ public class StartController {
     @Autowired
     SetDdLService setDdLService;
 
-    @GetMapping(value = "/setting",
+    @PostMapping(value = "/setting",
             consumes = {"application/json", "application/xml"})
     @ResponseBody
     public BasicResponse setDDL(@RequestBody StartParameter parameter){
