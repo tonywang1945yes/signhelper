@@ -62,7 +62,7 @@ public class MajorController {
 //        return response;
 //    }
 
-    @GetMapping(value = "/majorUpdate")
+    @PostMapping(value = "/majorUpdate")
     @ResponseBody
     public BasicResponse updatemajor(@RequestBody UpdateMajorParam major){
         boolean succ = majorService.update(major.getMajorid(),major.getName(),major.getAcceptArt(),major.getTime(),major.getCollege(),major.getComment());

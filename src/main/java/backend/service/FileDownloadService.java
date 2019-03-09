@@ -115,7 +115,6 @@ public class FileDownloadService {
     }
 
 
-<<<<<<< HEAD
 
     public byte[] input2byte()throws IOException{
         FileInputStream fis = null;
@@ -143,8 +142,7 @@ public class FileDownloadService {
     }
 
 
-=======
->>>>>>> dev
+
     public void createFile(){
         List<ApplForm> list = applFormRepo.findAll();
         Workbook workbook = new XSSFWorkbook();
