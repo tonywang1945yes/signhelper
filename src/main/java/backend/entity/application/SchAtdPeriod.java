@@ -1,8 +1,9 @@
 package backend.entity.application;
 
-import backend.enums.SchoolType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Calendar;
 
 @Embeddable
@@ -52,4 +53,13 @@ public class SchAtdPeriod {
         this.endDate = endDate;
     }
 
+    public SchAtdPeriod() {
+    }
+
+    public SchAtdPeriod(String name, String region, Calendar startDate, Calendar endDate) {
+        this.name = name;
+        this.region = region;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -1,28 +1,22 @@
-package backend.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package backend.entity.message;
 
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "tbl_message")
-public class Message {
+@Table(name = "tbl_broadcast")
+public class Broadcast extends Message{
     @Id
-    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @JsonIgnore
-    private String email;
 
     private String title;
 
+    @Lob
     private String content;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(value = TemporalType.DATE)
     private Calendar releasedTime;
-
-    private Boolean isRead;
 
     public Long getId() {
         return id;
@@ -30,14 +24,6 @@ public class Message {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getTitle() {
@@ -64,15 +50,12 @@ public class Message {
         this.releasedTime = releasedTime;
     }
 
-    public Boolean getRead() {
-        return isRead;
+    public Broadcast(String title, String content, Calendar releasedTime) {
+        this.title = title;
+        this.content = content;
+        this.releasedTime = releasedTime;
     }
 
-    public void setRead(Boolean read) {
-        isRead = read;
-    }
-
-    public Message() {
-        setRead(false);
+    public Broadcast() {
     }
 }

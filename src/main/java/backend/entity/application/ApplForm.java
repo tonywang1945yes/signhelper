@@ -3,19 +3,19 @@ package backend.entity.application;
 import backend.entity.Student;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tbl_application_form")
 public class ApplForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     private String studentId;
@@ -87,10 +87,6 @@ public class ApplForm {
     @Embedded
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 
-    private Integer totalLevelPoints;
-
-    @Enumerated(EnumType.STRING)
-    private SubjectCriteria criteriaLevel;
 
     @OneToMany(targetEntity = Activity.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Activity> activities;
@@ -107,6 +103,7 @@ public class ApplForm {
         this.id = id;
     }
 
+    @JsonProperty("email")
     public String getStudentId() {
         return studentId;
     }
@@ -155,6 +152,7 @@ public class ApplForm {
         this.birthDate = birthDate;
     }
 
+    @JsonProperty("mtpNumber")
     public String getVisaNum() {
         return visaNum;
     }
@@ -163,6 +161,7 @@ public class ApplForm {
         this.visaNum = visaNum;
     }
 
+    @JsonProperty("idCardNumber")
     public String getIdentityNum() {
         return identityNum;
     }
@@ -268,22 +267,6 @@ public class ApplForm {
         this.singleSubjectCriteria = singleSubjectCriteria;
     }
 
-    public Integer getTotalLevelPoints() {
-        return totalLevelPoints;
-    }
-
-    public void setTotalLevelPoints(Integer totalLevelPoints) {
-        this.totalLevelPoints = totalLevelPoints;
-    }
-
-    public SubjectCriteria getCriteriaLevel() {
-        return criteriaLevel;
-    }
-
-    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
-        this.criteriaLevel = criteriaLevel;
-    }
-
     public SchAtdPeriod getPrimarySchool() {
         return primarySchool;
     }
@@ -335,18 +318,61 @@ public class ApplForm {
     public ApplForm() {
     }
 
-    public void updateInfo(Student s) {
+    public void updateInfo(Student s) {//仅注册时会调用一次，将所有字段设为非null值
+        needSimplification = false;
+        sex = 1;
+        visaNum = "";
+        graduationYear = "";
+        postalCode = "";
+        phoneNumbers = new PhoneNumbers("", "", "");
+        curriculumChoices = new CurriculumChoices("", "", "", "");
+        artOrSci = 1;
+        acceptAssignment = false;
+
         setStudentId(s.getEmail());
-        setAddress(s.getAddress());
-        setBirthDate(s.getBirthDate());
         setFirstName(s.getName().substring(0, 1));
         setLastName(s.getName().substring(1));
-        setHighSchool(s.getHighSchool());
         setIdentityNum(s.getIdentityNum());
+
+        setAddress(s.getAddress() == null ? "" : s.getAddress());
+        Calendar c = Calendar.getInstance();
+        c.set(2000, 1, 1);
+        setBirthDate(s.getBirthDate() == null ? c : s.getBirthDate());
+        setHighSchool(s.getHighSchool() == null ? "" : s.getHighSchool());
         //没加电话
+
+        phoneNumbers = new PhoneNumbers("", "", "");
+        curriculumChoices = new CurriculumChoices("", "", "", "");
+
+        Calendar c1 = Calendar.getInstance();
+        int currentYear = c1.get(Calendar.YEAR);
+        c1.set(currentYear - 3, Calendar.SEPTEMBER, 1);
+        Calendar c2 = Calendar.getInstance();
+        c2.set(currentYear, Calendar.JUNE, 30);
+        c2.setTimeZone(TimeZone.getDefault());
+        setSeniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        c1.set(Calendar.YEAR, currentYear - 6);
+        c2.set(Calendar.YEAR, currentYear - 3);
+        setJuniorMiddleSchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        c1.set(Calendar.YEAR, currentYear - 12);
+        c2.set(Calendar.YEAR, currentYear - 6);
+        setPrimarySchool(new SchAtdPeriod("", "", (Calendar) c1.clone(), (Calendar) c2.clone()));
+
+        results = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
+        actualLevelPoints = new CustomResult<Integer>(0, 0, 0, 0, 0);
+        levelRange = new CustomResult<Double>(0.0, 0.0, 0.0, 0.0, 0.0);
+        singleSubjectCriteria = new CustomResult<SubjectCriteria>(SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA,
+                SubjectCriteria.AVERAGE_CRITERIA);
+
+        personalStatement = "";
     }
 
-    public void updateInfo(ApplFormParameter p) {
+    public void updateInfo(ApplFormParameter p) {//如果能保证传来的参数都不为null，更新后返回的申请表也不会有null值
         setFirstName(p.getFirstName());
         setLastName(p.getLastName());
         setNeedSimplification(p.getNeedSimplification());
@@ -369,8 +395,6 @@ public class ApplForm {
         setActualLevelPoints(p.getActualLevelPoints());
         setLevelRange(p.getLevelRange());
         setSingleSubjectCriteria(p.getSingleSubjectCriteria());
-        setTotalLevelPoints(p.getTotalLevelPoints());
-        setCriteriaLevel(p.getCriteriaLevel());
         if (p.getFamilyParticulars() != null) {
             List<FamilyParticularItem> items = new ArrayList<FamilyParticularItem>(Arrays.asList(p.getFamilyParticulars()));
             for (FamilyParticularItem item : items)

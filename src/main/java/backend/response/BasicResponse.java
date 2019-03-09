@@ -1,13 +1,8 @@
-package backend.response.application;
+package backend.response;
 
-public class ApplicationResponse {
-    private Boolean succeed;
-    private String msg;
-
-    public ApplicationResponse(Boolean succeed, String msg) {
-        this.succeed = succeed;
-        this.msg = msg;
-    }
+public class BasicResponse {
+    Boolean succeed;
+    String msg;
 
     public Boolean getSucceed() {
         return succeed;
@@ -22,6 +17,14 @@ public class ApplicationResponse {
     }
 
     public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public BasicResponse() {
+    }
+
+    public BasicResponse(Boolean succeed, String msg) {
+        this.succeed = succeed;
         this.msg = msg;
     }
 }

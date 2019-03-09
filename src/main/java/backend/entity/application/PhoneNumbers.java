@@ -43,4 +43,13 @@ public class PhoneNumbers {
     public String toString(){
         return homePhoneNumber + " / " + mobilePhoneNumber + " / " + faxNumber;
     }
+
+    public PhoneNumbers() {
+    }
+
+    public PhoneNumbers(String homePhoneNumber, String mobilePhoneNumber, String faxNumber) {
+        this.homePhoneNumber = homePhoneNumber;
+        this.mobilePhoneNumber = mobilePhoneNumber;
+        this.faxNumber = faxNumber;
+    }
 }

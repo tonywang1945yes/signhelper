@@ -1,16 +1,21 @@
 package backend.controller;
 
 
-import backend.entity.Message;
+import backend.entity.message.Broadcast;
+import backend.entity.message.Message;
+import backend.enums.StudentState;
 import backend.parameter.SetMessage.MessageParam;
+import backend.response.BasicResponse;
 import backend.service.MessageService;
 import backend.util.token.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -29,15 +34,15 @@ public class MessageController {
     @RequestMapping(value = "/storage",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
-    public void setmessage(@RequestBody MessageParam param)throws Exception{
+    public void setmessage(@RequestBody MessageParam param) throws Exception {
         param.setState();
-        service.updateTemplate(param.getMessage(),param.getState());
+        service.updateTemplate(param.getMessage(), param.getState());
     }
 
     @RequestMapping(value = "/confirmation",
-        method = RequestMethod.POST)
-    public void confirmSecondTestAttendance(@RequestBody Map<String, Boolean> param, HttpServletRequest request){
-        if(!param.containsKey("willAttend")) return;
+            method = RequestMethod.POST)
+    public void confirmSecondTestAttendance(@RequestBody Map<String, Boolean> param, HttpServletRequest request) {
+        if (!param.containsKey("willAttend")) return;
         JwtToken jwtToken = new JwtToken();
         String token = request.getHeader(tokenHeader).substring(7);
         String email = jwtToken.getUsernameFromToken(token);
@@ -46,26 +51,73 @@ public class MessageController {
 
     @RequestMapping(value = "/",
             method = RequestMethod.GET)
-    public Message[] getMessageList(HttpServletRequest request){
+    public List<Message> getMessageList(HttpServletRequest request) {
         String email = getIdFromRequest(request);
         return service.getMessageList(email);
     }
 
-    @RequestMapping(value = "/{messageId}")
-    public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request){
-        String email = getIdFromRequest(request);
-        return service.getMessageDetail(messageId, email);
+//    @RequestMapping(value = "/{messageId}",
+//            method = RequestMethod.GET)
+//    public Message getMessageDetail(@PathVariable Long messageId, HttpServletRequest request) {
+//        String email = getIdFromRequest(request);
+//        return service.getMessageDetail(messageId, email);
+//    }
+
+    //    @GetMapping(value = "/messageSending")
+//    public Boolean sendResultMessage() {
+//        if (!service.check()) {
+//            return false;
+//        }
+//        service.sendResultMessage();
+//        return true;
+//    }
+
+    @RequestMapping(value = "/global_broadcast", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse sendGlobalBroadcast(@RequestBody Map<String, String> param) {
+        if (service.sendGlobalBroadcast(param.get("title"), param.get("content")))
+            return new BasicResponse(true, "");
+        return new BasicResponse(false, "发送失败");
     }
 
-    @RequestMapping(value = "/",
-            method = RequestMethod.POST)
-    public Map<String, Boolean> updateMessagesState(Message[] messages){
-        Map<String,Boolean> res = new HashMap<>();
-        res.put("succeed",service.updateMessagesState(messages));
+    @RequestMapping(value = "/released_broadcast", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Broadcast> getReleasedBroadcast() {
+        return service.getReleasedBroadcast();
+    }
+
+    @RequestMapping(value = "/global_broadcast",
+            method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Boolean> updateBroadcast(@RequestBody Map<String, List<Broadcast>> param) {
+        Map<String, Boolean> res = new HashMap<>();
+        res.put("succeed", service.updateBroadcast(param.get("messages")));
         return res;
     }
 
-    private String getIdFromRequest(HttpServletRequest request){
+    @RequestMapping(value = "/global_broadcast",
+            method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Boolean> deleteBroadcast(@RequestBody Map<String,List<Long>> param) {
+        Map<String, Boolean> res = new HashMap<>();
+        res.put("succeed", service.deleteBroadcast(param.get("ids")));
+        return res;
+    }
+
+    @RequestMapping(value = "/template/{type}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getTemplate(@PathVariable String type) {
+        return service.getTemplate(StudentState.valueOf(type));
+    }
+
+    @RequestMapping(value = "/template", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse updateTemplate(@RequestBody Map<String, String> param) {
+        boolean res = service.updateTemplate(param.get("content"), StudentState.valueOf(param.get("type")));
+        return new BasicResponse(res, res ? "" : "更新失败");
+    }
+
+    private String getIdFromRequest(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         return jwtToken.getUsernameFromToken(token);
     }

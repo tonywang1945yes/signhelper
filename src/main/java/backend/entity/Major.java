@@ -14,7 +14,7 @@ public class Major {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "")
+    @Column(name = "name")
     private String name = "";
 
     @Column(name = "student_number")
@@ -103,9 +103,8 @@ public class Major {
 
     }
 
-    public Major(String name, Integer stuNum, Boolean acceptArt, Integer time, String college, Integer price, String comment){
+    public Major(String name,  Boolean acceptArt, Integer time, String college, Integer price, String comment){
         this.setName(name);
-        this.setStuNum(stuNum);
         this.setAcceptArt(acceptArt);
         this.setTime(time);
         this.setCollege(college);
@@ -113,4 +112,20 @@ public class Major {
         this.setComment(comment);
     }
 
+
+    public Major(String name, Boolean acceptArt, Integer time, String college, String comment){
+        this.setName(name);
+        this.setAcceptArt(acceptArt);
+        this.setTime(time);
+        this.setComment(comment);
+        this.setCollege(college);
+    }
+    public Major(Long id,String name, Boolean acceptArt, Integer time, String college, String comment){
+        this.id = id;
+        this.setName(name);
+        this.setAcceptArt(acceptArt);
+        this.setTime(time);
+        this.setComment(comment);
+        this.setCollege(college);
+    }
 }

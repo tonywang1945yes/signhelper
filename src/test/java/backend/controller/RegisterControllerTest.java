@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.parameter.register.RegisterParameter;
-import backend.response.register.RegisterResponse;
+import backend.response.BasicResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +26,18 @@ public class RegisterControllerTest {
         p.setName("黄国钊");
         p.setEmail("1206985125@qq.com");
         p.setPassword("asdfg1234");
-        p.setHighSchool("北海中学");
+//        p.setHighSchool("北海中学");
         p.setIdCardNumber("A118822770");
-        p.setAddress("广西省北海市海城区");
-        p.setTel("18577940215");
+//        p.setAddress("广西省北海市海城区");
+//        p.setTel("18577940215");
 
-        Calendar c = Calendar.getInstance();
-        c.set(1998,10,12);
-        p.setBirthDate((Calendar)c.clone());
+//        Calendar c = Calendar.getInstance();
+//        c.set(1998,10,12);
+//        p.setBirthDate((Calendar)c.clone());
 
-        RegisterResponse expected = new RegisterResponse(true,"");
+        BasicResponse expected = new BasicResponse(true,"");
 
-        RegisterResponse response = this.testRestTemplate.postForObject("/register/", p, RegisterResponse.class);
+        BasicResponse response = this.testRestTemplate.postForObject("/register/", p, BasicResponse.class);
         assertThat(response).isEqualToComparingFieldByFieldRecursively(expected);
     }
 

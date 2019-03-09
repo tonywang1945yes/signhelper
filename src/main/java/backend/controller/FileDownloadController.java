@@ -1,10 +1,15 @@
 package backend.controller;
 
 
+import backend.dao.service.ApplFormRepository;
+import backend.entity.application.ApplForm;
 import backend.parameter.downloadFile.DownloadParameter;
+import backend.parameter.register.RegisterParameter;
 import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Calendar;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +37,7 @@ public class FileDownloadController {
 
 
 
+
 //    @RequestMapping(value = "/create")
 //    public void create(){
 //        service.createFile();
@@ -39,9 +45,9 @@ public class FileDownloadController {
 
 
     @RequestMapping(value = "fileDownload")
-    public void download(HttpServletResponse response){
+    public void download(HttpServletResponse response) {
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename="+"Helloworld.pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "Helloworld.pdf");
         InputStream in = null;
         try {
             in = new FileInputStream(new File("d:/Helloworld.pdf"));
@@ -50,20 +56,24 @@ public class FileDownloadController {
             while ((length = in.read(buffer)) > 0) {
                 response.getOutputStream().write(buffer, 0, length);
             }
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(in!=null){
+        } finally {
+            if (in != null) {
                 try {
                     in.close();
-                }catch (IOException e){
+                } catch (IOException e) {
 
                 }
             }
         }
-
     }
+//
+//    @RequestMapping(value = "/create")
+//    public void create(){
+//        service.createFile();
+//
+//    }
 }

@@ -53,13 +53,11 @@ public class ApplFormParameter {
 
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 
-    private Integer totalLevelPoints;
-
-    private SubjectCriteria criteriaLevel;
-
     private Activity[] activities;
 
     private String personalStatement;
+
+    private Integer cacheOrSubmit;
 
 
     public String getFirstName() {
@@ -214,22 +212,6 @@ public class ApplFormParameter {
         this.singleSubjectCriteria = singleSubjectCriteria;
     }
 
-    public Integer getTotalLevelPoints() {
-        return totalLevelPoints;
-    }
-
-    public void setTotalLevelPoints(Integer totalLevelPoints) {
-        this.totalLevelPoints = totalLevelPoints;
-    }
-
-    public SubjectCriteria getCriteriaLevel() {
-        return criteriaLevel;
-    }
-
-    public void setCriteriaLevel(SubjectCriteria criteriaLevel) {
-        this.criteriaLevel = criteriaLevel;
-    }
-
     public SchAtdPeriod getPrimarySchool() {
         return primarySchool;
     }
@@ -276,5 +258,13 @@ public class ApplFormParameter {
 
     public void setPersonalStatement(String personalStatement) {
         this.personalStatement = personalStatement;
+    }
+
+    public Integer getCacheOrSubmit() {
+        return cacheOrSubmit;
+    }
+
+    public void setCacheOrSubmit(Integer cacheOrSubmit) {
+        this.cacheOrSubmit = cacheOrSubmit;
     }
 }

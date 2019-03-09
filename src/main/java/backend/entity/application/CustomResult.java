@@ -49,7 +49,7 @@ public class CustomResult<T> {
     public void setSciences(T sciences) {
         this.sciences = sciences;
     }
-
+    
     public CustomResult() {
     }
 

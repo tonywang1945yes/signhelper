@@ -115,6 +115,7 @@ public class FileDownloadService {
     }
 
 
+<<<<<<< HEAD
 
     public byte[] input2byte()throws IOException{
         FileInputStream fis = null;
@@ -142,6 +143,8 @@ public class FileDownloadService {
     }
 
 
+=======
+>>>>>>> dev
     public void createFile(){
         List<ApplForm> list = applFormRepo.findAll();
         Workbook workbook = new XSSFWorkbook();
@@ -268,7 +271,7 @@ public class FileDownloadService {
             if (!file.exists()){
                 file.mkdirs();
             }
-            out = new FileOutputStream(fileName);
+            out = new FileOutputStream(filepath+"/"+fileName);
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();

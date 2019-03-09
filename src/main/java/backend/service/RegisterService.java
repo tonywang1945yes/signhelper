@@ -7,8 +7,10 @@ import backend.entity.Student;
 import backend.entity.User;
 import backend.entity.application.ApplForm;
 import backend.exception.RegisterException;
+import com.hankcs.hanlp.HanLP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,25 +34,31 @@ public class RegisterService {
         return (result != null && result.size() != 0);
     }
 
+    @Transactional
     public void register(User user, Student student) throws RegisterException {
         if (checkDuplicatedRegister(student.getEmail())) {
             throw new RegisterException("该邮箱已被注册过");
         } else if (checkDuplicatedIDCardNumber(student.getIdentityNum())) {
             throw new RegisterException("该身份证号码已被使用过");
         }
-        initialization(user,student);
+        initialization(user, student);
     }
 
     private void initialization(User u, Student s) throws RegisterException {
         try {
             userRepo.save(u);
             Student res = studentRepo.save(s);
+            String raw = s.getName();
+            StringBuilder simplifiedName = new StringBuilder();
+            for (int i = 0; i < raw.length(); i++)
+                simplifiedName.append(HanLP.convertToSimplifiedChinese(raw.substring(i, i + 1)));
+            s.setName(simplifiedName.toString());
             ApplForm applForm = new ApplForm();
             applForm.updateInfo(s);
             ApplForm a = applFormRepo.save(applForm);
             res.setApplFormId(a.getId());
             studentRepo.save(res);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RegisterException("注册失败");
         }

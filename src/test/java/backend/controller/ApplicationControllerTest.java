@@ -3,7 +3,8 @@ package backend.controller;
 import backend.entity.application.*;
 import backend.enums.SubjectCriteria;
 import backend.parameter.application.ApplFormParameter;
-import backend.response.application.ApplicationResponse;
+import backend.response.BasicResponse;
+import backend.response.application.ApplFormResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+//建议一个一个方法进行测试
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApplicationControllerTest {
@@ -48,6 +54,8 @@ public class ApplicationControllerTest {
         choices.setSecondChoice("软件工程");
         choices.setThirdChoice("电子");
         p.setCurriculumChoices(choices);
+
+        p.setPhoneNumbers(new PhoneNumbers());
 
         SchAtdPeriod p1 = new SchAtdPeriod();
         p1.setName("海淀区第二小学");
@@ -86,8 +94,6 @@ public class ApplicationControllerTest {
         p.setActualLevelPoints(actualLevelPoints);
         p.setLevelRange(levelRange);
         p.setSingleSubjectCriteria(criteria);
-        p.setTotalLevelPoints(69);
-        p.setCriteriaLevel(SubjectCriteria.TOP_CRITERIA);
 
         p.setPersonalStatement("长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
                 "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试" +
@@ -142,11 +148,10 @@ public class ApplicationControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MTkxOTgzOCwiaWF0IjoxNTUxMzE1MDM4fQ.6Nkce0A8y4mF-BLZ1EUeIZzF758Hq7x5gNDrVkskqNybOmJXA0EbGSlBPU0GSDtyBvIMTpu9aq9jmo5BW8Gnzg");
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
         HttpEntity<ApplFormParameter> request = new HttpEntity<ApplFormParameter>(p, headers);
-        ApplicationResponse response = this.testRestTemplate.postForObject("/application/form", request, ApplicationResponse.class);
+        BasicResponse response = this.testRestTemplate.postForObject("/application/form", request, BasicResponse.class);
         assertThat(response.getSucceed()).isTrue();
-
 
     }
 
@@ -155,10 +160,24 @@ public class ApplicationControllerTest {
     }
 
     @Test
-    public void getBasicInfo() {
+    public void getApplication() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
+        HttpEntity<?> request = new HttpEntity<ApplFormParameter>(null, headers);
+        ResponseEntity<ApplFormResponse> response = this.testRestTemplate.exchange("/application/form", HttpMethod.GET, request, ApplFormResponse.class);
+        System.out.println(response.getBody());
     }
 
     @Test
     public void simplifyChars() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjA2OTg1MTI1QHFxLmNvbSIsImV4cCI6MTU1MjEzODk2NywiaWF0IjoxNTUxNTM0MTY3fQ.vfVZacfMChOjxLRyzjI__jKM9Elh0XaIKZ1r_tzuGUQv9xkkQgn-ZdMqpdpuWp2kEPhecWS3apYoscgLZ6iViA");
+        Map<String, String> param = new HashMap<>();
+        param.put("raw", "憂鬱");
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(param, headers);
+        Map<String, String> response = this.testRestTemplate.postForObject("/application/simplify_api", request, Map.class);
+        assertThat(response.get("simplifiedChars")).isEqualTo("忧郁");
     }
 }

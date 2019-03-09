@@ -1,7 +1,7 @@
 package backend.controller;
 
 import backend.parameter.register.RegisterParameter;
-import backend.response.register.RegisterResponse;
+import backend.response.BasicResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class Pretest {
         c1.set(1999, 11, 11);
         p1.setBirthDate((Calendar) c1.clone());
 
-        RegisterResponse expected = new RegisterResponse(true, "");
-        RegisterResponse r1 = this.testRestTemplate.postForObject("/register/", p1, RegisterResponse.class);
+        BasicResponse expected = new BasicResponse(true, "");
+        BasicResponse r1 = this.testRestTemplate.postForObject("/register/", p1, BasicResponse.class);
         assertThat(r1).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
@@ -43,7 +43,7 @@ public class Pretest {
     public void init2(){
         RegisterParameter p2 = new RegisterParameter();
         p2.setName("藍于涵");
-        p2.setEmail("superfreeeee@gmail.com");
+        p2.setEmail("1216161424@qq.com");
         p2.setPassword("qazwsxedc");
         p2.setHighSchool("北一女中");
         p2.setIdCardNumber("B987654321");
@@ -53,8 +53,8 @@ public class Pretest {
         c2.set(2000, 4, 16);
         p2.setBirthDate((Calendar) c2.clone());
 
-        RegisterResponse expected = new RegisterResponse(true, "");
-        RegisterResponse r2 = this.testRestTemplate.postForObject("/register/", p2, RegisterResponse.class);
+        BasicResponse expected = new BasicResponse(true, "");
+        BasicResponse r2 = this.testRestTemplate.postForObject("/register/", p2, BasicResponse.class);
         assertThat(r2).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
@@ -72,8 +72,8 @@ public class Pretest {
         c3.set(1999, 10, 9);
         p3.setBirthDate((Calendar) c3.clone());
 
-        RegisterResponse expected = new RegisterResponse(true, "");
-        RegisterResponse r3 = this.testRestTemplate.postForObject("/register/", p3, RegisterResponse.class);
+        BasicResponse expected = new BasicResponse(true, "");
+        BasicResponse r3 = this.testRestTemplate.postForObject("/register/", p3, BasicResponse.class);
         assertThat(r3).isEqualToComparingFieldByFieldRecursively(expected);
     }
 }
