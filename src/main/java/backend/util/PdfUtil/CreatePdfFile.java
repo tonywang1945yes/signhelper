@@ -1,5 +1,6 @@
 package backend.util.PdfUtil;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
@@ -19,9 +20,9 @@ public class CreatePdfFile {
     @Value("${savingPdfPath}")
     String path;
 
-    public void create(ApplForm applForm){
-
-        final String path = this.path + applForm.getId() + ".pdf";
+    public void create(ApplForm applForm,String imagepath){
+        final String image_path = imagepath;
+        final String path = this.path + "/"+applForm.getFirstName()+applForm.getLastName()+applForm.getIdentityNum() + ".pdf";
         try {
             Document document = new Document();
             document.setPageSize(PageSize.A4);
@@ -108,13 +109,25 @@ public class CreatePdfFile {
             basicInfoTable.addCell(cell);
 
 //            照片
-            cell = new PdfPCell();
-            cell.setMinimumHeight(25);
-            cell.setUseAscender(true); // 设置可以居中
-            cell.setHorizontalAlignment(Cell.ALIGN_LEFT); // 设置水平左对齐
-            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
-            cell.setRowspan(8);
-            basicInfoTable.addCell(cell);
+            try {
+                Image image = Image.getInstance(image_path);
+                image.scaleAbsolute(120f, 155f);
+                cell = new PdfPCell(image, false);
+                cell.setMinimumHeight(25);
+                cell.setUseAscender(true); // 设置可以居中
+                cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平中对齐
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
+                cell.setRowspan(8);
+                basicInfoTable.addCell(cell);
+            }catch (FileNotFoundException e){
+                cell = new PdfPCell();
+                cell.setMinimumHeight(25);
+                cell.setUseAscender(true); // 设置可以居中
+                cell.setHorizontalAlignment(Cell.ALIGN_LEFT); // 设置水平左对齐
+                cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
+                cell.setRowspan(8);
+                basicInfoTable.addCell(cell);
+            }
 
 //            第二行
 //            姓名
