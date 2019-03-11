@@ -12,13 +12,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
+import static backend.enums.StudentState.*;
+import static backend.enums.StudentState.JUNIOR_PASSED;
+
 @Service
 public class StuListService {
 
     @Autowired
     StudentRepository repository;
 
-    public Student[] getListByState(StudentState state,int page){
+    public Student[] getListByState(int from,int page){
+        StudentState state =JUNIOR_PASSED;
+        switch (from){
+            case 0:state = JUNIOR_PASSED;break;
+            case 1:state = JUNIOR_FAILED;break;
+            case 2:state = NULL;break;
+            case 3:state = SENIOR_PASSED;break;
+            case 4:state = SENIOR_FAILED;break;
+            case 5:state = JUNIOR_PASSED;break;
+        }
         int count=0;//用于标记这是第几个学生
         Student[] students=new Student[15];
         List<Student> allstu=repository.findAllByStudentState(state);
@@ -40,7 +52,16 @@ public class StuListService {
         return students;
     }
 
-    public int getStuNumber(StudentState state){
+    public int getStuNumber(int from){
+        StudentState state =JUNIOR_PASSED;
+        switch (from){
+            case 0:state = JUNIOR_PASSED;break;
+            case 1:state = JUNIOR_FAILED;break;
+            case 2:state = NULL;break;
+            case 3:state = SENIOR_PASSED;break;
+            case 4:state = SENIOR_FAILED;break;
+            case 5:state = JUNIOR_PASSED;break;
+        }
         int count=0;//记录学生个数
         List<Student> allstu=repository.findAllByStudentState(state);
 

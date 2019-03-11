@@ -18,10 +18,10 @@ public class ListController {
             method = RequestMethod.GET,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
+    @ResponseBody
     public StuList getList(@RequestBody ReqDetail reqDetail){
-        reqDetail.setState();
-        if(reqDetail.getName()==null){
-            return  new StuList(service.getListByState(reqDetail.getState(),reqDetail.getPage()),service.getStuNumber(reqDetail.getState()));
+        if(reqDetail.getName().equals("")){
+            return  new StuList(service.getListByState(reqDetail.getFrom(),reqDetail.getPage()),service.getStuNumber(reqDetail.getFrom()));
         }
         else{
             return new StuList(service.findStudent(reqDetail.getName()),service.getNameNumber(reqDetail.getName()));
