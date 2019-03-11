@@ -1,8 +1,10 @@
 package backend.service;
 
 import backend.dao.impl.HibernateDao;
+import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
+import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,7 +23,10 @@ public class StuListService {
     @Autowired
     StudentRepository repository;
 
-    public Student[] getListByState(int from,int page){
+    @Autowired
+    ApplFormRepository ApplyRepo;
+
+    public ApplForm[] getListByState(int from, int page){
         StudentState state =JUNIOR_PASSED;
         switch (from){
             case 0:state = JUNIOR_PASSED;break;
@@ -32,7 +37,7 @@ public class StuListService {
             case 5:state = JUNIOR_PASSED;break;
         }
         int count=0;//用于标记这是第几个学生
-        Student[] students=new Student[15];
+        ApplForm[] applForms=new ApplForm[15];
         List<Student> allstu;
         if(from ==2){
             allstu = repository.findAll();
@@ -44,7 +49,9 @@ public class StuListService {
             if(count+1>allstu.size()){
                 break;
             }
-            students[count]=allstu.get(i);
+            Student stu = allstu.get(i);
+            long applyId=stu.getApplFormId();
+            applForms[count] = ApplyRepo.findById(applyId);
             count++;
         }
 //        for(int i=0;i<allstu.size();i++){
