@@ -53,8 +53,6 @@ public class StuListService {
         for(int i=0;i<studentList.size();i++){
             students[i] = studentList.get(i);
         }
-
-
         return students;
     }
 

@@ -19,6 +19,7 @@ public class ListController {
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     public StuList getList(@RequestBody ReqDetail reqDetail){
+        reqDetail.setState();
         if(reqDetail.getName()==null){
             return  new StuList(service.getListByState(reqDetail.getState(),reqDetail.getPage()),service.getStuNumber(reqDetail.getState()));
         }

@@ -9,17 +9,12 @@ import static backend.enums.StudentState.*;
 
 public class ReqDetail {
 
-    public StudentFrom from;
+    public int from;
     public StudentState state;
     public int page;
     public String name;
 
-    public ReqDetail(StudentFrom from,int page){
-        this.from=from;
-        this.page=page;
-        this.name=null;
 
-    }
 
     public ReqDetail(String name){
         this.name=name;
@@ -33,7 +28,7 @@ public class ReqDetail {
         return name;
     }
 
-    public StudentFrom getFrom(){
+    public int getFrom(){
         return this.from;
     }
 
@@ -43,7 +38,7 @@ public class ReqDetail {
 
 //    NULL, UNDER_EXAMINED, JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
     public void setState(){
-        switch (from.getState()){
+        switch (from){
             case 0:state = JUNIOR_PASSED;break;
             case 1:state = JUNIOR_FAILED;break;
             case 2:state = NULL;break;
