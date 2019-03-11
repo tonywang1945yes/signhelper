@@ -41,6 +41,9 @@ public class StuListService {
             allstu = repository.findAllByStudentState(state);
         }
         for(int i=(page-1)*15;i<page*15;i++){
+            if(count+1>allstu.size()){
+                break;
+            }
             students[count]=allstu.get(i);
             count++;
         }
