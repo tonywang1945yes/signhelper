@@ -65,7 +65,7 @@ public class StuListService {
 //                students.add(allstu.get(i));
 //            }
 //        }
-        return students;
+        return applForms;
     }
 
     public int getStuNumber(int from){
@@ -80,17 +80,23 @@ public class StuListService {
         }
         int count=0;//记录学生个数
         List<Student> allstu=repository.findAllByStudentState(state);
+        for(int i = 0;i<allstu.size();i++){
+            if(allstu.get(i).getApplFormId()!=null){
+                count++;
+            }
+        }
 
-        return allstu.size();
+        return count;
     }
 
-    public Student[] findStudent(String name){
+    public ApplForm[] findStudent(String name){
         List<Student> studentList = repository.findAllByName(name);
-        Student[] students=new Student[studentList.size()];
+        ApplForm[] applyfroms=new ApplForm[studentList.size()];
         for(int i=0;i<studentList.size();i++){
-            students[i] = studentList.get(i);
+            long applFormId = studentList.get(i).getApplFormId();
+            applyfroms[i] = ApplyRepo.findById(applFormId);
         }
-        return students;
+        return applyfroms;
     }
 
     public  int getNameNumber(String name){
