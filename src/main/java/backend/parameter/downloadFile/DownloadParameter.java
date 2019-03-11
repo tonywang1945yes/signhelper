@@ -2,19 +2,10 @@ package backend.parameter.downloadFile;
 
 public class DownloadParameter {
 
-    private Long[] id;
-    private String filepath;
-    private String method;
+    private int[] identityNums;
 
-    public Long[] getId() {
-        return id;
+    public int[] getId() {
+        return identityNums;
     }
 
-    public String getFilepath() {
-        return filepath;
-    }
-
-    public String getMethod() {
-        return method;
-    }
 }

@@ -22,4 +22,5 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     List<Student> findAllByName(String name);
 
+    Student findByApplFormId(long id);
 }

@@ -11,5 +11,5 @@ public interface ApplFormRepository extends JpaRepository<ApplForm,Long> {
 
     List<ApplForm> findByNeedSimplification(Boolean state);
 
-
+    ApplForm findByIdentityNum(String idNum);
 }

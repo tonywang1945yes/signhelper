@@ -43,8 +43,11 @@ public class FileDownloadController {
 //        service.createFile();
 //    }
 
-
-    @RequestMapping(value = "fileDownload")
+    @PostMapping(value = "/pdfCreation")
+    public void create(@RequestBody DownloadParameter parameter){
+        service.createApplicationPdf(parameter.getId());
+    }
+    @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + "Helloworld.pdf");

@@ -2,6 +2,8 @@ package backend.service;
 
 
 import backend.dao.service.ApplFormRepository;
+import backend.dao.service.StudentRepository;
+import backend.util.PdfUtil.CreatePdfFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class FileDownloadService {
     @Autowired
     ApplFormRepository applFormRepo;
 
+    @Autowired
+    StudentRepository stuRepo;
+
     @Value("${downloadFileUrl}")
     String url;
 
@@ -44,7 +49,24 @@ public class FileDownloadService {
     @Value("${fileName}")
     String fileName;
 
+    @Value("${savingPath}")
+    String docPath;
 
+    @Autowired
+    CreatePdfFile service;
+    public void createApplicationPdf(int[] ids){
+        String photopath = docPath ;
+        for(int i=0; i<ids.length;i++){
+            String idnum = (String.valueOf(ids[i]));
+            ApplForm form = applFormRepo.findByIdentityNum(idnum);
+            if(form != null){
+                photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail();
+                File[] photo = new File(photopath).listFiles();
+                service.create(form,photopath+"/"+photo[0].getName());
+                photopath = filepath + "/"+"StuApplication";//路径还原
+            }
+        }
+    }
     public void createFile(){
         List<ApplForm> list = applFormRepo.findAll();
         Workbook workbook = new XSSFWorkbook();
