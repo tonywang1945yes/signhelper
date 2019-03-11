@@ -17,7 +17,7 @@ public class UpdateStudentStateController {
     UpdateStudentStateService service;
 
     @PostMapping(value = "/updating")
-    public Boolean update(@RequestBody String id, StudentState state){
-        return service.updateState(id, state);
+    public Boolean update(@RequestBody String id, int from){
+        return service.updateState(id, from);
     }
 }

@@ -33,7 +33,13 @@ public class StuListService {
         }
         int count=0;//用于标记这是第几个学生
         Student[] students=new Student[15];
-        List<Student> allstu=repository.findAllByStudentState(state);
+        List<Student> allstu;
+        if(from ==2){
+            allstu = repository.findAll();
+        }
+        else {
+            allstu = repository.findAllByStudentState(state);
+        }
         for(int i=(page-1)*15;i<page*15;i++){
             students[count]=allstu.get(i);
             count++;
