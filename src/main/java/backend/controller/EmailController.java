@@ -2,6 +2,7 @@ package backend.controller;
 
 import backend.parameter.emailVerification.SendMailParameter;
 import backend.parameter.emailVerification.SetSendAddressParam;
+import backend.parameter.emailVerification.StuState;
 import backend.parameter.emailVerification.VerifyMailParameter;
 import backend.response.BasicResponse;
 import backend.response.EmailResponse.SETAdmissionResponse;
@@ -57,9 +58,9 @@ public class EmailController {
     }
 
     @RequestMapping(value = "/hint",
-            method = RequestMethod.GET)
-    public void remind() throws Exception {
-        service.groupSendMail();
+            method = RequestMethod.POST)
+    public void remind(@RequestBody StuState state) throws Exception {
+        service.groupSendMail(state.getFrom());
     }
 
     @GetMapping(value = "/preAdmission")

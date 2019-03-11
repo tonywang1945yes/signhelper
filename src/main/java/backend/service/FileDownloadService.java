@@ -69,6 +69,9 @@ public class FileDownloadService {
     }
     public void createFile(){
         List<ApplForm> list = applFormRepo.findAll();
+        if(list.size()==0){
+            return;
+        }
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("学生申请表信息");
         Row title = sheet.createRow(0);

@@ -34,8 +34,6 @@ public class UpdateStudentStateService {
         student.setStudentState(state);
         studentRepo.save(student);
 
-        AdministerState administerState = administerRepo.findAll().get(0).getState();
-
         Student new_student = studentRepo.findByEmail(id).get(0);
         return new_student.getStudentState() == state;
     }

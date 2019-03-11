@@ -10,6 +10,7 @@ import backend.entity.Administer;
 import backend.entity.MailCaptcha;
 import backend.entity.Student;
 import backend.entity.User;
+import backend.enums.StudentState;
 import backend.response.EmailResponse.SETAdmissionResponse;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ import java.security.GeneralSecurityException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
+
+import static backend.enums.StudentState.*;
+import static backend.enums.StudentState.JUNIOR_PASSED;
 
 @Service
 public class RegMailService {
@@ -207,14 +211,20 @@ public class RegMailService {
         }
     }
 
-    public void groupSendMail() throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
-        String subject = "南京大學進度申請通知";
-//        String content = getProperty("GroupSendMail");
-
-        HibernateDao<Student> dao = new HibernateDao<>(new Student());
-        List<Student> stuList = dao.getAllObjects();
+    public void groupSendMail(int from) throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
+        String subject = "南京大學申請進度通知";
+        StudentState state =JUNIOR_PASSED;
+        switch (from){
+            case 0:state = JUNIOR_PASSED;break;
+            case 1:state = JUNIOR_FAILED;break;
+            case 2:state = NULL;break;
+            case 3:state = SENIOR_PASSED;break;
+            case 4:state = SENIOR_FAILED;break;
+            case 5:state = JUNIOR_PASSED;break;
+        }
+        List<Student> stuList = studentRepo.findAllByStudentState(state);
         for (int i = 0; i < stuList.size(); i++) {
-            String receiveAddress = stuList.get(i).getAddress();
+            String receiveAddress = stuList.get(i).getEmail();
             sendSimpleMail(subject, receiveAddress, content);
         }
     }

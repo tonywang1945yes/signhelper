@@ -77,6 +77,9 @@ public class FileDownloadController {
 //    @RequestMapping(value = "/create")
 //    public void create(){
 //        service.createFile();
-//
 //    }
+    @PostMapping(value = "/xlsxCreation")
+    public void create(){
+        service.createFile();
+    }
 }
