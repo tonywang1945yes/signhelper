@@ -2,6 +2,7 @@ package backend.util.PdfUtil;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 import backend.entity.application.ApplForm;
@@ -22,10 +23,10 @@ public class CreatePdfFile {
     @Value("${savingPdfPath}")
     String path;
 
-    public void create(ApplForm applForm,String imagepath){
+    public void create(ApplForm applForm,String imagepath) throws FileNotFoundException,IOException,DocumentException{
         final String image_path = imagepath;
         final String path = this.path + "/"+applForm.getFirstName()+applForm.getLastName()+applForm.getIdentityNum() + ".pdf";
-        try {
+
             Document document = new Document();
             document.setPageSize(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -732,9 +733,6 @@ public class CreatePdfFile {
 
             document.close();
             writer.close();
-        }catch (Exception e){
-            e.printStackTrace();
-            System.exit(-1);
-        }
+
     }
 }

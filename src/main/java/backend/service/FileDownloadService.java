@@ -3,7 +3,9 @@ package backend.service;
 
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
+import backend.response.BasicResponse;
 import backend.util.PdfUtil.CreatePdfFile;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,7 +56,8 @@ public class FileDownloadService {
 
     @Autowired
     CreatePdfFile service;
-    public void createApplicationPdf(String[] ids){
+    public BasicResponse createApplicationPdf(String[] ids){
+        BasicResponse response = new BasicResponse();
         String photopath = docPath ;
         for(int i=0; i<ids.length;i++){
             String idnum = ids[i];
@@ -62,10 +65,32 @@ public class FileDownloadService {
             if(form != null){
                 photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
                 File[] photo = new File(photopath).listFiles();
-                service.create(form,photopath+"/"+photo[0].getName());
-                photopath = filepath + "/"+"StuApplication";//路径还原
+                try {
+                    service.create(form, photopath + "/" + photo[0].getName());
+                }catch (NullPointerException e ){
+                    response.setMsg("No photo under path"+ photopath);
+                    response.setSucceed(false);
+                    return response;
+                }catch (FileNotFoundException ex){
+                    response.setMsg("Please select the right path to save pdf.");
+                    response.setSucceed(false);
+                    return response;
+                }
+                catch (IOException e){
+                    response.setSucceed(false);
+                    response.setMsg("字体生成玄学bug，请联系程序员进行处理");
+                    return response;
+                }
+                catch (DocumentException e){
+                    response.setMsg("Pdf生成错误");
+                    response.setSucceed(false);
+                    return response;
+                }
+                photopath = docPath;//路径还原
             }
         }
+        response.setSucceed(true);
+        return response;
     }
     public void createFile(){
         List<ApplForm> list = applFormRepo.findAll();

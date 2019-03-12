@@ -5,6 +5,7 @@ import backend.dao.service.ApplFormRepository;
 import backend.entity.application.ApplForm;
 import backend.parameter.downloadFile.DownloadParameter;
 import backend.parameter.register.RegisterParameter;
+import backend.response.BasicResponse;
 import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,8 @@ public class FileDownloadController {
 //    }
 
     @PostMapping(value = "/pdfCreation")
-    public void create(@RequestBody String[] identityNums){
-        service.createApplicationPdf(identityNums);
+    public BasicResponse create(@RequestBody String[] identityNums){
+        return service.createApplicationPdf(identityNums);
     }
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
