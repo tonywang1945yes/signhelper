@@ -64,9 +64,14 @@ public class FileDownloadService {
             ApplForm form = applFormRepo.findByIdentityNum(idnum);
             if(form != null){
                 photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
-                File[] photo = new File(photopath).listFiles();
                 try {
-                    service.create(form, photopath + "/" + photo[0].getName());
+                File[] photo = new File(photopath).listFiles();
+                service.create(form, photopath + "/" + photo[0].getName());
+                }
+                catch (ArrayIndexOutOfBoundsException e){
+                    response.setMsg("No photo under path"+ photopath);
+                    response.setSucceed(false);
+                    return response;
                 }catch (NullPointerException e ){
                     response.setMsg("No photo under path"+ photopath);
                     response.setSucceed(false);
@@ -87,6 +92,11 @@ public class FileDownloadService {
                     return response;
                 }
                 photopath = docPath;//路径还原
+            }
+            else{
+                response.setMsg("No such id: "+idnum);
+                response.setSucceed(false);
+                return response;
             }
         }
         response.setSucceed(true);
