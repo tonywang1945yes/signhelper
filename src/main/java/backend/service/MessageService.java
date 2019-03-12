@@ -13,6 +13,7 @@ import backend.enums.AdministerState;
 import backend.enums.ResultType;
 import backend.enums.StudentState;
 import backend.response.BasicResponse;
+import backend.response.message.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -92,6 +93,34 @@ public class MessageService {
         return response;
     }
 
+    public MessageResponse getMessage(String identity){
+        MessageResponse mess =new MessageResponse();
+        List<Student> student = studentRepo.findByIdentityNum(identity);
+        if(student!=null&&student.size()!=0){
+            Student stu =student.get(0);
+
+            int from ;
+            switch (stu.getStudentState()){
+                case JUNIOR_PASSED:from=0;break;
+                case JUNIOR_FAILED:from=1;break;
+                case SENIOR_PASSED:from=3;break;
+                case SENIOR_FAILED:from=4;break;
+                default:from=-1;
+                mess.setSucc(false);
+                mess.setMessage("No such from");
+                return mess;
+            }
+            mess.setFrom(from);
+            String message = getTemplate(stu.getStudentState());
+            mess.setMessage(message);
+            mess.setSucc(true);
+            return mess;
+        }else{
+            mess.setMessage("No such id");
+            mess.setSucc(false);
+            return mess;
+        }
+    }
     public String getTemplate(StudentState state) {
         if (state == null)
             return null;

@@ -49,8 +49,8 @@ public class FileDownloadController {
 
     @PostMapping(value = "/pdfCreation")
     public BasicResponse create(@RequestBody String[] identityNums){
-       return service.createApplicationPdf(identityNums);
-
+       service.createApplicationPdf(identityNums);
+       return  service.createZip();
     }
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
@@ -61,6 +61,7 @@ public class FileDownloadController {
             if(!service.createZip().getSucceed()){
                 return;// 生成Zip有問題
             }
+            System.out.println(service.createZip().getMsg());
             in = new FileInputStream(new File(service.createZip().getMsg()));
             byte[] buffer = new byte[1024];
             int length;

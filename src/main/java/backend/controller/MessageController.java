@@ -5,7 +5,9 @@ import backend.entity.message.Broadcast;
 import backend.entity.message.Message;
 import backend.enums.StudentState;
 import backend.parameter.SetMessage.MessageParam;
+import backend.parameter.SetMessage.getMessage;
 import backend.response.BasicResponse;
+import backend.response.message.MessageResponse;
 import backend.service.MessageService;
 import backend.util.token.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,13 @@ public class MessageController {
         }
         return  service.updateTemplate(param.getMessage(),state);
     }
+
+    @PostMapping(value = "/resultMessage")
+    public MessageResponse getmessage(@RequestBody getMessage param){
+        return service.getMessage(param.getIdentityNum());
+
+    }
+
 
     @RequestMapping(value = "/confirmation",
             method = RequestMethod.POST)
@@ -137,6 +146,7 @@ public class MessageController {
     public String getTemplate(@PathVariable String type) {
         return service.getTemplate(StudentState.valueOf(type));
     }
+
 
     @RequestMapping(value = "/template", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")

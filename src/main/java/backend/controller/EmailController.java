@@ -57,11 +57,12 @@ public class EmailController {
         }
     }
 
-    @RequestMapping(value = "/hint",
-            method = RequestMethod.POST)
+    @PostMapping(value = "/hint",
+            consumes = {"application/json", "application/xml"})
     public BasicResponse remind(@RequestBody StuState state) throws Exception {
         return service.groupSendMail(state.getFrom());
     }
+
 
     @GetMapping(value = "/preAdmission")
     public SETAdmissionResponse getAdmission(){

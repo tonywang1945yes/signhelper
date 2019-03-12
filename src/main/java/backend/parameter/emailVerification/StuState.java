@@ -6,4 +6,8 @@ public class StuState {
     public int getFrom() {
         return state;
     }
+
+    private void setState(int state) {
+        this.state = state;
+    }
 }
