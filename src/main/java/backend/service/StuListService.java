@@ -7,6 +7,7 @@ import backend.entity.Student;
 import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,12 @@ import static backend.enums.StudentState.JUNIOR_PASSED;
 @Service
 public class StuListService {
 
+    @Value("${savingPath}")
+    String savingpath;
+
+    @Autowired
+    ApplicationService service;
+
     @Autowired
     StudentRepository repository;
 
@@ -27,8 +34,8 @@ public class StuListService {
     ApplFormRepository ApplyRepo;
 
     public ApplForm[] getListByState(int from, int page){
-
-        StudentState state =JUNIOR_PASSED;
+        String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
+        StudentState state ;
         switch (from){
             case 0:state = JUNIOR_PASSED;break;
             case 1:state = JUNIOR_FAILED;break;
@@ -36,14 +43,18 @@ public class StuListService {
             case 3:state = SENIOR_PASSED;break;
             case 4:state = SENIOR_FAILED;break;
             case 5:state = JUNIOR_PASSED;break;
+            default:return null;
         }
         int count=0;//用于标记这是第几个学生
         ApplForm[] applForms=new ApplForm[15];
         List<Student> allstu;
         allstu = repository.findAllByStudentState(state);
         for(int i=(page-1)*15;i<page*15;i++){
-            if(count+1>allstu.size()){
+            if(count+1>allstu.size()||i+1>allstu.size()){
                 break;
+            }
+            if(!service.hasUploadedAttachment(savingpath,allstu.get(i).getEmail(),styles)){
+                continue;
             }
             Student stu = allstu.get(i);
             long applyId=stu.getApplFormId();
