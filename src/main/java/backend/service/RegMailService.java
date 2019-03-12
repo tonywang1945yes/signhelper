@@ -64,6 +64,7 @@ public class RegMailService {
             Administer admin =new Administer();
             admin.setEmailAddress(emailAddress);
             admin.setEmailadmission(permission);
+            admin.setMessage("null");
             adminRepo.save(admin);
             return true;
         }
@@ -71,6 +72,7 @@ public class RegMailService {
             Administer admin = list.get(0);
             admin.setEmailAddress(emailAddress);
             admin.setEmailadmission(permission);
+            admin.setMessage("null");
             adminRepo.save(admin);
             return true;
         }
@@ -214,14 +216,18 @@ public class RegMailService {
 
     public BasicResponse groupSendMail(int from) throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
         BasicResponse response = new BasicResponse();
+        String message;
         String subject = "南京大學申請進度通知";
         StudentState state_pass;
         StudentState state_failed;
         switch (from){
-            case 0:state_pass= JUNIOR_PASSED;state_failed=JUNIOR_FAILED;break;
-            case 1:state_pass=SENIOR_PASSED;state_failed=SENIOR_FAILED;break;
+            case 0:state_pass= JUNIOR_PASSED;state_failed=JUNIOR_FAILED;message = "junior";break;
+            case 1:state_pass=SENIOR_PASSED;state_failed=SENIOR_FAILED;message = "senior";break;
             default:response.setSucceed(false);response.setMsg("No such state");return response;
         }
+        Administer admin = adminRepo.findAll().get(0);
+        admin.setMessage(message);
+        adminRepo.save(admin);
         List<Student> stuList = studentRepo.findAll();
         for (int i = 0; i < stuList.size(); i++) {
             if(stuList.get(i).getStudentState()==state_pass||stuList.get(i).getStudentState()==state_failed) {

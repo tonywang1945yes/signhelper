@@ -23,6 +23,7 @@ public class SetDdLService {
         if(administers.size()==0){
             Administer admin = new Administer();
             admin.setDdl(calendar);
+            admin.setMessage("null");
             response.setSucceed(true);
             response.setMsg("库内无Admin，新建对象并设置ddl完成");
             administerRepo.save(admin);
@@ -30,6 +31,7 @@ public class SetDdLService {
         else {
             Administer admin = administers.get(0);
             admin.setDdl(calendar);
+            admin.setMessage("null");
             administerRepo.save(admin);
             response.setSucceed(true);
             response.setMsg("Admin对象DDL属性更新完成");

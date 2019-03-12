@@ -8,6 +8,7 @@ import backend.parameter.register.RegisterParameter;
 import backend.response.BasicResponse;
 import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
@@ -25,6 +26,8 @@ public class FileDownloadController {
     @Autowired
     FileDownloadService service;
 
+    @Value("${savingPdfPath}")
+    String path;
 
 //    @RequestMapping(value = "/fileStorage",
 //            method = RequestMethod.GET,
@@ -46,7 +49,8 @@ public class FileDownloadController {
 
     @PostMapping(value = "/pdfCreation")
     public BasicResponse create(@RequestBody String[] identityNums){
-        return service.createApplicationPdf(identityNums);
+       return service.createApplicationPdf(identityNums);
+
     }
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
@@ -54,7 +58,10 @@ public class FileDownloadController {
         response.setHeader("Content-Disposition", "attachment; filename=" + "Helloworld.pdf");
         InputStream in = null;
         try {
-            in = new FileInputStream(new File("d:/Helloworld.pdf"));
+            if(!service.createZip().getSucceed()){
+                return;// 生成Zip有問題
+            }
+            in = new FileInputStream(new File(service.createZip().getMsg()));
             byte[] buffer = new byte[1024];
             int length;
             while ((length = in.read(buffer)) > 0) {

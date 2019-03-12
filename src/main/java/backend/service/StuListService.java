@@ -39,12 +39,7 @@ public class StuListService {
         int count=0;//用于标记这是第几个学生
         ApplForm[] applForms=new ApplForm[15];
         List<Student> allstu;
-        if(from ==2){
-            allstu = repository.findAll();
-        }
-        else {
-            allstu = repository.findAllByStudentState(state);
-        }
+        allstu = repository.findAllByStudentState(state);
         for(int i=(page-1)*15;i<page*15;i++){
             if(count+1>allstu.size()){
                 break;

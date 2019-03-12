@@ -38,7 +38,7 @@ public class CreatePdfFile {
             titleFont.setColor(BaseColor.BLACK);
 
 //            正文字体
-            Font textFont = new Font(bfChinese, 20);
+            Font textFont = new Font(bfChinese, 15);
             textFont.setColor(BaseColor.BLACK);
 
 //            注释字体
@@ -405,14 +405,14 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(scores.getMath().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
 
             scoreTable.addCell(cell);
 
@@ -420,21 +420,21 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(scores.getSciences().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(scores.getSocials().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
 //            实得级分
@@ -451,14 +451,14 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(actualLevelPoints.getMath().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
 
             scoreTable.addCell(cell);
 
@@ -466,21 +466,21 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(actualLevelPoints.getSciences().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(actualLevelPoints.getSocials().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
 //            级距
@@ -498,14 +498,14 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(levelRange.getMath().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
 
             scoreTable.addCell(cell);
 
@@ -513,21 +513,21 @@ public class CreatePdfFile {
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(levelRange.getSciences().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
             cell = new PdfPCell(new Phrase(levelRange.getSocials().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
 
@@ -542,40 +542,40 @@ public class CreatePdfFile {
             CustomResult<SubjectCriteria> singleSubjectCriteria = applForm.getSingleSubjectCriteria();
 
 
-            cell = new PdfPCell(new Phrase(singleSubjectCriteria.getChinese().toString(), textFont));
+            cell = new PdfPCell(new Phrase(EngToHan.switchToChinese(singleSubjectCriteria.getChinese()), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(singleSubjectCriteria.getMath().toString(), textFont));
+            cell = new PdfPCell(new Phrase(EngToHan.switchToChinese(singleSubjectCriteria.getMath()), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
 
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(singleSubjectCriteria.getEnglish().toString(), textFont));
+            cell = new PdfPCell(new Phrase(EngToHan.switchToChinese(singleSubjectCriteria.getEnglish()), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(singleSubjectCriteria.getSciences().toString(), textFont));
+            cell = new PdfPCell(new Phrase(EngToHan.switchToChinese(singleSubjectCriteria.getSciences()), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(singleSubjectCriteria.getSocials().toString(), textFont));
+            cell = new PdfPCell(new Phrase(EngToHan.switchToChinese(singleSubjectCriteria.getSocials()), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
-            cell.setVerticalAlignment(Cell.ALIGN_CENTER); // 设置垂直居中
+            cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
 
@@ -698,7 +698,7 @@ public class CreatePdfFile {
 
 //            空行
             cell = new PdfPCell();
-            cell.setMinimumHeight(60);
+            cell.setMinimumHeight(20);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_MIDDLE); // 设置水平左对齐
             cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
@@ -726,7 +726,7 @@ public class CreatePdfFile {
             signTable.addCell(cell);
 
             cell = new PdfPCell();
-            cell.setMinimumHeight(50);
+            cell.setMinimumHeight(40);
             signTable.addCell(cell);
 
             document.add(signTable);

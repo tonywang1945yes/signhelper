@@ -5,7 +5,9 @@ import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.response.BasicResponse;
 import backend.util.PdfUtil.CreatePdfFile;
+import backend.util.zipUtil.setZip;
 import com.itextpdf.text.DocumentException;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,9 @@ public class FileDownloadService {
     @Value("${savingPath}")
     String docPath;
 
+    @Value("${savingPdfPath}")
+    String zippath;
+
     @Autowired
     CreatePdfFile service;
     public BasicResponse createApplicationPdf(String[] ids){
@@ -98,6 +103,27 @@ public class FileDownloadService {
                 response.setSucceed(false);
                 return response;
             }
+        }
+        response.setSucceed(true);
+        return response;
+    }
+
+    public BasicResponse createZip(){
+        BasicResponse response = new BasicResponse();
+        try {
+            response.setMsg(setZip.toZip(new File(zippath),"學生申請表"));
+        }catch (FileNotFoundException e){
+            response.setMsg(e.getMessage());
+            response.setSucceed(false);
+            return response;
+        }catch (IOException ex){
+            response.setMsg(ex.getMessage());
+            response.setSucceed(false);
+            return response;
+        }catch (Exception exx){
+            response.setMsg(exx.getMessage());
+            response.setSucceed(false);
+            return response;
         }
         response.setSucceed(true);
         return response;
