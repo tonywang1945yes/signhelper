@@ -3,7 +3,9 @@ package backend.controller;
 import backend.Application;
 import backend.entity.Student;
 import backend.entity.application.ApplForm;
+import backend.parameter.stuInfo.NamechangeParam;
 import backend.response.ApplFormList.ApplFormList;
+import backend.response.BasicResponse;
 import backend.service.UpdateStudentNameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +29,8 @@ public class UpdateStudentNameController {
     }
 
     @PostMapping(value = "/updating")
-    public Boolean update(@RequestBody List<ApplForm> list){
-        return service.update(list);
+    public BasicResponse update(@RequestBody NamechangeParam param){
+        return service.update(param.getIdentityNum(),param.getFirstName(),param.getLastName());
     }
 
 

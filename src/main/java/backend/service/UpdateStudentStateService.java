@@ -5,6 +5,7 @@ import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import backend.enums.AdministerState;
 import backend.enums.StudentState;
+import backend.response.BasicResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +21,32 @@ public class UpdateStudentStateService {
     @Autowired
     AdministerRepository administerRepo;
 
-    public Boolean updateState(String id, int from) {
+    public BasicResponse updateState(String identity, int from) {
+        BasicResponse response = new BasicResponse();
+
         StudentState state = StudentState.JUNIOR_PASSED;
-        switch (from){
-            case 0:state = JUNIOR_PASSED;break;
-            case 1:state = JUNIOR_FAILED;break;
-            case 2:state = NULL;break;
-            case 3:state = SENIOR_PASSED;break;
-            case 4:state = SENIOR_FAILED;break;
-            case 5:state = JUNIOR_PASSED;break;
+        switch (from) {
+            case 0:
+                state = JUNIOR_PASSED;
+                break;
+            case 1:
+                state = JUNIOR_FAILED;
+                break;
+            case 3:
+                state = SENIOR_PASSED;
+                break;
+            case 4:
+                state = SENIOR_FAILED;
+                break;
+            default:
+                response.setMsg("No such stustate");
+                response.setSucceed(false);
+                return response;
         }
-        Student student = studentRepo.findByEmail(id).get(0);
+        Student student = studentRepo.findByIdentityNum(identity).get(0);
         student.setStudentState(state);
         studentRepo.save(student);
-
-        Student new_student = studentRepo.findByEmail(id).get(0);
-        return new_student.getStudentState() == state;
+        response.setSucceed(true);
+        return response;
     }
 }

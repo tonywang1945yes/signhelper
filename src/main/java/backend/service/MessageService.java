@@ -12,6 +12,7 @@ import backend.entity.message.ResultMessage;
 import backend.enums.AdministerState;
 import backend.enums.ResultType;
 import backend.enums.StudentState;
+import backend.response.BasicResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,8 @@ public class MessageService {
     static final String SENIOR_FAILED_PATH = "/senior_failed.txt";
     static final String SENIOR_PASSED_PATH = "/senior_passed.txt";
 
-    public boolean updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
+    public BasicResponse updateTemplate(String content, StudentState state) {//state只有4种： JUNIOR_PASSED, JUNIOR_FAILED, SENIOR_PASSED, SENIOR_FAILED
+        BasicResponse response = new BasicResponse();
         String path = messageTemplatePath;
         File file = new File(path);
         if (!file.exists()) {
@@ -69,7 +71,9 @@ public class MessageService {
                 path += ("/" + state.toString().toLowerCase() + ".txt");
                 break;
             default:
-                return false;
+                response.setSucceed(false);
+                response.setMsg("No such state");
+                return response;
         }
         try {
             File writeName = new File(path);
@@ -78,11 +82,14 @@ public class MessageService {
             writer.write(content);
             writer.flush();
             writer.close();
-            return true;
+            response.setSucceed(true);
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        response.setSucceed(false);
+        response.setMsg("IOException");
+        return response;
     }
 
     public String getTemplate(StudentState state) {

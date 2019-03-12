@@ -59,8 +59,8 @@ public class EmailController {
 
     @RequestMapping(value = "/hint",
             method = RequestMethod.POST)
-    public void remind(@RequestBody StuState state) throws Exception {
-        service.groupSendMail(state.getFrom());
+    public BasicResponse remind(@RequestBody StuState state) throws Exception {
+        return service.groupSendMail(state.getFrom());
     }
 
     @GetMapping(value = "/preAdmission")

@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static backend.enums.StudentState.*;
+import static backend.enums.StudentState.JUNIOR_PASSED;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/message")
@@ -34,9 +37,30 @@ public class MessageController {
     @RequestMapping(value = "/storage",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"})
-    public void setmessage(@RequestBody MessageParam param) throws Exception {
-        param.setState();
-        service.updateTemplate(param.getMessage(), param.getState());
+    public BasicResponse setmessage(@RequestBody MessageParam param) throws Exception {
+        StudentState state;
+        switch (param.from) {
+            case 0:
+                state = JUNIOR_PASSED;
+                break;
+            case 1:
+                state = JUNIOR_FAILED;
+                break;
+            case 2:
+                state = NULL;
+                break;
+            case 3:
+                state = SENIOR_PASSED;
+                break;
+            case 4:
+                state = SENIOR_FAILED;
+                break;
+            case 5:
+                state = JUNIOR_PASSED;
+                break;
+            default:BasicResponse response = new BasicResponse();response.setSucceed(false);return response;
+        }
+        return  service.updateTemplate(param.getMessage(),state);
     }
 
     @RequestMapping(value = "/confirmation",
@@ -113,8 +137,8 @@ public class MessageController {
     @RequestMapping(value = "/template", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
     public BasicResponse updateTemplate(@RequestBody Map<String, String> param) {
-        boolean res = service.updateTemplate(param.get("content"), StudentState.valueOf(param.get("type")));
-        return new BasicResponse(res, res ? "" : "更新失败");
+        return service.updateTemplate(param.get("content"), StudentState.valueOf(param.get("type")));
+//        return new BasicResponse(res, res ? "" : "更新失败");
     }
 
     private String getIdFromRequest(HttpServletRequest request) {

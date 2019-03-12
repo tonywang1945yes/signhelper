@@ -2,9 +2,9 @@ package backend.parameter.downloadFile;
 
 public class DownloadParameter {
 
-    private int[] identityNums;
+    private String[] identityNums;
 
-    public int[] getId() {
+    public String[] getId() {
         return identityNums;
     }
 

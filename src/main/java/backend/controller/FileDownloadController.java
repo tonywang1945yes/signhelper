@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Calendar;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/fileDownload")
 public class FileDownloadController {
@@ -44,8 +44,8 @@ public class FileDownloadController {
 //    }
 
     @PostMapping(value = "/pdfCreation")
-    public void create(@RequestBody DownloadParameter parameter){
-        service.createApplicationPdf(parameter.getId());
+    public void create(@RequestBody String[] identityNums){
+        service.createApplicationPdf(identityNums);
     }
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {

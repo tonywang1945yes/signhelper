@@ -21,10 +21,10 @@ public class ListController {
     @ResponseBody
     public StuList getList(@RequestBody ReqDetail reqDetail){
         if(reqDetail.getName().equals("")){
-            return  new StuList(service.getListByState(reqDetail.getFrom(),reqDetail.getPage()),service.getStuNumber(reqDetail.getFrom()));
+            return  new StuList(service.getListByState(reqDetail.getFrom(),reqDetail.getPage()),service.getStuNumber(reqDetail.getFrom()),reqDetail.from);
         }
         else{
-            return new StuList(service.findStudent(reqDetail.getName()),service.getNameNumber(reqDetail.getName()));
+            return new StuList(service.findStudent(reqDetail.getName()),service.getNameNumber(reqDetail.getName()),reqDetail.from);
         }
     }
 }

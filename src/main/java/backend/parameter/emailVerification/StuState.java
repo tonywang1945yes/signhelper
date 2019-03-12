@@ -1,9 +1,9 @@
 package backend.parameter.emailVerification;
 
 public class StuState {
-    private int from;
+    private int state;
 
     public int getFrom() {
-        return from;
+        return state;
     }
 }

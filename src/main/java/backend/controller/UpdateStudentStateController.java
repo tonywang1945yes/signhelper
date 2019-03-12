@@ -1,6 +1,8 @@
 package backend.controller;
 
 import backend.enums.StudentState;
+import backend.parameter.stuInfo.StatechangeParam;
+import backend.response.BasicResponse;
 import backend.service.UpdateStudentStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +19,7 @@ public class UpdateStudentStateController {
     UpdateStudentStateService service;
 
     @PostMapping(value = "/updating")
-    public Boolean update(@RequestBody String id, int from){
-        return service.updateState(id, from);
+    public BasicResponse update(@RequestBody StatechangeParam param){
+        return service.updateState(param.getIdentityNum(),param.getFrom());
     }
 }

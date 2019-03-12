@@ -54,13 +54,13 @@ public class FileDownloadService {
 
     @Autowired
     CreatePdfFile service;
-    public void createApplicationPdf(int[] ids){
+    public void createApplicationPdf(String[] ids){
         String photopath = docPath ;
         for(int i=0; i<ids.length;i++){
-            String idnum = (String.valueOf(ids[i]));
+            String idnum = ids[i];
             ApplForm form = applFormRepo.findByIdentityNum(idnum);
             if(form != null){
-                photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail();
+                photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
                 File[] photo = new File(photopath).listFiles();
                 service.create(form,photopath+"/"+photo[0].getName());
                 photopath = filepath + "/"+"StuApplication";//路径还原

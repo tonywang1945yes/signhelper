@@ -11,6 +11,7 @@ import backend.entity.MailCaptcha;
 import backend.entity.Student;
 import backend.entity.User;
 import backend.enums.StudentState;
+import backend.response.BasicResponse;
 import backend.response.EmailResponse.SETAdmissionResponse;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,22 +212,26 @@ public class RegMailService {
         }
     }
 
-    public void groupSendMail(int from) throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
+    public BasicResponse groupSendMail(int from) throws FileNotFoundException, IOException, SecurityException, MessagingException, GeneralSecurityException, Exception {
+        BasicResponse response = new BasicResponse();
         String subject = "南京大學申請進度通知";
-        StudentState state =JUNIOR_PASSED;
+        StudentState state_pass;
+        StudentState state_failed;
         switch (from){
-            case 0:state = JUNIOR_PASSED;break;
-            case 1:state = JUNIOR_FAILED;break;
-            case 2:state = NULL;break;
-            case 3:state = SENIOR_PASSED;break;
-            case 4:state = SENIOR_FAILED;break;
-            case 5:state = JUNIOR_PASSED;break;
+            case 0:state_pass= JUNIOR_PASSED;state_failed=JUNIOR_FAILED;break;
+            case 1:state_pass=SENIOR_PASSED;state_failed=SENIOR_FAILED;break;
+            default:response.setSucceed(false);response.setMsg("No such state");return response;
         }
-        List<Student> stuList = studentRepo.findAllByStudentState(state);
+        List<Student> stuList = studentRepo.findAll();
         for (int i = 0; i < stuList.size(); i++) {
-            String receiveAddress = stuList.get(i).getEmail();
-            sendSimpleMail(subject, receiveAddress, content);
+            if(stuList.get(i).getStudentState()==state_pass||stuList.get(i).getStudentState()==state_failed) {
+                String receiveAddress = stuList.get(i).getEmail();
+                sendSimpleMail(subject, receiveAddress, content);
+            }
         }
+        response.setMsg("");
+        response.setSucceed(true);
+        return response;
     }
 
     public boolean checkIdentity(String email, String idCardNumber) {
