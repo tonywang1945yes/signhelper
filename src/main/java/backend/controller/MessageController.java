@@ -73,6 +73,10 @@ public class MessageController {
         service.confirmSecondTestAttendance(email, param.get("willAttend"));
     }
 
+    @GetMapping(value = "/EnrollmentState")
+    public String getState (){
+        return service.getAdminState();
+    }
     @RequestMapping(value = "/",
             method = RequestMethod.GET)
     public List<Message> getMessageList(HttpServletRequest request) {

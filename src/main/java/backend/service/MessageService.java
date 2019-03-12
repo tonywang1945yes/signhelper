@@ -116,6 +116,10 @@ public class MessageService {
         return null;
     }
 
+    public String getAdminState(){
+        return administerRepo.findAll().get(0).getMessage();
+    }
+
     public void sendSingleResultMessage(String studentId, StudentState studentState, AdministerState administerState) {
         ResultMessage resultMessage = new ResultMessage();
         resultMessage.setEmail(studentId);
