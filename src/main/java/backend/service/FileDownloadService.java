@@ -3,6 +3,7 @@ package backend.service;
 
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
+import backend.entity.Student;
 import backend.response.BasicResponse;
 import backend.util.PdfUtil.CreatePdfFile;
 import backend.util.zipUtil.setZip;
@@ -67,8 +68,9 @@ public class FileDownloadService {
         for(int i=0; i<ids.length;i++){
             String idnum = ids[i];
             ApplForm form = applFormRepo.findByIdentityNum(idnum);
+            List<Student> stus = stuRepo.findByIdentityNum(idnum);
             if(form != null){
-                photopath = photopath + "/"+form.getFirstName()+form.getLastName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
+                photopath = photopath + "/"+stus.get(0).getName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
                 try {
                 File[] photo = new File(photopath).listFiles();
                 service.create(form, photopath + "/" + photo[0].getName());
@@ -111,6 +113,10 @@ public class FileDownloadService {
     public BasicResponse createZip(){
         BasicResponse response = new BasicResponse();
         try {
+            File isexisted= new File(zippath+"/"+"學生申請表.zip");
+            if(isexisted.exists()){
+                isexisted.delete();
+            }
             response.setMsg(setZip.toZip(new File(zippath),"學生申請表"));
         }catch (FileNotFoundException e){
             response.setMsg(e.getMessage());

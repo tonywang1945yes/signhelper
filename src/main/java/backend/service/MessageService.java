@@ -93,14 +93,12 @@ public class MessageService {
         return response;
     }
 
-    public MessageResponse getMessage(String identity){
+    public MessageResponse getMessage(String email){
         MessageResponse mess =new MessageResponse();
-        List<Student> student = studentRepo.findByIdentityNum(identity);
-        if(student!=null&&student.size()!=0){
-            Student stu =student.get(0);
-
+        Student student = studentRepo.findByEmail(email);
+        if(student!=null){
             int from ;
-            switch (stu.getStudentState()){
+            switch (student.getStudentState()){
                 case JUNIOR_PASSED:from=0;break;
                 case JUNIOR_FAILED:from=1;break;
                 case SENIOR_PASSED:from=3;break;
@@ -111,7 +109,7 @@ public class MessageService {
                 return mess;
             }
             mess.setFrom(from);
-            String message = getTemplate(stu.getStudentState());
+            String message = getTemplate(student.getStudentState());
             mess.setMessage(message);
             mess.setSucc(true);
             return mess;

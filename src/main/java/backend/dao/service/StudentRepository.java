@@ -16,11 +16,11 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     List<Student> findByVisaNum(String VisaNum);
 
-    List<Student> findByEmail(String email);
 
     List<Student> findAllByStudentState(StudentState state);
 
     List<Student> findAllByName(String name);
 
     Student findByApplFormId(long id);
+    Student findByEmail(String email);
 }

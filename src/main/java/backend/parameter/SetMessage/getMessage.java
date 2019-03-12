@@ -1,13 +1,13 @@
 package backend.parameter.SetMessage;
 
 public class getMessage {
-    private String identityNum;
+    private String email;
 
-    public String getIdentityNum() {
-        return identityNum;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdentityNum(String identityNum) {
-        this.identityNum = identityNum;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

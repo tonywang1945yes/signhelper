@@ -37,14 +37,8 @@ public class UpdateStudentNameService {
     public BasicResponse update(String identity,String firstName,String lastName){
         BasicResponse response = new BasicResponse();
         ApplForm form = applFormRepo.findByIdentityNum(identity);
-        List<Student> student = stuRepo.findByIdentityNum(identity);
         if(form == null){
             response.setMsg("Fail to find ApplForm with identityNum: "+identity);
-            response.setSucceed(false);
-            return response;
-        }
-        else if(student == null ||student.size()==0){
-            response.setMsg("Fail to find Student with identityNum: "+identity);
             response.setSucceed(false);
             return response;
         }
@@ -52,10 +46,6 @@ public class UpdateStudentNameService {
             form.setFirstName(firstName);
             form.setLastName(lastName);
             applFormRepo.save(form);
-
-            Student stu = student.get(0);
-            stu.setName(firstName+lastName);
-            stuRepo.save(stu);
 
             response.setSucceed(true);
             response.setMsg("");

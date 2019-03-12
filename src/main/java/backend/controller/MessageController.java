@@ -67,7 +67,7 @@ public class MessageController {
 
     @PostMapping(value = "/resultMessage")
     public MessageResponse getmessage(@RequestBody getMessage param){
-        return service.getMessage(param.getIdentityNum());
+        return service.getMessage(param.getEmail());
 
     }
 
