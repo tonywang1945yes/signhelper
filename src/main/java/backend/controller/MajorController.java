@@ -18,7 +18,6 @@ import java.util.List;
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/majorSetting")
-@PreAuthorize("hasRole('ADMIN')")
 public class MajorController {
 
     @Autowired
@@ -26,33 +25,34 @@ public class MajorController {
 
 
     @PostMapping(value = "/majorAdding")
-    public BasicResponse addMajor(@RequestBody SetMajorParameter parameter){
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse addMajor(@RequestBody SetMajorParameter parameter) {
         Boolean res = majorService.add(parameter.getName(), parameter.getAcceptArt(), parameter.getTime(), parameter.getCollege(), parameter.getComment());
-        if (res){
+        if (res) {
             return new BasicResponse(true, "Succeed.");
-        }
-        else {
+        } else {
             return new BasicResponse(false, "Fail to add major,please delete first.");
         }
     }
 
     @PostMapping(value = "/majorChanging")
-    public BasicResponse changeMajor(@RequestBody Major major){
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse changeMajor(@RequestBody Major major) {
         Boolean res = majorService.change(major);
-        if (res){
+        if (res) {
             return new BasicResponse(true, "Succeed.");
-        }
-        else {
+        } else {
             return new BasicResponse(false, "Fail to add major.");
         }
     }
 
     @PostMapping(value = "/majorDeleting",
             consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"} )
+            produces = {"application/json", "application/xml"})
     @ResponseBody
-    public BasicResponse deleteMajor(@RequestBody Majordelete major){
-       return majorService.delete(Long.parseLong(String.valueOf(major.getMajorid())));
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse deleteMajor(@RequestBody Majordelete major) {
+        return majorService.delete(Long.parseLong(String.valueOf(major.getMajorid())));
     }
 
 //    @GetMapping(value = "/majorUpdating")
@@ -66,11 +66,12 @@ public class MajorController {
 
     @PostMapping(value = "/majorUpdate")
     @ResponseBody
-    public BasicResponse updatemajor(@RequestBody UpdateMajorParam major){
-        boolean succ = majorService.update(major.getMajorid(),major.getName(),major.getAcceptArt(),major.getTime(),major.getCollege(),major.getComment());
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse updatemajor(@RequestBody UpdateMajorParam major) {
+        boolean succ = majorService.update(major.getMajorid(), major.getName(), major.getAcceptArt(), major.getTime(), major.getCollege(), major.getComment());
         BasicResponse response = new BasicResponse();
         response.setSucceed(succ);
-        response.setMsg(succ?"更新完成":"该ID不存在");
+        response.setMsg(succ ? "更新完成" : "该ID不存在");
         return response;
     }
 
@@ -78,10 +79,10 @@ public class MajorController {
 
 
     @GetMapping(value = "/majorGetting")
-    public Major[] getMajors(){
+    public Major[] getMajors() {
         List<Major> majors = majorService.getMajors();
         Major[] lists = new Major[majors.size()];
-        for(int i=0;i<majors.size();i++){
+        for (int i = 0; i < majors.size(); i++) {
             lists[i] = majors.get(i);
         }
         return lists;
