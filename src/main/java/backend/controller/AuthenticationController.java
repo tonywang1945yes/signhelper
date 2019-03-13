@@ -1,5 +1,6 @@
 package backend.controller;
 
+import backend.enums.RoleName;
 import backend.exception.AuthenticationException;
 import backend.parameter.authentication.JwtAuthenticationParameter;
 import backend.response.authentication.JwtAuthenticationResponse;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -66,11 +68,14 @@ public class AuthenticationController {
             throws AuthenticationException {
 
 //        HttpSession session = request.getSession();
-//        validateCaptcha(parameter.getCaptcha(), (String) session.getAttribute("captchaCode"));
+//        validateCaptcha(parameter.getForRole(), (String) session.getAttribute("captchaCode"));
         authenticate(parameter.getUsername(), parameter.getPassword());
-
+        RoleName roleName = parameter.getForRole().equals("ADMIN") ? RoleName.ROLE_ADMIN : RoleName.ROLE_STUDENT;
         // Reload password post-security so we can generate the token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(parameter.getUsername());
+        if (!userDetails.getAuthorities().contains(new SimpleGrantedAuthority(roleName.name())))
+            throw new AuthenticationException("登录接口错误");
+
         final String token = jwtToken.generateToken(userDetails);
 
         // Return the token
@@ -124,6 +129,10 @@ public class AuthenticationController {
         if (!code.equalsIgnoreCase(captcha)) {
             throw new AuthenticationException("验证码错误");
         }
+    }
+
+    private void checkRole(String username, RoleName roleName) {
+
     }
 
 

@@ -11,16 +11,16 @@ public class JwtAuthenticationParameter implements Serializable {
 
     private String username;//在这里用户名即为邮箱
     private String password;
-    private String captcha;
+    private String forRole;
 
     public JwtAuthenticationParameter() {
         super();
     }
 
-    public JwtAuthenticationParameter(String username, String password, String captcha) {
+    public JwtAuthenticationParameter(String username, String password, String forRole) {
         this.username = username;
         this.password = password;
-        this.captcha = captcha;
+        this.forRole = forRole;
     }
 
     public String getUsername() {
@@ -39,11 +39,11 @@ public class JwtAuthenticationParameter implements Serializable {
         this.password = password;
     }
 
-    public String getCaptcha() {
-        return captcha;
+    public String getForRole() {
+        return forRole;
     }
 
-    public void setCaptcha(String captcha) {
-        this.captcha = captcha;
+    public void setForRole(String forRole) {
+        this.forRole = forRole;
     }
 }

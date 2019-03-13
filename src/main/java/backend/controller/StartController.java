@@ -12,11 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/DDL")
-//@PreAuthorize("hasRole('ADMIN')")
 public class StartController {
 
     @Autowired
@@ -31,7 +29,8 @@ public class StartController {
     @PostMapping(value = "/setting",
             consumes = {"application/json", "application/xml"})
     @ResponseBody
-    public BasicResponse setDDL(@RequestBody StartParameter parameter){
+    @PreAuthorize("hasRole('ADMIN')")
+    public BasicResponse setDDL(@RequestBody StartParameter parameter) {
 //        设置DDL  //跟重置分开 重置我这边新开一个接口
 //        理由：因为不清楚这个流程究竟怎么走，而且如果要修改ddl过于不便。
 
@@ -40,7 +39,7 @@ public class StartController {
 
     @GetMapping(value = "/getting")
     @ResponseBody
-    public DDL getDDL(){
+    public DDL getDDL() {
         return setDdLService.getDDL();
     }
 
