@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.dao.service.UserRepository;
 import backend.entity.User;
+import backend.enums.RoleName;
 import backend.security.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         User user = null;
         try {
             user = repository.getOne(username);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new UsernameNotFoundException(String.format("No user found with email '%s'.", username));
         }

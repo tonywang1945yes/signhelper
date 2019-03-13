@@ -9,6 +9,7 @@ import backend.response.BasicResponse;
 import backend.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/fileDownload")
+@PreAuthorize("hasRole('ADMIN')")
 public class FileDownloadController {
 
     @Autowired
@@ -40,25 +42,24 @@ public class FileDownloadController {
 //    }
 
 
-
-
 //    @RequestMapping(value = "/create")
 //    public void create(){
 //        service.createFile();
 //    }
 
     @PostMapping(value = "/pdfCreation")
-    public BasicResponse create(@RequestBody String[] identityNums){
-       service.createApplicationPdf(identityNums);
-       return  service.createZip();
+    public BasicResponse create(@RequestBody String[] identityNums) {
+        service.createApplicationPdf(identityNums);
+        return service.createZip();
     }
+
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + "Helloworld.pdf");
         InputStream in = null;
         try {
-            if(!service.createZip().getSucceed()){
+            if (!service.createZip().getSucceed()) {
                 return;// 生成Zip有問題
             }
             System.out.println(service.createZip().getMsg());
@@ -82,13 +83,14 @@ public class FileDownloadController {
             }
         }
     }
-//
+
+    //
 //    @RequestMapping(value = "/create")
 //    public void create(){
 //        service.createFile();
 //    }
     @PostMapping(value = "/xlsxCreation")
-    public void create(){
+    public void create() {
         service.createFile();
     }
 }

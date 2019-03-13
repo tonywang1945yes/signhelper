@@ -9,6 +9,7 @@ import backend.parameter.setMajor.UpdateMajorParam;
 import backend.response.BasicResponse;
 import backend.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,6 +18,7 @@ import java.util.List;
 @CrossOrigin
 @RestController()
 @RequestMapping(value = "/majorSetting")
+@PreAuthorize("hasRole('ADMIN')")
 public class MajorController {
 
     @Autowired

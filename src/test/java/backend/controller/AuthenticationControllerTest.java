@@ -15,7 +15,7 @@ public class AuthenticationControllerTest {
         JwtAuthenticationParameter parameter = new JwtAuthenticationParameter();
         parameter.setUsername("x950031@gmail.com");
         parameter.setPassword("qwerasdf");
-        parameter.setCaptcha("xxx");
+        parameter.setForRole("STUDENT");
 
     }
 
