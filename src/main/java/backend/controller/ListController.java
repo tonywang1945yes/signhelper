@@ -24,7 +24,7 @@ public class ListController {
             return  new StuList(service.getListByState(reqDetail.getFrom(),reqDetail.getPage()),service.getStuNumber(reqDetail.getFrom()),reqDetail.from);
         }
         else{
-            return new StuList(service.getNameList(reqDetail.getName(),reqDetail.getPage()),service.getNameNumber(reqDetail.getName()),reqDetail.from);
+            return new StuList(service.getNameList(reqDetail.getName(),reqDetail.getPage(),reqDetail.getFrom()),service.getNameNumber(reqDetail.getName(),reqDetail.getFrom()),reqDetail.from);
         }
     }
 }

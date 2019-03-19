@@ -14,4 +14,5 @@ public interface ApplFormRepository extends JpaRepository<ApplForm,Long> {
     ApplForm findByIdentityNum(String idNum);
 
     ApplForm findById(long id);
+
 }
