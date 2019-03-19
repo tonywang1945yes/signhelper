@@ -47,20 +47,24 @@ public class StuListService {
             default:return null;
         }
         int count=0;//用于标记这是第几个学生
-        ApplForm[] applForms=new ApplForm[15];
+        ApplForm[] applForms;
         List<Student> allstu;
         allstu = repository.findAllByStudentState(state);
-        for(int i=(page-1)*15;i<page*15;i++){
-            if(count+1>allstu.size()||i+1>allstu.size()){
-                break;
-            }
+
+        List<ApplForm> forms = new ArrayList<>();
+        for(int i = 0;i < allstu.size();i++){
             if(!service.hasUploadedAttachment(savingpath,allstu.get(i).getEmail(),styles)){
                 continue;
             }
             Student stu = allstu.get(i);
             long applyId=stu.getApplFormId();
-            applForms[count] = ApplyRepo.findById(applyId);
-            count++;
+            forms.add(ApplyRepo.findById(applyId));
+        }
+
+        applForms = new ApplForm[forms.size()];
+
+        for(int i=0;i<applForms.length;i++){
+            applForms[i] = forms.get(i);
         }
 //        for(int i=0;i<allstu.size();i++){
 //            if(i<(page-1)*15+1){
@@ -154,21 +158,8 @@ public class StuListService {
     }
 
     public ApplForm[] getNameList(String name,int page,int from){
-        ApplForm[] appls = findStudent(name,from);
-        ApplForm[] finalAppls = new ApplForm[15];
-        int pos = 0;
+        return findStudent(name,from);
 
-        if(appls.length<=15){
-            return appls;  //小于等于15个直接返回
-        }
-        for(int i = (page-1)*15; i<page*15;i++){
-            if(pos+1>appls.length||i+1>appls.length){
-                break;
-            }
-            finalAppls[pos] = appls[i];
-            pos++;
-        }
-        return finalAppls;
     }
 
 }
