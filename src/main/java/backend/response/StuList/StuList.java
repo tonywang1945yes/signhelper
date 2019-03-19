@@ -11,10 +11,10 @@ public class StuList {
     public int total;
     public int studentfrom;
 
-    public StuList(ApplForm[] list,int number,int studentfrom){
-        stuList=list;
-        total=number;
-        this.studentfrom=studentfrom;
+    public StuList(ApplForm[] list,int studentfrom){
+        stuList = list;
+        total = list.length;
+        this.studentfrom = studentfrom;
     }
 
 }
