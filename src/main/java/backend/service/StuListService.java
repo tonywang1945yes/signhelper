@@ -75,26 +75,30 @@ public class StuListService {
         return applForms;
     }
 
-//    public int getStuNumber(int from){
-////        StudentState state =JUNIOR_PASSED;
-////        switch (from){
-////            case 0:state = JUNIOR_PASSED;break;
-////            case 1:state = JUNIOR_FAILED;break;
-////            case 2:state = UNDER_EXAMINED;break;
-////            case 3:state = SENIOR_PASSED;break;
-////            case 4:state = SENIOR_FAILED;break;
-////            case 5:state = JUNIOR_PASSED;break;
-////        }
-////        int count=0;//记录学生个数
-////        List<Student> allstu=repository.findAllByStudentState(state);
-////        for(int i = 0;i<allstu.size();i++){
-////            if(allstu.get(i).getApplFormId()!=null){
-////                count++;
-////            }
-////        }
-////
-////        return count;
-////    }
+    public int getStuNumber(int from){
+        String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
+        StudentState state =JUNIOR_PASSED;
+        switch (from){
+            case 0:state = JUNIOR_PASSED;break;
+            case 1:state = JUNIOR_FAILED;break;
+            case 2:state = UNDER_EXAMINED;break;
+            case 3:state = SENIOR_PASSED;break;
+            case 4:state = SENIOR_FAILED;break;
+            case 5:state = JUNIOR_PASSED;break;
+        }
+        int count=0;//记录学生个数
+        List<Student> allstu=repository.findAllByStudentState(state);
+        for(int i = 0;i<allstu.size();i++){
+            if(!service.hasUploadedAttachment(savingpath,allstu.get(i).getEmail(),styles)){
+                continue;
+            }
+            if(allstu.get(i).getApplFormId()!=null){
+                count++;
+            }
+        }
+
+        return count;
+    }
 
     public ApplForm[] findStudent(String name){
         String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
@@ -110,7 +114,25 @@ public class StuListService {
         return applyfroms;
     }
 
-//    public  int getNameNumber(String name){
-//        return findStudent(name).length;
-//    }
+    public  int getNameNumber(String name){
+        return findStudent(name).length;
+    }
+
+    public ApplForm[] getNameList(String name,int page){
+        ApplForm[] appls = findStudent(name);
+        ApplForm[] finalAppls = new ApplForm[15];
+        int pos = 0;
+
+        if(appls.length<=15){
+            return appls;  //小于等于15个直接返回
+        }
+        for(int i = (page-1)*15; i<page*15;i++){
+            if(pos+1>appls.length||i+1>appls.length){
+                break;
+            }
+            finalAppls[pos] = appls[i];
+            pos++;
+        }
+        return finalAppls;
+    }
 }

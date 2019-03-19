@@ -11,9 +11,9 @@ public class StuList {
     public int total;
     public int studentfrom;
 
-    public StuList(ApplForm[] list,int studentfrom){
+    public StuList(ApplForm[] list,int num,int studentfrom){
         stuList = list;
-        total = list.length;
+        total = num;
         this.studentfrom = studentfrom;
     }
 
