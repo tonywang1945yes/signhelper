@@ -49,8 +49,7 @@ public class FileDownloadController {
 
     @PostMapping(value = "/pdfCreation")
     public BasicResponse create(@RequestBody String[] identityNums) {
-        service.createApplicationPdf(identityNums);
-        return service.createZip();
+        return service.createApplicationPdf(identityNums);
     }
 
     @PostMapping(value = "/fileDownload")
