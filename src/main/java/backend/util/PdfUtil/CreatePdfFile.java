@@ -134,7 +134,7 @@ public class CreatePdfFile {
 
 //            第二行
 //            姓名
-            cell = new PdfPCell(new Phrase(applForm.getFirstName() + " " + applForm.getLastName(), textFont));
+            cell = new PdfPCell(new Phrase(applForm.getFirstName() + applForm.getLastName(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_LEFT); // 设置水平左对齐
@@ -400,15 +400,18 @@ public class CreatePdfFile {
             scoreTable.addCell(cell);
 
             CustomResult<Double> scores = applForm.getResults();
+            if (scores == null){
+                scores = new CustomResult<>();
+            }
 
-            cell = new PdfPCell(new Phrase(scores.getChinese().toString(), textFont));
+            cell = new PdfPCell(new Phrase(scores.getChinese() == null ? "" : scores.getChinese().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
             cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(scores.getMath().toString(), textFont));
+            cell = new PdfPCell(new Phrase(scores.getMath() == null ? "" : scores.getMath().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
@@ -416,21 +419,21 @@ public class CreatePdfFile {
 
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(scores.getEnglish().toString(), textFont));
+            cell = new PdfPCell(new Phrase(scores.getEnglish() == null ? "" : scores.getEnglish().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
             cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(scores.getSciences().toString(), textFont));
+            cell = new PdfPCell(new Phrase(scores.getSciences() == null ? "" : scores.getSciences().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
             cell.setVerticalAlignment(Cell.ALIGN_MIDDLE); // 设置垂直居中
             scoreTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(scores.getSocials().toString(), textFont));
+            cell = new PdfPCell(new Phrase(scores.getSocials() == null ? "" : scores.getSocials().toString(), textFont));
             cell.setMinimumHeight(25);
             cell.setUseAscender(true); // 设置可以居中
             cell.setHorizontalAlignment(Cell.ALIGN_CENTER); // 设置水平居中
