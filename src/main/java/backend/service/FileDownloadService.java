@@ -4,6 +4,7 @@ package backend.service;
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
+import backend.enums.StudentState;
 import backend.response.BasicResponse;
 import backend.util.PdfUtil.CreatePdfFile;
 import backend.util.zipUtil.setZip;
@@ -201,6 +202,10 @@ public class FileDownloadService {
         for (int i = 1; i <= list.size(); i ++){
             data = sheet.createRow(i);
             ApplForm applForm = list.get(i - 1);
+            Student student = stuRepo.findByApplFormId(applForm.getId());
+            if (student.getStudentState() == StudentState.NULL || student.getStudentState() == StudentState.FORM_CACHED){
+                continue;
+            }
 
             Cell data0 = data.createCell(0);
             data0.setCellValue(applForm.getId());
