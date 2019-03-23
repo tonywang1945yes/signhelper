@@ -75,15 +75,19 @@ public class ApplForm {
     @OneToMany(targetEntity = FamilyParticularItem.class, mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FamilyParticularItem> familyParticulars;
 
+//    成绩
     @Embedded
     private CustomResult<Double> results;
 
+//    实得极分
     @Embedded
     private CustomResult<Integer> actualLevelPoints;
 
+//    级距
     @Embedded
     private CustomResult<Double> levelRange;
 
+//    单科标准
     @Embedded
     private CustomResult<SubjectCriteria> singleSubjectCriteria;
 

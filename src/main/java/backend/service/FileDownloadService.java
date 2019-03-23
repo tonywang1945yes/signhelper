@@ -163,52 +163,56 @@ public class FileDownloadService {
         Cell title1 = title.createCell(1);
         title1.setCellValue("studentId");
 
-//        combine first name and last name ?
         Cell title2 = title.createCell(2);
-        title2.setCellValue("firstName");
+        title2.setCellValue("name");
 
-        Cell title3 = title.createCell(3);
-        title3.setCellValue("lastName");
-
-        Cell title4 = title.createCell(4);
+        Cell title4 = title.createCell(3);
         title4.setCellValue("sex");
 
-        Cell title5 = title.createCell(5);
+        Cell title5 = title.createCell(4);
         title5.setCellValue("birthDate");
 
-        Cell title6 = title.createCell(6);
+        Cell title6 = title.createCell(5);
         title6.setCellValue("visaNum");
 
-        Cell title7 = title.createCell(7);
+        Cell title7 = title.createCell(6);
         title7.setCellValue("identityNum");
 
-        Cell title8 = title.createCell(8);
+        Cell title8 = title.createCell(7);
         title8.setCellValue("highSchool");
 
-//        not a must ?
-        Cell title9 = title.createCell(9);
+        Cell title9 = title.createCell(8);
         title9.setCellValue("graduationYear");
 
-        Cell title10 = title.createCell(10);
+        Cell title10 = title.createCell(9);
         title10.setCellValue("address");
 
-        Cell title11 = title.createCell(11);
+        Cell title11 = title.createCell(10);
         title11.setCellValue("postalCode");
 
-        Cell title12 = title.createCell(12);
+        Cell title12 = title.createCell(11);
         title12.setCellValue("phoneNum");
 
-        Cell title13 = title.createCell(13);
+        Cell title13 = title.createCell(12);
         title13.setCellValue("curriculumChoice");
 
-        Cell title14 = title.createCell(14);
+        Cell title14 = title.createCell(13);
         title14.setCellValue("artOrSci");
 
-        Cell title15 = title.createCell(15);
+        Cell title15 = title.createCell(14);
         title15.setCellValue("acceptAssignment");
 
-        Cell title16 = title.createCell(16);
-        title16.setCellValue("gsatResult");
+        Cell title16 = title.createCell(15);
+        title16.setCellValue("成绩");
+
+        Cell title17 = title.createCell(16);
+        title17.setCellValue("实得极分");
+
+        Cell title18 = title.createCell(17);
+        title18.setCellValue("级距");
+
+        Cell title19 = title.createCell(18);
+        title19.setCellValue("单科标准");
 
 
         for (int i = 1; i <= list.size(); i ++){
@@ -226,52 +230,58 @@ public class FileDownloadService {
             data1.setCellValue(applForm.getStudentId());
 
             Cell data2 = data.createCell(2);
-            data2.setCellValue(applForm.getFirstName());
+            data2.setCellValue(applForm.getFirstName() + applForm.getLastName());
 
-            Cell data3 = data.createCell(3);
-            data3.setCellValue(applForm.getLastName());
-
-            Cell data4 = data.createCell(4);
+            Cell data4 = data.createCell(3);
             data4.setCellValue(applForm.getSex());
 
-            Cell data5 = data.createCell(5);
+            Cell data5 = data.createCell(4);
             data5.setCellValue(applForm.getBirthDate());
 
-            Cell data6 = data.createCell(6);
+            Cell data6 = data.createCell(5);
             data6.setCellValue(applForm.getVisaNum());
 
-            Cell data7 = data.createCell(7);
+            Cell data7 = data.createCell(6);
             data7.setCellValue(applForm.getIdentityNum());
 
-            Cell data8 = data.createCell(8);
+            Cell data8 = data.createCell(7);
             data8.setCellValue(applForm.getHighSchool());
 
-            Cell data9 = data.createCell(9);
+            Cell data9 = data.createCell(8);
             data9.setCellValue(applForm.getGraduationYear());
 
-            Cell data10 = data.createCell(10);
+            Cell data10 = data.createCell(9);
             data10.setCellValue(applForm.getAddress());
 
-            Cell data11 = data.createCell(11);
+            Cell data11 = data.createCell(10);
             data11.setCellValue(applForm.getPostalCode());
 
-            Cell data12 = data.createCell(12);
+            Cell data12 = data.createCell(11);
             data12.setCellValue(applForm.getPhoneNumbers().toString());
 
-            Cell data13 = data.createCell(13);
+            Cell data13 = data.createCell(12);
             data13.setCellValue(applForm.getCurriculumChoices().toString());
 
-            Cell data14 = data.createCell(14);
+            Cell data14 = data.createCell(13);
             if (applForm.getArtOrSci() == 0){
                 data14.setCellValue("art");
             }
             data14.setCellValue("sci");
 
-            Cell data15 = data.createCell(15);
+            Cell data15 = data.createCell(14);
             data15.setCellValue(applForm.getAcceptAssignment());
 
-            Cell data16 = data.createCell(16);
+            Cell data16 = data.createCell(15);
             data16.setCellValue(applForm.getResults().toString());
+
+            Cell data17 = data.createCell(16);
+            data17.setCellValue(applForm.getActualLevelPoints().toString());
+
+            Cell data18 = data.createCell(17);
+            data18.setCellValue(applForm.getLevelRange().toString());
+
+            Cell data19 = data.createCell(18);
+            data19.setCellValue(applForm.getSingleSubjectCriteria().toString());
         }
 
         FileOutputStream out = null;

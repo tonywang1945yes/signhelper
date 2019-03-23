@@ -2,6 +2,8 @@ package backend.entity.application;
 
 import javax.persistence.Embeddable;
 
+import static backend.util.PdfUtil.EngToHan.switchToChinese;
+
 @Embeddable
 public class CustomResult<T> {
     private T chinese;
@@ -63,10 +65,10 @@ public class CustomResult<T> {
 
     @Override
     public String toString() {
-        return chinese + " / "
-                + math + " / "
-                + english + " / "
-                + socials + " / "
-                + sciences;
+        return chinese.toString() + " / "
+                + math.toString() + " / "
+                + english.toString() + " / "
+                + socials.toString() + " / "
+                + sciences.toString();
     }
 }
