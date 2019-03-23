@@ -269,4 +269,28 @@ public class RegMailService {
         }
     }
 
+    public BasicResponse groupDDLreminding(){
+        BasicResponse response = new BasicResponse();
+        String content = "南京大學2019年依據學測成績招收臺灣高中畢業生報名即將截止，請各位已報名的考生檢查報名材料是否完整齊全，報名系統將於近期關閉進入材料初審狀態，後續請考生通過本報名系統查看初審狀態。";
+        List<Student> students = studentRepo.findAll();
+        for(int i=0;i<students.size();i++){
+            String towards = students.get(i).getEmail();
+            try {
+                sendSimpleMail("消息提醒", towards,content);
+            }catch (GeneralSecurityException e){
+                response.setMsg("GeneralSecurityException when sending message to"+towards);
+                response.setSucceed(false);
+                return response;
+            } catch (MessagingException e){
+                response.setMsg("MessagingException when sending message to"+towards);
+                response.setSucceed(false);
+                return response;
+            }catch (Exception e){
+                response.setMsg("Found Exception when sending message to"+towards);
+                response.setSucceed(false);
+            }
+        }response.setSucceed(true);
+        return response;
+    }
+
 }

@@ -69,4 +69,10 @@ public class EmailController {
         return service.getSETAdmission();
     }
 
+
+//    @GetMapping(value = "/ddlWarning")
+//    @ResponseBody
+//    public BasicResponse warning(){
+//        return service.groupDDLreminding();
+//    }
 }
