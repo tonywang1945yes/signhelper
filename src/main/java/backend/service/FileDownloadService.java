@@ -158,10 +158,10 @@ public class FileDownloadService {
         Row data;
 
         Cell title0 = title.createCell(0);
-        title0.setCellValue("email");
+        title0.setCellValue("");
 
         Cell title1 = title.createCell(1);
-        title1.setCellValue("studentId");
+        title1.setCellValue("email");
 
         Cell title2 = title.createCell(2);
         title2.setCellValue("name");
@@ -214,17 +214,17 @@ public class FileDownloadService {
         Cell title19 = title.createCell(18);
         title19.setCellValue("单科标准");
 
-
-        for (int i = 1; i <= list.size(); i ++){
-            data = sheet.createRow(i);
-            ApplForm applForm = list.get(i - 1);
+        int rowIndex = 0;
+        for (int i = 0; i < list.size(); i ++){
+            ApplForm applForm = list.get(i);
             Student student = stuRepo.findByApplFormId(applForm.getId());
             if (student.getStudentState() == StudentState.NULL || student.getStudentState() == StudentState.FORM_CACHED){
                 continue;
             }
+            data = sheet.createRow(rowIndex ++);
 
             Cell data0 = data.createCell(0);
-            data0.setCellValue(applForm.getId());
+            data0.setCellValue("");
 
             Cell data1 = data.createCell(1);
             data1.setCellValue(applForm.getStudentId());
@@ -233,10 +233,11 @@ public class FileDownloadService {
             data2.setCellValue(applForm.getFirstName() + applForm.getLastName());
 
             Cell data4 = data.createCell(3);
-            data4.setCellValue(applForm.getSex());
+            data4.setCellValue(applForm.getSex() == 0 ? "女" : "男");
 
             Cell data5 = data.createCell(4);
-            data5.setCellValue(applForm.getBirthDate());
+            Calendar date = applForm.getBirthDate();
+            data5.setCellValue(date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DATE));
 
             Cell data6 = data.createCell(5);
             data6.setCellValue(applForm.getVisaNum());
@@ -269,7 +270,7 @@ public class FileDownloadService {
             data14.setCellValue("sci");
 
             Cell data15 = data.createCell(14);
-            data15.setCellValue(applForm.getAcceptAssignment());
+            data15.setCellValue(applForm.getAcceptAssignment() ? "是" : "否");
 
             Cell data16 = data.createCell(15);
             data16.setCellValue(applForm.getResults() == null ? "" : applForm.getResults().toString());
