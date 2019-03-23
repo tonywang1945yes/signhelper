@@ -61,6 +61,8 @@ public class FileDownloadService {
     String zippath;
 
     @Autowired
+    ApplicationService applicationService;
+    @Autowired
     CreatePdfFile service;
     public BasicResponse createApplicationPdf(String[] ids){
         File file = new File(zippath);
@@ -148,6 +150,7 @@ public class FileDownloadService {
     }
 
     public void createFile(){
+        String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
         List<ApplForm> list = applFormRepo.findAll();
         if(list.size()==0){
             return;
@@ -212,13 +215,16 @@ public class FileDownloadService {
         title18.setCellValue("级距");
 
         Cell title19 = title.createCell(18);
-        title19.setCellValue("单科标准");
+        title19.setCellValue("单科标准:语文/数学/英语/社会/自然");
 
-        int rowIndex = 0;
+        int rowIndex = 1;
         for (int i = 0; i < list.size(); i ++){
             ApplForm applForm = list.get(i);
             Student student = stuRepo.findByApplFormId(applForm.getId());
             if (student.getStudentState() == StudentState.NULL || student.getStudentState() == StudentState.FORM_CACHED){
+                continue;
+            }
+            if(!applicationService.hasUploadedAttachment(docPath,student.getEmail(),styles)){
                 continue;
             }
             data = sheet.createRow(rowIndex ++);
