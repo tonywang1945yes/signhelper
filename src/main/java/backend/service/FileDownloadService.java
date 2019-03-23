@@ -272,7 +272,7 @@ public class FileDownloadService {
             data15.setCellValue(applForm.getAcceptAssignment());
 
             Cell data16 = data.createCell(15);
-            data16.setCellValue(applForm.getResults().toString());
+            data16.setCellValue(applForm.getResults() == null ? "" : applForm.getResults().toString());
 
             Cell data17 = data.createCell(16);
             data17.setCellValue(applForm.getActualLevelPoints().toString());

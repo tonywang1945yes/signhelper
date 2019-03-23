@@ -31,6 +31,12 @@ public class FileDownloadController {
     @Value("${savingPdfPath}")
     String path;
 
+    @Value("${createFileUrl}")
+    String filepath;
+
+    @Value("${fileName}")
+    String fileName;
+
 //    @RequestMapping(value = "/fileStorage",
 //            method = RequestMethod.GET,
 //            consumes = {"application/json", "application/xml"},
@@ -51,6 +57,35 @@ public class FileDownloadController {
     public BasicResponse create(@RequestBody String[] identityNums) {
         return service.createApplicationPdf(identityNums);
     }
+
+    @PostMapping(value = "/excelDownload")
+    public void excelDownload(HttpServletResponse response) {
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "info.xlsx");
+        InputStream in = null;
+        try {
+            File file = new File(filepath + "/" + fileName);
+            in = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                response.getOutputStream().write(buffer, 0, length);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+
+                }
+            }
+        }
+    }
+
 
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {
