@@ -70,9 +70,9 @@ public class EmailController {
     }
 
 
-//    @GetMapping(value = "/ddlWarning")
-//    @ResponseBody
-//    public BasicResponse warning(){
-//        return service.groupDDLreminding();
-//    }
+    @GetMapping(value = "/ddlWarning")
+    @ResponseBody
+    public BasicResponse warning(){
+        return service.groupDDLreminding();
+    }
 }
