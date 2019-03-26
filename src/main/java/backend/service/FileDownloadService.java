@@ -67,20 +67,19 @@ public class FileDownloadService {
     public BasicResponse createApplicationPdf(String[] ids){
         File file = new File(zippath);
         File[] content = file.listFiles();//取得当前目录下所有文件和文件夹
-        if(content == null) {
-            System.out.println(file.isDirectory());
-            File file1 = new File(zippath + "/");
-            System.out.println(file1.isDirectory());
-
-            for (File name : content) {
-                File temp = new File(zippath, name.getName());
-                if (temp.isDirectory()) {//判断是否是目录
-                } else {
-                    if (!temp.delete()) {//直接删除文件
-                        System.err.println("Failed to delete " + name);
+        if(content != null) {
+            System.out.println(content.toString());
+            if(content.length != 0 ) {
+                for (File name : content) {
+                    File temp = new File(zippath, name.getName());
+                    if (temp.isDirectory()) {//判断是否是目录
+                    } else {
+                        if (!temp.delete()) {//直接删除文件
+                            System.err.println("Failed to delete " + name);
+                        }
                     }
-                }
-            } //清空目录
+                } //清空目录
+            }
         }
 
         BasicResponse response = new BasicResponse();
@@ -212,13 +211,13 @@ public class FileDownloadService {
         title15.setCellValue("acceptAssignment");
 
         Cell title16 = title.createCell(15);
-        title16.setCellValue("成绩");
+        title16.setCellValue("成绩：语文/数学/英语/社会/自然");
 
         Cell title17 = title.createCell(16);
-        title17.setCellValue("实得极分");
+        title17.setCellValue("实得极分：语文/数学/英语/社会/自然");
 
         Cell title18 = title.createCell(17);
-        title18.setCellValue("级距");
+        title18.setCellValue("级距：语文/数学/英语/社会/自然");
 
         Cell title19 = title.createCell(18);
         title19.setCellValue("单科标准:语文/数学/英语/社会/自然");
@@ -249,7 +248,7 @@ public class FileDownloadService {
 
             Cell data5 = data.createCell(4);
             Calendar date = applForm.getBirthDate();
-            data5.setCellValue(date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DATE));
+            data5.setCellValue(date.get(Calendar.YEAR) + "-" + (date.get(Calendar.MONTH) + 1) + "-" + date.get(Calendar.DATE));
 
             Cell data6 = data.createCell(5);
             data6.setCellValue(applForm.getVisaNum());
@@ -278,8 +277,10 @@ public class FileDownloadService {
             Cell data14 = data.createCell(13);
             if (applForm.getArtOrSci() == 0){
                 data14.setCellValue("art");
+            }else {
+                data14.setCellValue("sci");
             }
-            data14.setCellValue("sci");
+//            data14.setCellValue(applForm.getArtOrSci());
 
             Cell data15 = data.createCell(14);
             data15.setCellValue(applForm.getAcceptAssignment() ? "是" : "否");

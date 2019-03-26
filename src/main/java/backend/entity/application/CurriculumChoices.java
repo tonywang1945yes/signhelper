@@ -50,7 +50,7 @@ public class CurriculumChoices {
     }
 
     public String toString(){
-        return firstChoice + " / " + secondChoice + " / " + thirdChoice + " / " + firstChoice;
+        return firstChoice + " / " + secondChoice + " / " + thirdChoice + " / " + fourthChoice;
     }
 
     public CurriculumChoices(){
