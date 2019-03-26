@@ -16,6 +16,7 @@ public interface StudentRepository extends JpaRepository<Student,String> {
 
     List<Student> findByVisaNum(String VisaNum);
 
+    List<Student> findByApplFormId(Long id);
 
     List<Student> findAllByStudentState(StudentState state);
 

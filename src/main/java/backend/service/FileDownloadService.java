@@ -82,9 +82,9 @@ public class FileDownloadService {
         for(int i=0; i<ids.length;i++){
             String idnum = ids[i];
             ApplForm form = applFormRepo.findByIdentityNum(idnum);
-            List<Student> stus = stuRepo.findByIdentityNum(idnum);
+            List<Student> stus = stuRepo.findByApplFormId(form.getId());
             if(form != null){
-                photopath = photopath + "/"+stus.get(0).getName()+"-"+stuRepo.findByApplFormId(form.getId()).getEmail()+"/"+"考生照片";
+                photopath = photopath + "/"+stus.get(0).getName()+"-"+stus.get(0).getEmail()+"/"+"考生照片";
                 try {
                 File[] photo = new File(photopath).listFiles();
                 service.create(form, photopath + "/" + photo[0].getName());
@@ -220,7 +220,7 @@ public class FileDownloadService {
         int rowIndex = 1;
         for (int i = 0; i < list.size(); i ++){
             ApplForm applForm = list.get(i);
-            Student student = stuRepo.findByApplFormId(applForm.getId());
+            Student student = stuRepo.findByApplFormId(applForm.getId()).get(0);
             if (student.getStudentState() == StudentState.NULL || student.getStudentState() == StudentState.FORM_CACHED){
                 continue;
             }
