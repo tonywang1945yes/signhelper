@@ -66,16 +66,22 @@ public class FileDownloadService {
     CreatePdfFile service;
     public BasicResponse createApplicationPdf(String[] ids){
         File file = new File(zippath);
-        String[] content = file.list();//取得当前目录下所有文件和文件夹
-        for(String name : content){
-            File temp = new File(zippath, name);
-            if(temp.isDirectory()){//判断是否是目录
-            }else{
-                if(!temp.delete()){//直接删除文件
-                    System.err.println("Failed to delete " + name);
+        File[] content = file.listFiles();//取得当前目录下所有文件和文件夹
+        if(content == null) {
+            System.out.println(file.isDirectory());
+            File file1 = new File(zippath + "/");
+            System.out.println(file1.isDirectory());
+
+            for (File name : content) {
+                File temp = new File(zippath, name.getName());
+                if (temp.isDirectory()) {//判断是否是目录
+                } else {
+                    if (!temp.delete()) {//直接删除文件
+                        System.err.println("Failed to delete " + name);
+                    }
                 }
-            }
-        } //清空目录
+            } //清空目录
+        }
 
         BasicResponse response = new BasicResponse();
         String photopath = docPath ;
