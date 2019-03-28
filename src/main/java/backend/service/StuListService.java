@@ -124,7 +124,8 @@ public class StuListService {
         for(int i = 0;i < unders.size();i++){
             Student stu = unders.get(i);
             ApplForm form = new ApplForm();
-            form.setFirstName(stu.getName());
+            form.setFirstName("");
+            form.setLastName(stu.getName());
             forms.add(form);
         }
         ApplForm[] applForms = new ApplForm[forms.size()];
