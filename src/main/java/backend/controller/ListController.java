@@ -21,7 +21,7 @@ public class ListController {
     @ResponseBody
     public StuList getList(@RequestBody ReqDetail reqDetail){
         if(reqDetail.getName().equals("")){
-            if(reqDetail.from!=0) {
+            if(reqDetail.from!=2) {
                 return new StuList(service.getListByState(reqDetail.getFrom(), reqDetail.getPage()), service.getStuNumber(reqDetail.getFrom()), reqDetail.from);
             }
             else{
