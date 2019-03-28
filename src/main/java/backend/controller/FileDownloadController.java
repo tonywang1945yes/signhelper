@@ -86,6 +86,38 @@ public class FileDownloadController {
         }
     }
 
+    @PostMapping(value = "/Attachments")
+    public void Attdownload(HttpServletResponse response){
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "Helloworld.pdf");
+        InputStream in = null;
+        try {
+            BasicResponse response1 = service.createAttachementZip();
+            if (!response1.getSucceed()) {
+                return;// 生成Zip有問題
+            }
+            System.out.println(response1.getMsg());
+            in = new FileInputStream(new File(response1.getMsg()));
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                response.getOutputStream().write(buffer, 0, length);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+
+                }
+            }
+        }
+    }
+
 
     @PostMapping(value = "/fileDownload")
     public void download(HttpServletResponse response) {

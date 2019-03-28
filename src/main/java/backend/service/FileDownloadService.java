@@ -154,6 +154,31 @@ public class FileDownloadService {
         return response;
     }
 
+    public BasicResponse createAttachementZip(){
+        BasicResponse response = new BasicResponse();
+        try {
+            File isexisted= new File(docPath+"/"+"學生附件.zip");
+            if(isexisted.exists()){
+                isexisted.delete();
+            }
+            response.setMsg(setZip.toZip(new File(docPath),"學生附件"));
+        }catch (FileNotFoundException e){
+            response.setMsg(e.getMessage());
+            response.setSucceed(false);
+            return response;
+        }catch (IOException ex){
+            response.setMsg(ex.getMessage());
+            response.setSucceed(false);
+            return response;
+        }catch (Exception exx){
+            response.setMsg(exx.getMessage());
+            response.setSucceed(false);
+            return response;
+        }
+        response.setSucceed(true);
+        return response;
+    }
+
     public void createFile(){
         String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
         List<ApplForm> list = applFormRepo.findAll();
