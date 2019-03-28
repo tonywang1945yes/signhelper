@@ -6,6 +6,7 @@ import backend.dao.service.StudentRepository;
 import backend.entity.Student;
 import backend.entity.application.ApplForm;
 import backend.enums.StudentState;
+import backend.response.StuList.StuList;
 import javafx.application.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +36,7 @@ public class StuListService {
     ApplFormRepository ApplyRepo;
 
     public ApplForm[] getListByState(int from, int page){
-        String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
+
         StudentState state ;
         switch (from){
             case 0:state = JUNIOR_PASSED;break;
@@ -48,14 +49,12 @@ public class StuListService {
         }
         int count=0;//用于标记这是第几个学生
         ApplForm[] applForms;
+
         List<Student> allstu;
         allstu = repository.findAllByStudentState(state);
 
         List<ApplForm> forms = new ArrayList<>();
         for(int i = 0;i < allstu.size();i++){
-            if(!service.hasUploadedAttachment(savingpath,allstu.get(i).getEmail(),styles)){
-                continue;
-            }
             Student stu = allstu.get(i);
             long applyId=stu.getApplFormId();
             forms.add(ApplyRepo.findById(applyId));
@@ -78,6 +77,66 @@ public class StuListService {
 //            }
 //        }
         return applForms;
+    }
+
+    public StuList getUnderExamed(){
+        String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
+        List<ApplForm> forms = new ArrayList<>();
+        List<Student> unders = repository.findAllByStudentState(UNDER_EXAMINED);
+        for(int i = 0;i < unders.size();i++){
+            Student stu = unders.get(i);
+            if(!service.hasUploadedAttachment(savingpath,unders.get(i).getEmail(),styles)){
+                continue;
+            }
+            long applyId=stu.getApplFormId();
+            forms.add(ApplyRepo.findById(applyId));
+        }
+        int first =forms.size()-1;//全齐的人
+        for(int i = 0;i < unders.size();i++){
+            Student stu = unders.get(i);
+            if(service.hasUploadedAttachment(savingpath,unders.get(i).getEmail(),styles)){
+                continue;
+            }
+            long applyId=stu.getApplFormId();
+            forms.add(ApplyRepo.findById(applyId));
+        }
+        int second = forms.size()-1;
+        unders = repository.findAllByStudentState(FORM_CACHED);
+        for(int i = 0;i < unders.size();i++){
+            Student stu = unders.get(i);
+            if(!service.hasUploadedAttachment(savingpath,unders.get(i).getEmail(),styles)){
+                continue;
+            }
+            long applyId=stu.getApplFormId();
+            forms.add(ApplyRepo.findById(applyId));
+        }
+         int third = forms.size()-1;
+        for(int i = 0;i < unders.size();i++){
+            Student stu = unders.get(i);
+            if(service.hasUploadedAttachment(savingpath,unders.get(i).getEmail(),styles)){
+                continue;
+            }
+            long applyId=stu.getApplFormId();
+            forms.add(ApplyRepo.findById(applyId));
+        }
+         int fourth = forms.size()-1;
+        unders = repository.findAllByStudentState(NULL);
+        for(int i = 0;i < unders.size();i++){
+            Student stu = unders.get(i);
+            ApplForm form = new ApplForm();
+            form.setFirstName(stu.getName());
+        }
+        ApplForm[] applForms = new ApplForm[forms.size()];
+
+        for(int i=0;i<applForms.length;i++){
+            applForms[i] = forms.get(i);
+        }
+        StuList stuList = new StuList(applForms,applForms.length,2);
+        stuList.complete =first;
+        stuList.lack_materials = second;
+        stuList.lack_upload = third;
+        stuList.lack_both = fourth;
+        return stuList;
     }
 
     public int getStuNumber(int from){

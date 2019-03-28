@@ -11,6 +11,14 @@ public class StuList {
     public int total;
     public int studentfrom;
 
+    public int complete;
+
+    public int lack_materials;
+
+    public int lack_upload;
+
+    public int lack_both;
+
     public StuList(ApplForm[] list,int num,int studentfrom){
         stuList = list;
         total = num;

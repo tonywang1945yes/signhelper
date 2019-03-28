@@ -21,10 +21,16 @@ public class ListController {
     @ResponseBody
     public StuList getList(@RequestBody ReqDetail reqDetail){
         if(reqDetail.getName().equals("")){
-            return  new StuList(service.getListByState(reqDetail.getFrom(),reqDetail.getPage()),service.getStuNumber(reqDetail.getFrom()),reqDetail.from);
+            if(reqDetail.from!=0) {
+                return new StuList(service.getListByState(reqDetail.getFrom(), reqDetail.getPage()), service.getStuNumber(reqDetail.getFrom()), reqDetail.from);
+            }
+            else{
+                return service.getUnderExamed();
+            }
         }
         else{
             return new StuList(service.getNameList(reqDetail.getName(),reqDetail.getPage(),reqDetail.getFrom()),service.getNameNumber(reqDetail.getName(),reqDetail.getFrom()),reqDetail.from);
         }
     }
+
 }
