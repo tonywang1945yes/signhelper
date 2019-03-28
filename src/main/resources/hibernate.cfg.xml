@@ -24,7 +24,7 @@
         </property>
         <property name="hibernate.connection.password">
             <!--HengHuiERP123456-->
-            Nutter_438
+            161250063
         </property>
         <property name="hibernate.show_sql">
             true
