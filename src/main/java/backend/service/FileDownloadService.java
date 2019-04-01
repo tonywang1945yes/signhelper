@@ -7,6 +7,7 @@ import backend.entity.Student;
 import backend.enums.StudentState;
 import backend.response.BasicResponse;
 import backend.util.PdfUtil.CreatePdfFile;
+import backend.util.zipUtil.CompactAlgorithm;
 import backend.util.zipUtil.setZip;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,26 +158,21 @@ public class FileDownloadService {
     public BasicResponse createAttachementZip(){
         BasicResponse response = new BasicResponse();
         try {
-            File isexisted= new File(docPath+"/"+"學生附件.zip");
-            if(isexisted.exists()){
-                isexisted.delete();
-            }
-            response.setMsg(setZip.toZip(new File(docPath),"學生附件"));
-        }catch (FileNotFoundException e){
-            response.setMsg(e.getMessage());
-            response.setSucceed(false);
+            File f = new File(docPath);
+            new CompactAlgorithm(new File(filepath, f.getName() + ".zip")).zipFiles(f);
+            response.setMsg(filepath+"/"+f.getName()+".zip");
+            response.setSucceed(true);
             return response;
-        }catch (IOException ex){
-            response.setMsg(ex.getMessage());
-            response.setSucceed(false);
-            return response;
+//            File isexisted= new File(docPath+"/"+"學生附件.zip");
+//            if(isexisted.exists()){
+//                isexisted.delete();
+//            }
+//            response.setMsg(setZip.toZip(new File(docPath),"學生附件"));
         }catch (Exception exx){
             response.setMsg(exx.getMessage());
             response.setSucceed(false);
             return response;
         }
-        response.setSucceed(true);
-        return response;
     }
 
     public void createFile(){
