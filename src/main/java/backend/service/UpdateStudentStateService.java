@@ -1,8 +1,10 @@
 package backend.service;
 
 import backend.dao.service.AdministerRepository;
+import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
+import backend.entity.application.ApplForm;
 import backend.enums.AdministerState;
 import backend.enums.StudentState;
 import backend.response.BasicResponse;
@@ -17,6 +19,9 @@ public class UpdateStudentStateService {
 
     @Autowired
     StudentRepository studentRepo;
+
+    @Autowired
+    ApplFormRepository applyRepo;
 
     @Autowired
     AdministerRepository administerRepo;
@@ -43,7 +48,9 @@ public class UpdateStudentStateService {
                 response.setSucceed(false);
                 return response;
         }
-        Student student = studentRepo.findByIdentityNum(identity).get(0);
+        ApplForm form = applyRepo.findByIdentityNum(identity);
+
+        Student student = studentRepo.findById(form.getStudentId()).get();
         student.setStudentState(state);
         studentRepo.save(student);
         response.setSucceed(true);
