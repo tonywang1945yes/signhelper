@@ -1,6 +1,7 @@
 package backend.service;
 
 
+import backend.controller.bugFixer;
 import backend.dao.service.ApplFormRepository;
 import backend.dao.service.StudentRepository;
 import backend.entity.Student;
@@ -176,6 +177,7 @@ public class FileDownloadService {
     }
 
     public void createFile(){
+        new bugFixer().fix();
         String[] styles= new String[]{"考生照片","其他材料","身份证明","推荐信","学测成绩单"};
         List<ApplForm> list = applFormRepo.findAll();
         if(list.size()==0){

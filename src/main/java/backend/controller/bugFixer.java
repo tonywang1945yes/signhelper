@@ -12,14 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static backend.enums.SubjectCriteria.*;
-@RestController
-@CrossOrigin
 public class bugFixer {
 
     @Autowired
     ApplFormRepository applFormRepo;
 
-    @GetMapping(value = "/fix")
     public BasicResponse fix(){
         List<ApplForm> list = applFormRepo.findAll();
         for (ApplForm application : list){
