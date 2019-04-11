@@ -109,8 +109,8 @@ public class MessageService {
                 return mess;
             }
             mess.setFrom(from);
-            String message = getTemplate(student.getStudentState());
-            mess.setMessage(message);
+//            String message = getTemplate(student.getStudentState());
+//            mess.setMessage(message);
             mess.setSucc(true);
             return mess;
         }else{
